@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -19,6 +20,8 @@ public class Accommodation {
 
     private String name;
 
+    private Integer capacity;
+
     @ManyToOne
     private City city;
 
@@ -31,10 +34,10 @@ public class Accommodation {
     @ManyToMany
     @JoinTable(
             name = "facilities_for_accomodation",
-            joinColumns = @JoinColumn(name = "accomodation_id"),
+            joinColumns = @JoinColumn(name = "accommodation_id"),
             inverseJoinColumns = @JoinColumn(name = "facility_id")
     )
-    private List<AccommodationFacility> accommodation_services;
+    private Set<AccommodationFacility> accommodation_services;
 
 
 }
