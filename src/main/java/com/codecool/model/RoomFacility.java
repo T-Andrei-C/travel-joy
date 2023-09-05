@@ -10,17 +10,12 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "cities")
-public class City {
+@Table(name = "room_facilities")
+public class RoomFacility {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
-
-    @ManyToOne
-    @JoinColumn(name = "country_id")
-    private Country country;
-
 }
