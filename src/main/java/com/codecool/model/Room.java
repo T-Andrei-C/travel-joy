@@ -1,10 +1,12 @@
 package com.codecool.model;
 
 import com.codecool.model.enums.RoomType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -24,6 +26,7 @@ public class Room {
     private boolean hasBalcony;
     private Long price;
 
+    @JsonIgnore
     @ManyToOne
     private Accommodation accommodation;
 
@@ -33,5 +36,5 @@ public class Room {
             joinColumns = @JoinColumn(name = "room_id"),
             inverseJoinColumns = @JoinColumn(name = "facility_id")
     )
-    private List<RoomFacility> service;
+    private Set<RoomFacility> room_services;
 }

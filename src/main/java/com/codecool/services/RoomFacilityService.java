@@ -1,5 +1,6 @@
 package com.codecool.services;
 
+import com.codecool.model.RoomFacility;
 import com.codecool.repositories.RoomFacilityRepository;
 import org.springframework.stereotype.Service;
 
@@ -9,5 +10,9 @@ public class RoomFacilityService {
 
     public RoomFacilityService(RoomFacilityRepository roomFacilityRepository) {
         this.roomFacilityRepository = roomFacilityRepository;
+    }
+
+    public void addFacility(RoomFacility roomFacility){
+        roomFacilityRepository.save(roomFacility);
     }
 }
