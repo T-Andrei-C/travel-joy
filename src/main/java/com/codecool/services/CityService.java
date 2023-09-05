@@ -4,6 +4,7 @@ import com.codecool.model.City;
 import com.codecool.repositories.CityRepository;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Service
@@ -21,6 +22,8 @@ public class CityService {
     public void addCity(City city){
         if(cityRepository.findAll().stream().noneMatch(c -> c.getName().equals(city.getName()))){
             cityRepository.save(city);
+        } else {
+            throw new EntityNotFoundException("City already exists");
         }
     }
 }
