@@ -25,9 +25,6 @@ public class Accommodation {
     @ManyToOne
     private City city;
 
-    @ManyToOne
-    private Country country;
-
     @OneToMany(mappedBy = "accommodation")
     private List<Room> rooms;
 
