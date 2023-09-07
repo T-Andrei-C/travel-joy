@@ -12,4 +12,14 @@ export default function Hotels () {
                 setHotels(accommodations);
             })
     }, []);
+
+    return(
+        <div>
+            {/*{hotels.map(h => (*/}
+            {/*    <h1>{h.name}</h1>*/}
+            {/*    */}
+            {/*))}*/}
+
+        </div>
+    );
 }
