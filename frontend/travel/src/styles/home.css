@@ -80,6 +80,57 @@ body {
     }
 }
 
+#home-button{
+    position: absolute;
+    width: 150px;
+    margin-top: 0.5em;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+/*#home-elements{*/
+/*    background-color: aqua;*/
+/*    height: 90px;*/
+/*    margin-left: 20em;*/
+/*    margin-right: 20em;*/
+/*}*/
+
+
+#input-and-drop{
+    padding-top: 0.5em;
+    padding-right: 30em;
+    padding-left: 30em;
+}
+
+@media (max-width: 1400px){
+    #input-and-drop{
+        padding-right: 20em;
+        padding-left: 20em;
+    }
+}
+
+@media (max-width: 1000px){
+    #input-and-drop{
+        padding-right: 10em;
+        padding-left: 10em;
+    }
+}
+
+@media (max-width: 600px){
+    #input-and-drop{
+        padding-right: 3em;
+        padding-left: 3em;
+    }
+}
+
+@media (max-width: 400px){
+    #input-and-drop{
+        padding-right: 0.5em;
+        padding-left: 0.5em;
+    }
+}
+
 
 
 
