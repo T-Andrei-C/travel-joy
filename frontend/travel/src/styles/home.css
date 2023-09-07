@@ -1,0 +1,93 @@
+/* Set the body to have no margin or padding */
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Hide scrollbars */
+}
+
+/* Style the container div */
+.blur {
+    position: fixed; /* Fixed positioning for the background */
+    /*top: 0;*/
+    /*left: 0;*/
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Place it behind other content */
+}
+
+/* Style the background image */
+.blur img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensure the image covers the entire container */
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1; /* Place it behind other content */
+}
+
+.blur::before {
+    content: "";
+    background-color: rgba(0, 0, 0, 0.5); /* Adjust the alpha value to control the opacity of the black overlay */
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0; /* Place it behind the image */
+}
+
+.message h1{
+    padding-top: 40vh;
+}
+
+#description-txt{
+    font-family: 'Dancing Script', cursive;
+    font-size: 3.3rem;
+
+}
+
+/* Add media queries for responsiveness */
+@media (max-width: 880px) {
+    #description-txt {
+        font-size: 2.5rem; /* Adjust the font size for smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    #description-txt {
+        font-size: 1.8rem; /* Adjust the font size for even smaller screens */
+    }
+}
+
+#romania{
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.3em;
+}
+
+#searchDiv {
+    padding: 2em; /* Add padding to the top and bottom */
+    text-align: center; /* Center the contents */
+    font-size: 14px;
+    width: 30%;
+}
+
+/* Use media queries for responsiveness */
+@media (max-width: 768px) {
+    #searchDiv {
+        width: 100%; /* Make the input full-width on smaller screens */
+        padding: 1em; /* Reduce padding for smaller screens */
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
