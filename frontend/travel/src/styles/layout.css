@@ -16,15 +16,19 @@ nav {
 nav div{
         display: flex;
         align-items: center;
-         & a.active {
-            color:white;
+        & a{
+            color: white;
             text-decoration: none;
+        }
+        & a.on{
+            color:red;
+            text-decoration: red;
+            text-decoration-line: underline;
         }
         & a:hover{
             color:black;
             text-decoration: none;
         }
-
         & .nav-link{
             margin-right: 2em;
         }

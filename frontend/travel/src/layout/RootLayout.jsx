@@ -10,7 +10,7 @@ const RootLayout = () => {
                         <img src={TravelJoy} alt="logo"/>
                     </NavLink>
                     <div>
-                        <NavLink to="/">
+                        <NavLink to="/accommodations">
                             <a id="nav-links" className="nav-link">Accommodations</a>
                         </NavLink>
                         <NavLink to="/">
