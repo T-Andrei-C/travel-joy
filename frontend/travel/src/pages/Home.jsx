@@ -5,15 +5,6 @@ import Input from "../components/home-page/Input"
 
 
 const Home = () => {
-    const [cities, setCity] = useState([]);
-
-    useEffect(() => {
-        getCity()
-            .then((cities) => {
-                setCity(cities);
-            })
-    }, []);
-
     return(
         <>
         <div className="blur">
