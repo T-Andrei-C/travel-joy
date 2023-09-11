@@ -1,8 +1,11 @@
 package com.codecool.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -18,4 +21,8 @@ public class RoomFacility {
     private Long id;
 
     private String name;
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "room_services")
+    private List<Room> rooms;
 }

@@ -34,6 +34,7 @@ public class Accommodation {
             joinColumns = @JoinColumn(name = "accommodation_id"),
             inverseJoinColumns = @JoinColumn(name = "facility_id")
     )
+
     private Set<AccommodationFacility> accommodation_services;
 
 

@@ -35,4 +35,6 @@ public class Room {
             inverseJoinColumns = @JoinColumn(name = "facility_id")
     )
     private Set<RoomFacility> room_services;
+
+
 }

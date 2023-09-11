@@ -1,7 +1,9 @@
 import {NavLink, Outlet} from "react-router-dom";
-import TravelJoy from "../components/img/TravelJoy.png"
-import {GiHamburgerMenu} from "react-icons/gi"
 import {useEffect, useState} from "react";
+
+import TravelJoy from "../components/img/TravelJoy.png"
+
+import {GiHamburgerMenu} from "react-icons/gi"
 
 const RootLayout = () => {
 
