@@ -13,7 +13,7 @@ const Input = () => {
     }, []);
 
     return (
-        <div id="home-elements">
+        <div id="home-elements" className="">
             <div className="input-group mb-3 input-group-sm mb-3" id="input-and-drop">
                 <span className="input-group-text text-bg-secondary" id="addon-wrapping"><FaMagnifyingGlass/></span>
                 <input list="cities" required placeholder="Search city..." type="text" className="form-control" aria-label="Text input with dropdown button"/>

@@ -1,81 +1,54 @@
 import {NavLink, Outlet} from "react-router-dom";
-import {useEffect, useState} from "react";
-
 import TravelJoy from "../components/img/TravelJoy.png"
 
-import {GiHamburgerMenu} from "react-icons/gi"
-
 const RootLayout = () => {
-
-    const [screenWidth, setScreenWidth] = useState(window.screen.width);
-    useEffect(() => {
-        window.addEventListener("resize", () => setScreenWidth(window.screen.width))
-        // window.removeEventListener("resize", () => setScreenWidth(window.screen.width));
-    }, [])
-
     return (
-        <div className="root-layout">
-            <header>
-                <nav className="navbar bg-success" data-bs-theme="dark">
+        <>
+            <nav className="navbar navbar-expand-lg bg-success sticky-top text-white" data-bs-theme="dark">
+                <div className="container-fluid">
                     <NavLink to="/">
-                        <img src={TravelJoy} alt="logo"/>
+                        <img height={35} className="ps-2" src={TravelJoy} alt="logo"/>
                     </NavLink>
-                    {screenWidth <= 750 ?
-                        <div>
-                            <button id="hamburger-menu" className="text-white" data-bs-toggle="dropdown">
-                                <GiHamburgerMenu/></button>
-                            <ul className="dropdown-menu dropdown-menu-end bg-white">
-                                <li>
-                                    <NavLink to="/accommodations">
-                                        <a id="nav-links" className="dropdown-item text-black">Accommodations</a>
-                                    </NavLink></li>
-                                <li>
-                                    <NavLink to="/">
-                                        <a id="nav-links" className="dropdown-item text-black">Packages</a>
-                                    </NavLink>
-                                </li>
-                                <li>
-                                    <NavLink to="/">
-                                        <a id="nav-links" className="dropdown-item text-black">About us</a>
-                                    </NavLink>
-                                </li>
-                                <li>
-                                    <NavLink to="/">
-                                        <a id="nav-links" className="dropdown-item text-black">Log in</a>
-                                    </NavLink>
-                                </li>
-                                <li>
-                                    <NavLink to="/">
-                                        <a id="nav-links" className="dropdown-item text-black">Sign up</a>
-                                    </NavLink>
-                                </li>
-                            </ul>
-                        </div>
-                        :
-                        <div>
-                            <NavLink to="/accommodations">
-                                <a id="nav-links" className="nav-link">Accommodations</a>
-                            </NavLink>
-                            <NavLink to="/">
-                                <a id="nav-links" className="nav-link">Packages</a>
-                            </NavLink>
-                            <NavLink to="/">
-                                <a id="nav-links" className="nav-link">About us</a>
-                            </NavLink>
-                            <NavLink to="/">
-                                <a id="nav-links" className="nav-link">Log in</a>
-                            </NavLink>
-                            <NavLink to="/">
-                                <a id="nav-links" className="nav-link">Sign up</a>
-                            </NavLink>
-                        </div>
-                    }
-                </nav>
-            </header>
-            <main>
-                <Outlet/>
-            </main>
-        </div>
+                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false"
+                            aria-label="Toggle navigation">
+                        <span className="navbar-toggler-icon text-white"></span>
+                    </button>
+                    <div className="collapse navbar-collapse" id="navbarText">
+                        <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+                            <li className="nav-item">
+                                <NavLink to="/accommodations" className="nav-link">Accommodations</NavLink>
+                            </li>
+                            <li className="nav-item">
+                                <NavLink to="/" className="nav-link">Packages</NavLink>
+                            </li>
+                            <li className="nav-item">
+                                <NavLink to="/" className="nav-link">About us</NavLink>
+                            </li>
+                            <li className="nav-item">
+                                <NavLink to="/" className="nav-link">Log in</NavLink>
+                            </li>
+                            <li className="nav-item">
+                                <NavLink to="/" className="nav-link">Sign up</NavLink>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <div className="root-layout" style={{minHeight: "91.5vh"}}>
+                <header>
+                </header>
+                <main id="main">
+                    <Outlet/>
+                </main>
+            </div>
+            <footer style={{height: "15vh"}} className="bg-black w-100">
+                <a className="text-white">About us</a>
+                <div className="container text-white">
+                    <p>&copy; {new Date().getFullYear()} Travel Joy. All Rights Reserved.</p>
+                </div>
+            </footer>
+        </>
     )
 }
 
