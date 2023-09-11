@@ -6,7 +6,7 @@ import com.codecool.repositories.AccommodationRepository;
 import com.codecool.repositories.RoomRepository;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 

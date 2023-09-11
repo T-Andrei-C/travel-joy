@@ -24,8 +24,8 @@ const Input = () => {
                 </datalist>
                 <button className="btn btn-outline-light dropdown-toggle bg-secondary" type="button" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</button>
                 <ul className="dropdown-menu dropdown-menu-end">
-                    <li><a className="dropdown-item" href="#">Hotels</a></li>
-                    <li><a className="dropdown-item" href="#">Packages</a></li>
+                    <li><a className="dropdown-item">Hotels</a></li>
+                    <li><a className="dropdown-item">Packages</a></li>
                 </ul>
             </div>
             <div>

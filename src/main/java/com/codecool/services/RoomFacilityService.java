@@ -4,7 +4,7 @@ import com.codecool.model.RoomFacility;
 import com.codecool.repositories.RoomFacilityRepository;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class RoomFacilityService {

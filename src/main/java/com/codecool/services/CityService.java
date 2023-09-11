@@ -4,7 +4,7 @@ import com.codecool.model.City;
 import com.codecool.repositories.CityRepository;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Service

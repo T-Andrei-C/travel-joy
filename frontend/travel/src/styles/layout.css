@@ -24,8 +24,12 @@ nav div{
             color:black;
             text-decoration: none;
         }
-        & .nav-link{
+        & #nav-links{
             margin-right: 2em;
         }
+}
+
+#hamburger-menu{
+    margin-right: 1.5em;
 }
 

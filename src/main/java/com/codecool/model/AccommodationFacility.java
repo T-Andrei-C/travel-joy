@@ -1,8 +1,8 @@
 package com.codecool.model;
 
 import lombok.*;
+import jakarta.persistence.*;
 
-import javax.persistence.*;
 
 @Getter
 @Setter

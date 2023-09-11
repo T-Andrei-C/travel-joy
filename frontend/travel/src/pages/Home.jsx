@@ -13,7 +13,7 @@ const Home = () => {
 
         <div className="message">
             <h1 className="text-center text-white" id="description-txt">
-                Explore the unknown place's of
+                Explore the unknown places of
                 <big id="romania"> Romania</big>
             </h1>
         </div>
