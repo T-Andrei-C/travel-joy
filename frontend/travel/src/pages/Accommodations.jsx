@@ -20,22 +20,22 @@ const Accommodations = () =>{
                 <h1 className="fw-medium">Search for Accommodations</h1>
             </div>
             <div className="input-group p-5">
-                <span className="input-group-text bg-white" id="basic-addon1"><FaLocationDot/></span>
+                <span className="input-group-text bg-white border-success" id="basic-addon1"><FaLocationDot/></span>
                 <div className="form-floating">
                     <label className="pt-1 text-success fw-bold" style={{fontSize: "0.75em"}} htmlFor="floatingInputValue">GOING TO</label>
-                    <input type="text" className="form-control" id="floatingInputValue" aria-placeholder="Search for city..." />
+                    <input type="text" className="form-control border-success" id="floatingInputValue" aria-placeholder="Search for city..." />
                 </div>
                 <div className="form-floating">
                     <label className="pt-1 text-success fw-bold" style={{fontSize: "0.75em"}} htmlFor="floatingInputValue">CHECK-IN</label>
-                    <input id="startDate" className="form-control" type="date" />
+                    <input id="startDate" className="form-control border-success fw-medium" type="date" />
                 </div>
                 <div className="form-floating">
                     <label className="pt-1 text-success fw-bold" style={{fontSize: "0.75em"}} htmlFor="floatingInputValue">CHECK-OUT</label>
-                    <input id="startDate" className="form-control" type="date" />
+                    <input id="startDate" className="form-control border-success fw-medium" type="date" />
                 </div>
-                <button className="btn btn-outline-secondary dropdown-toggle bg-success text-white" type="button" data-bs-toggle="dropdown" aria-expanded="false"><MdPeopleAlt/></button>
+                <button className="btn btn-outline-success dropdown-toggle bg-success text-white" type="button" data-bs-toggle="dropdown" aria-expanded="false"><MdPeopleAlt/></button>
 
-                <ul className="dropdown-menu dropdown-menu-end">
+                <ul className="dropdown-menu dropdown-menu-end border-success">
                     <li><a className="dropdown-item">Hotels</a></li>
                     <li><a className="dropdown-item">Packages</a></li>
                 </ul>
