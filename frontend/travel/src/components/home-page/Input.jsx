@@ -1,11 +1,13 @@
 import {FaMagnifyingGlass} from "react-icons/fa6";
 import {getCity} from "../../service/CRUDCity";
 import {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
 
 const Input = () => {
     const [cities, setCity] = useState([]);
     const [selectPackages, setSelectPackages] = useState("");
     const [destination, setDestination] = useState("");
+    const navigate = useNavigate();
 
     useEffect(() => {
         getCity()
@@ -33,7 +35,9 @@ const Input = () => {
                 </select>
             </div>
             <div>
-                <button id="home-search-btn" type="button" className="btn btn-outline-light bg-success">Search</button>
+                <button id="home-search-btn" type="button" className="btn btn-outline-light bg-success"
+                onClick={() => navigate("/" + selectPackages + "/" + destination)}
+                >Search</button>
             </div>
         </div>
     )
