@@ -1,13 +1,13 @@
 import {FaLocationDot} from "react-icons/fa6";
 import {MdPeopleAlt} from "react-icons/md";
 
-const TravelSearch = () => {
+const TravelSearch = ({goingTo}) => {
     return (
     <div className="input-group p-5">
         <span className="input-group-text bg-white border-success" id="basic-addon1"><FaLocationDot/></span>
         <div className="form-floating">
             <label className="pt-1 text-success fw-bold" style={{fontSize: "0.75em"}} htmlFor="floatingInputValue">GOING TO</label>
-            <input type="text" className="form-control border-success" id="floatingInputValue" aria-placeholder="Search for city..." />
+            <input type="text" className="form-control border-success" id="floatingInputValue" value={goingTo} />
         </div>
         <div className="form-floating">
             <label className="pt-1 text-success fw-bold" style={{fontSize: "0.75em"}} htmlFor="floatingInputValue">CHECK-IN</label>
@@ -27,3 +27,5 @@ const TravelSearch = () => {
     </div>
     )
 }
+
+export default TravelSearch;

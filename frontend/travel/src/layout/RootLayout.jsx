@@ -1,5 +1,6 @@
 import {NavLink, Outlet} from "react-router-dom";
 import TravelJoy from "../components/img/TravelJoy.png"
+import {BsFacebook, BsInstagram, BsTwitch, BsTwitter} from "react-icons/bs";
 
 const RootLayout = () => {
     return (
@@ -42,12 +43,24 @@ const RootLayout = () => {
                     <Outlet/>
                 </main>
             </div>
-            <footer style={{height: "15vh"}} className="bg-black w-100">
-                <a className="text-white">About us</a>
-                <div className="container text-white">
-                    <p>&copy; {new Date().getFullYear()} Travel Joy. All Rights Reserved.</p>
-                </div>
-            </footer>
+            <div className="container pt-5">
+                <footer className="py-3 my-4">
+                    <ul className="nav justify-content-center border-bottom pb-3 mb-3">
+                        <li className="nav-item"><a href="#" className="nav-link px-2 text-muted">Home</a></li>
+                        <li className="nav-item"><a href="#" className="nav-link px-2 text-muted">About</a></li>
+                        <li className="nav-item"><a href="#" className="nav-link px-2 text-muted">Contact</a></li>
+                    </ul>
+                    <div className="col-md-4 d-flex align-items-center">
+                        <a href="/" className="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1"></a>
+                        <span className="text-muted">© 2023 Travel's Joy, Inc</span>
+                        <ul className="nav col-md-4 justify-content-end list-unstyled d-flex">
+                            <li className="ms-3"><a className="text-muted" href="#"><BsFacebook/></a></li>
+                            <li className="ms-3"><a className="text-muted" href="#"><BsInstagram/></a></li>
+                            <li className="ms-3"><a className="text-muted" href="#"><BsTwitter/></a></li>
+                        </ul>
+                    </div>
+                </footer>
+            </div>
         </>
     )
 }
