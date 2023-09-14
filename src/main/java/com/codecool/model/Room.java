@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import jakarta.persistence.*;
+
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -24,6 +26,14 @@ public class Room {
     private RoomType type;
     private Long price;
 
+    @OneToMany
+    @JoinTable(
+            name = "room_images",
+            joinColumns = @JoinColumn(name = "room_id"),
+            inverseJoinColumns = @JoinColumn(name = "image_id")
+    )
+    private List<Image> images_url;
+
     @JsonIgnore
     @ManyToOne
     private Accommodation accommodation;
@@ -34,7 +44,11 @@ public class Room {
             joinColumns = @JoinColumn(name = "room_id"),
             inverseJoinColumns = @JoinColumn(name = "facility_id")
     )
-    private Set<RoomFacility> room_services;
+    private Set<RoomFacility> room_facilities;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "room")
+    private List<Reservation> reservations;
 
 
 }

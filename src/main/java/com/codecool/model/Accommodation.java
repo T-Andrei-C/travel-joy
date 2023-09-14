@@ -23,6 +23,10 @@ public class Accommodation {
     private Integer capacity;
     private String description;
 
+    @OneToOne
+    private Image image_url;
+
+
     @ManyToOne
     private City city;
 
@@ -36,7 +40,7 @@ public class Accommodation {
             inverseJoinColumns = @JoinColumn(name = "facility_id")
     )
 
-    private Set<AccommodationFacility> accommodation_services;
+    private Set<AccommodationFacility> accommodation_facilities;
 
 
 }
