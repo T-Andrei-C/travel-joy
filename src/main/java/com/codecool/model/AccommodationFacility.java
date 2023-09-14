@@ -23,6 +23,6 @@ public class AccommodationFacility {
     private String name;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "accommodation_services")
+    @ManyToMany(mappedBy = "accommodation_facilities")
     private List<Accommodation> accommodations;
 }

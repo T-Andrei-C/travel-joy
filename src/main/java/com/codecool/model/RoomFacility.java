@@ -23,6 +23,6 @@ public class RoomFacility {
     private String name;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "room_services")
+    @ManyToMany(mappedBy = "room_facilities")
     private List<Room> rooms;
 }
