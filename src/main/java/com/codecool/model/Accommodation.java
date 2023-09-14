@@ -21,6 +21,7 @@ public class Accommodation {
     private String name;
 
     private Integer capacity;
+    private String description;
 
     @ManyToOne
     private City city;

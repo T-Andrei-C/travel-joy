@@ -21,16 +21,16 @@ const RootLayout = () => {
                                 <NavLink to="/accommodations" className="nav-link">Accommodations</NavLink>
                             </li>
                             <li className="nav-item">
-                                <NavLink to="/" className="nav-link">Packages</NavLink>
+                                <NavLink to="/packages" className="nav-link">Packages</NavLink>
                             </li>
                             <li className="nav-item">
-                                <NavLink to="/" className="nav-link">About us</NavLink>
+                                <NavLink to="/aboutus" className="nav-link">About us</NavLink>
                             </li>
                             <li className="nav-item">
-                                <NavLink to="/" className="nav-link">Log in</NavLink>
+                                <NavLink to="/login" className="nav-link">Log in</NavLink>
                             </li>
                             <li className="nav-item">
-                                <NavLink to="/" className="nav-link">Sign up</NavLink>
+                                <NavLink to="/signup" className="nav-link">Sign up</NavLink>
                             </li>
                         </ul>
                     </div>
@@ -46,9 +46,9 @@ const RootLayout = () => {
             <div className="container pt-5">
                 <footer className="py-3 my-4">
                     <ul className="nav justify-content-center border-bottom pb-3 mb-3">
-                        <li className="nav-item"><a href="#" className="nav-link px-2 text-muted">Home</a></li>
-                        <li className="nav-item"><a href="#" className="nav-link px-2 text-muted">About</a></li>
-                        <li className="nav-item"><a href="#" className="nav-link px-2 text-muted">Contact</a></li>
+                        <li className="nav-item"><a href="/" className="nav-link px-2 text-muted">Home</a></li>
+                        <li className="nav-item"><a href="/aboutus" className="nav-link px-2 text-muted">About</a></li>
+                        <li className="nav-item"><a href="/contact" className="nav-link px-2 text-muted">Contact</a></li>
                     </ul>
                     <div className="col-md-4 d-flex align-items-center">
                         <a href="/" className="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1"></a>

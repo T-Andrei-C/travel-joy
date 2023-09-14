@@ -35,7 +35,7 @@ const Accommodations = () => {
                     {
                         accommodationsByCity.length !== 0 ?
                             accommodationsByCity.map((a) => (
-                                <HotelCard accommodation={a}/>
+                                <HotelCard accommodation={a} />
                             )) :
                             accommodations.map((a) => (
                                 <HotelCard accommodation={a}/>
