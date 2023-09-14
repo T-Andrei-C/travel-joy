@@ -18,7 +18,7 @@ const RootLayout = () => {
                     <div className="collapse navbar-collapse" id="navbarText">
                         <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                             <li className="nav-item">
-                                <NavLink to="/accommodations" className="nav-link">Accommodations</NavLink>
+                                <NavLink to="/accommodations/10/1" className="nav-link">Accommodations</NavLink>
                             </li>
                             <li className="nav-item">
                                 <NavLink to="/packages" className="nav-link">Packages</NavLink>

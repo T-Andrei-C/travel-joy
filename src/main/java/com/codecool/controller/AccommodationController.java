@@ -20,9 +20,14 @@ public class AccommodationController {
         return accommodationService.getAllAccommodations();
     }
 
-    @GetMapping("/{cityName}")
-    public List<Accommodation> getAccommodationByCity(@PathVariable String cityName){
-        return accommodationService.getAllAccommodationsByCity(cityName);
+    @GetMapping("/{itemsPerPage}/{numberOfPage}")
+    public List<Accommodation> getAccommodationPerPage(@PathVariable int itemsPerPage, @PathVariable int numberOfPage){
+        return accommodationService.getAccommodationPerPage(numberOfPage, itemsPerPage);
+    }
+
+    @GetMapping("/{cityName}/{itemsPerPage}/{numberOfPage}")
+    public List<Accommodation> getAccommodationByCity(@PathVariable String cityName, @PathVariable int itemsPerPage, @PathVariable int numberOfPage){
+        return accommodationService.getAllAccommodationsByCity(numberOfPage ,itemsPerPage, cityName);
     }
 
     @PostMapping

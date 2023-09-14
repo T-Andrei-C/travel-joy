@@ -36,7 +36,7 @@ const Input = () => {
             </div>
             <div>
                 <button id="home-search-btn" type="button" className="btn btn-outline-light bg-success"
-                onClick={() => navigate("/" + selectPackages + "/" + destination)}
+                onClick={() => navigate("/" + selectPackages + "/" + destination + "/10/1")}
                 >Search</button>
             </div>
         </div>

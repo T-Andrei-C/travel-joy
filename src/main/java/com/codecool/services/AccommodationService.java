@@ -24,9 +24,13 @@ public class AccommodationService {
         return accommodationRepository.findAll();
     }
 
-    public List<Accommodation> getAllAccommodationsByCity(String cityName) {
-        List<Accommodation> allAccommodations = accommodationRepository.findAll();
-        return allAccommodations.stream().filter(a -> a.getCity().getName().equals(cityName)).collect(Collectors.toList());
+    public List<Accommodation> getAccommodationPerPage (int currentPage, int itemsPerPage){
+        return sortAccommodationPerPage(currentPage, itemsPerPage, accommodationRepository.findAll());
+    }
+
+    public List<Accommodation> getAllAccommodationsByCity(int currentPage, int itemsPerPage, String cityName) {
+        List<Accommodation> allAccommodations = accommodationRepository.findAll().stream().filter(a -> a.getCity().getName().equals(cityName)).collect(Collectors.toList());
+        return sortAccommodationPerPage(currentPage, itemsPerPage, allAccommodations);
     }
 
     public void addAccommodation(Accommodation accommodation) {
@@ -48,4 +52,12 @@ public class AccommodationService {
             throw new EntityNotFoundException("The hotel already exists in this city");
         }
     }
+
+    private List<Accommodation> sortAccommodationPerPage (int currentPage, int itemsPerPage, List<Accommodation> accommodations){
+        int numberOfLastEmployee = Math.min((currentPage * itemsPerPage), accommodations.size());
+        int numberOfFirstEmployee = (currentPage - 1) * itemsPerPage;
+
+        return accommodations.subList(numberOfFirstEmployee, numberOfLastEmployee);
+    }
+
 }
