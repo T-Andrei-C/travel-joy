@@ -50,10 +50,9 @@ const RootLayout = () => {
                         <li className="nav-item"><a href="/aboutus" className="nav-link px-2 text-muted">About</a></li>
                         <li className="nav-item"><a href="/contact" className="nav-link px-2 text-muted">Contact</a></li>
                     </ul>
-                    <div className="col-md-4 d-flex align-items-center">
-                        <a href="/" className="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1"></a>
+                    <div className="col-12 d-flex align-items-center justify-content-between" >
                         <span className="text-muted">© 2023 Travel's Joy, Inc</span>
-                        <ul className="nav col-md-4 justify-content-end list-unstyled d-flex">
+                        <ul className="nav  list-unstyled d-flex" >
                             <li className="ms-3"><a className="text-muted" href="#"><BsFacebook/></a></li>
                             <li className="ms-3"><a className="text-muted" href="#"><BsInstagram/></a></li>
                             <li className="ms-3"><a className="text-muted" href="#"><BsTwitter/></a></li>
