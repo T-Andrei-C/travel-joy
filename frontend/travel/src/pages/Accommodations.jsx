@@ -1,5 +1,5 @@
 import {useState, useEffect} from "react";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 
 import {getAccommodationsByCityName, getAccommodationsPerPage} from "../service/CRUDAccommodations";
 
@@ -10,19 +10,22 @@ const Accommodations = () => {
     const [accommodations, setAccommodations] = useState([]);
     const [accommodationsByCity, setAccommodationsByCity] = useState([]);
     const {destination, itemsPerPage, numberOfPage} = useParams();
+    const navigate = useNavigate();
 
     useEffect(() => {
         getAccommodationsPerPage(itemsPerPage, numberOfPage)
             .then((accommodations) => {
                 setAccommodations(accommodations);
             })
-        getAccommodationsByCityName(destination, itemsPerPage, numberOfPage)
-            .then((accommodationsByCity) => {
-                setAccommodationsByCity(accommodationsByCity);
-            })
-    }, []);
+        if (destination !== undefined){
+            getAccommodationsByCityName(destination, itemsPerPage, numberOfPage)
+                .then((accommodationsByCity) => {
+                    setAccommodationsByCity(accommodationsByCity);
+                })
+        }
+    }, [numberOfPage]);
 
-    console.log(accommodationsByCity)
+    console.log(accommodationsByCity.length)
 
     return (
         <>
@@ -33,7 +36,7 @@ const Accommodations = () => {
             <div className="container h-100">
                 <div className="row h-100 justify-content-center align-items-center  ms-1 me-1">
                     {
-                        accommodationsByCity.length !== 0 ?
+                        destination !== undefined ?
                             accommodationsByCity.map((a) => (
                                 <HotelCard accommodation={a} />
                             )) :
@@ -43,6 +46,17 @@ const Accommodations = () => {
                     }
                 </div>
             </div>
+            {
+                destination !== undefined ?
+                    <div className="d-flex justify-content-evenly mt-5">
+                        <button className="btn btn-outline-success" onClick={() => navigate("/accommodations/" + destination + "/" + itemsPerPage + "/" + (parseInt(numberOfPage) - 1))}>Back</button>
+                        <button className="btn btn-outline-success" onClick={() => navigate("/accommodations/" + destination + "/" + itemsPerPage + "/" + (parseInt(numberOfPage) + 1))}>Next</button>
+                    </div> :
+                    <div className="d-flex justify-content-evenly mt-5">
+                        <button className="btn btn-outline-success" onClick={() => navigate("/accommodations/" + itemsPerPage + "/" + (parseInt(numberOfPage) - 1))}>Back</button>
+                        <button className="btn btn-outline-success" onClick={() => navigate("/accommodations/" + itemsPerPage + "/" + (parseInt(numberOfPage) + 1))}>Next</button>
+                    </div>
+            }
         </>
     );
 
