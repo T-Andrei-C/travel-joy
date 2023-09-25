@@ -21,8 +21,6 @@ public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private Integer capacity;
     private RoomType type;
     private Long price;
 

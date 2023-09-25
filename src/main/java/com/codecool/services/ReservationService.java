@@ -1,5 +1,6 @@
 package com.codecool.services;
 
+import com.codecool.configurations.ReservationFilter;
 import com.codecool.model.Reservation;
 import com.codecool.model.Room;
 import com.codecool.repositories.ReservationRepository;
@@ -15,10 +16,12 @@ import java.util.List;
 public class ReservationService {
     private ReservationRepository reservationRepository;
     private RoomRepository roomRepository;
+    private ReservationFilter reservationFilter;
 
-    public ReservationService(ReservationRepository reservationRepository, RoomRepository roomRepository) {
+    public ReservationService(ReservationRepository reservationRepository, RoomRepository roomRepository, ReservationFilter reservationFilter) {
         this.reservationRepository = reservationRepository;
         this.roomRepository = roomRepository;
+        this.reservationFilter = reservationFilter;
     }
 
     public List<Reservation> getAllReservation() {
@@ -42,19 +45,10 @@ public class ReservationService {
     private void verifyAndAddReservation(Room currentRoom, Reservation reservation) {
         LocalDate checkIn = reservation.getCheck_in();
         LocalDate checkOut = reservation.getCheck_out();
-
-        boolean checkBeforeReservation = currentRoom.getReservations()
-                .stream()
-                .allMatch(rez -> checkIn.isBefore(rez.getCheck_in()) && (checkOut.equals(rez.getCheck_in()) ||
-                        checkOut.isBefore(rez.getCheck_in())));
-        boolean checkAfterReservation = currentRoom.getReservations()
-                .stream()
-                .allMatch(rez -> (checkIn.isAfter(rez.getCheck_out()) || checkIn.equals(rez.getCheck_out())) &&
-                        checkOut.isAfter(rez.getCheck_out()));
-
-        if (checkBeforeReservation) {
-            reservationRepository.save(reservation);
-        } else if (checkAfterReservation) {
+        if (
+                reservationFilter.checkBeforeReservation(currentRoom, checkIn, checkOut) ||
+                reservationFilter.checkAfterReservation(currentRoom, checkIn, checkOut)
+        ) {
             reservationRepository.save(reservation);
         } else {
             throw new EntityNotFoundException("The period selected is already booked!");
