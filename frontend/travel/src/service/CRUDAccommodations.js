@@ -9,3 +9,7 @@ export const getAccommodationsPerPage = async (itemsPerPage, numberOfPage) => {
 export const getAccommodationsByCityName = async (destination, itemsPerPage, numberOfPage) => {
     return fetch("http://localhost:8080/travel/api/accommodations/" + destination + "/" + itemsPerPage + "/" + numberOfPage).then(res => res.json());
 }
+
+export const getAccommodationsSearch = async (destination, itemsPerPage, numberOfPage, checkIn, checkOut, numberOfPersons) => {
+    return fetch(`http://localhost:8080/travel/api/accommodations/${destination}/${itemsPerPage}/${numberOfPage}/${checkIn}/${checkOut}/${numberOfPersons}`).then(res => res.json());
+}
