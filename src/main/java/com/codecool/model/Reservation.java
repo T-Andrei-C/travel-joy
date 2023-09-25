@@ -3,6 +3,7 @@ package com.codecool.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -17,8 +18,8 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDateTime check_in;
-    private LocalDateTime check_out;
+    private LocalDate check_in;
+    private LocalDate check_out;
 
     @ManyToOne
     private Room room;

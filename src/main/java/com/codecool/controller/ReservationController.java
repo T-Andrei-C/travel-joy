@@ -2,9 +2,7 @@ package com.codecool.controller;
 
 import com.codecool.model.Reservation;
 import com.codecool.services.ReservationService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,5 +18,10 @@ public class ReservationController {
     @GetMapping
     public List<Reservation> getAllReservation(){
         return reservationService.getAllReservation();
+    }
+
+    @PostMapping
+    public void addReservation(@RequestBody Reservation reservation){
+        reservationService.addReservation(reservation);
     }
 }
