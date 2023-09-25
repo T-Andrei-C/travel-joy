@@ -1,7 +1,7 @@
 import {useState, useEffect} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 
-import {getAccommodationsByCityName, getAccommodationsPerPage} from "../service/CRUDAccommodations";
+import {getAccommodationsByCityName, getAccommodationsPerPage, getAccommodationsSearch} from "../service/CRUDAccommodations";
 
 import TravelSearch from "../components/TravelSearch";
 import HotelCard from "../components/HotelCard";
@@ -9,7 +9,8 @@ import HotelCard from "../components/HotelCard";
 const Accommodations = () => {
     const [accommodations, setAccommodations] = useState([]);
     const [accommodationsByCity, setAccommodationsByCity] = useState([]);
-    const {destination, itemsPerPage, numberOfPage} = useParams();
+    const [accommodationsSearch, setAccommodationsSearch] = useState([]);
+    const {destination, itemsPerPage, numberOfPage, checkIn, checkOut, numberOfPersons} = useParams();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -23,9 +24,14 @@ const Accommodations = () => {
                     setAccommodationsByCity(accommodationsByCity);
                 })
         }
+
+        getAccommodationsSearch(destination, itemsPerPage, numberOfPage, checkIn, checkOut, numberOfPersons)
+            .then((accommodations) => {
+                setAccommodationsSearch(accommodations);
+            })
     }, [numberOfPage]);
 
-    console.log(accommodationsByCity.length)
+    console.log(accommodationsSearch)
 
     return (
         <>

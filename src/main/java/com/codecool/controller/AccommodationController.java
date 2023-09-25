@@ -4,6 +4,7 @@ import com.codecool.model.Accommodation;
 import com.codecool.services.AccommodationService;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -28,6 +29,17 @@ public class AccommodationController {
     @GetMapping("/{cityName}/{itemsPerPage}/{numberOfPage}")
     public List<Accommodation> getAccommodationByCity(@PathVariable String cityName, @PathVariable int itemsPerPage, @PathVariable int numberOfPage){
         return accommodationService.getAllAccommodationsByCity(numberOfPage ,itemsPerPage, cityName);
+    }
+
+    @GetMapping("/{cityName}/{itemsPerPage}/{numberOfPage}/{checkIn}/{checkOut}/{numberOfPersons}")
+    public List<Accommodation> getAccommodationsSearch(@PathVariable LocalDate checkIn,
+                                                       @PathVariable LocalDate checkOut,
+                                                       @PathVariable String cityName,
+                                                       @PathVariable int itemsPerPage,
+                                                       @PathVariable int numberOfPage,
+                                                       @PathVariable Integer numberOfPersons)
+    {
+        return accommodationService.accommodationSearch(numberOfPage, itemsPerPage, cityName, checkIn, checkOut, numberOfPersons);
     }
 
     @PostMapping

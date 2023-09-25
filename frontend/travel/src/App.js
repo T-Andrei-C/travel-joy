@@ -18,6 +18,7 @@ const router = createBrowserRouter(
             <Route index element={<Home/>}/>
             <Route path="/accommodations/:itemsPerPage/:numberOfPage" element={<Accommodations/>}/>
             <Route path="/accommodations/:destination/:itemsPerPage/:numberOfPage" element={<Accommodations/>}/>
+            <Route path="/accommodations/:destination/:itemsPerPage/:numberOfPage/:checkIn/:checkOut/:numberOfPersons" element={<Accommodations/>}/>
             <Route path="/packages" element={<Package/>} />
             <Route path="/aboutus" element={<AboutUs/>} />
             <Route path="/login" element={<LogIn/>} />
