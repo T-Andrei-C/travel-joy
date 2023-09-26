@@ -2,7 +2,7 @@ import testImage from "./img/homeImage.jpg";
 
 const HotelCard = ({accommodation}) => {
     return (
-        <div key={accommodation.id} className="card col-12 col-md-10 col-lg-8 border-success m-3">
+        <div className="card col-12 col-md-10 col-lg-8 border-success m-3">
             <div className="row no-gutters">
                 <div className="col-md-4">
                     <img src={testImage} className="card-img" alt={accommodation.name} />

@@ -44,13 +44,13 @@ const Accommodations = () => {
                     {
                         destination !== undefined && checkIn !== undefined ?
                             accommodationsSearch.map((a) => (
-                                <HotelCard accommodation={a} />
+                                <HotelCard key={a.id} accommodation={a} />
                             )) : destination !== undefined ?
                             accommodationsByCity.map((a) => (
-                                <HotelCard accommodation={a} />
+                                <HotelCard key={a.id} accommodation={a} />
                             )) :
                             accommodations.map((a) => (
-                                <HotelCard accommodation={a}/>
+                                <HotelCard key={a.id} accommodation={a}/>
                             ))
                     }
                 </div>
