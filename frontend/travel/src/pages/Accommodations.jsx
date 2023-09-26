@@ -24,14 +24,14 @@ const Accommodations = () => {
                     setAccommodationsByCity(accommodationsByCity);
                 })
         }
-        console.log(checkIn)
-        getAccommodationsSearch(destination, itemsPerPage, numberOfPage, checkIn, checkOut, numberOfPersons)
-            .then((accommodations) => {
-                setAccommodationsSearch(accommodations);
-            })
-    }, [numberOfPage, checkIn, checkOut, numberOfPersons, destination]);
 
-    console.log(accommodationsSearch);
+        if (checkIn !== undefined){
+            getAccommodationsSearch(destination, itemsPerPage, numberOfPage, checkIn, checkOut, numberOfPersons)
+                .then((accommodations) => {
+                    setAccommodationsSearch(accommodations);
+                })
+        }
+    }, [numberOfPage, checkIn, checkOut, numberOfPersons, destination]);
 
     return (
         <>
@@ -42,7 +42,10 @@ const Accommodations = () => {
             <div className="container h-100">
                 <div className="row h-100 justify-content-center align-items-center  ms-1 me-1">
                     {
-                        destination !== undefined ?
+                        destination !== undefined && checkIn !== undefined ?
+                            accommodationsSearch.map((a) => (
+                                <HotelCard accommodation={a} />
+                            )) : destination !== undefined ?
                             accommodationsByCity.map((a) => (
                                 <HotelCard accommodation={a} />
                             )) :

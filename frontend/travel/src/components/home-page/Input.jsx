@@ -16,30 +16,34 @@ const Input = () => {
             })
     }, []);
 
+    const onSubmit = (e) =>
+    {
+        e.preventDefault();
+        navigate("/" + selectPackages + "/" + destination + "/3/1");
+    }
+
     return (
-        <div id="home-elements" className="">
+        <form id="home-elements" onSubmit={onSubmit}>
             <div className="input-group mb-3 input-group-sm mb-3" id="input-and-drop">
                 <span className="input-group-text text-bg-secondary" id="addon-wrapping"><FaMagnifyingGlass/></span>
-                <input list="cities" required placeholder="Search city..." type="text" className="form-control" aria-label="Text input with dropdown button"
+                <input list="cities" required={true} placeholder="Search city..." type="text" className="form-control" aria-label="Text input with dropdown button"
                 onChange={event => setDestination(event.target.value)}/>
                 <datalist id="cities">
                     {cities?.map(city => (
                         <option value={city.name} key={city.id}/>
                     ))}
                 </datalist>
-                <select className="btn btn-outline-light dropdown-toggle bg-secondary"
+                <select required className="btn btn-outline-light dropdown-toggle bg-secondary"
                         onChange={event => setSelectPackages(event.target.value)}>
-                    <option selected={true} disabled={true} hidden={true} >Dropdown</option>
-                    <option value="accommodations">Accommodations</option>
-                    <option value="packages">Packages</option>
+                    <option key="dropdown" selected={true} disabled={true} hidden={true} value="">Dropdown</option>
+                    <option key="accommodations" value="accommodations">Accommodations</option>
+                    <option key="packages" value="packages">Packages</option>
                 </select>
             </div>
             <div>
-                <button id="home-search-btn" type="button" className="btn btn-outline-light bg-success"
-                onClick={() => navigate("/" + selectPackages + "/" + destination + "/3/1")}
-                >Search</button>
+                <button id="home-search-btn" type="submit" className="btn btn-outline-light bg-success">Search</button>
             </div>
-        </div>
+        </form>
     )
 }
 

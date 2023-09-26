@@ -15,26 +15,25 @@ const TravelSearch = ({goingTo, checkIn, checkOut, numberOfPersons}) => {
 
     return (
     <form className="input-group p-5" onSubmit={onSubmit}>
-        <span className="input-group-text bg-white border-success" id="basic-addon1"><FaLocationDot/></span>
-        <div className="form-floating">
+        <span key="locationIcon" className="input-group-text bg-white border-success" id="basic-addon1"><FaLocationDot/></span>
+        <div key="goingTo" className="form-floating">
             <label className="pt-1 text-success fw-bold" style={{fontSize: "0.75em"}} htmlFor="floatingInputValue">GOING TO</label>
-            <input type="text" className="form-control border-success" id="floatingInputValue" required={true} value={goingTo} />
+            <input type="text" className="form-control border-success" id="floatingInputValue" required={true} defaultValue={goingTo}/>
         </div>
-        <div className="form-floating">
+        <div key="checkIn" className="form-floating">
             <label className="pt-1 text-success fw-bold" style={{fontSize: "0.75em"}} htmlFor="floatingInputValue">CHECK-IN</label>
-            <input id="startDate" className="form-control border-success fw-medium" required={true} type="date" value={checkIn}/>
+            <input id="startDate" className="form-control border-success fw-medium" required={true} type="date" defaultValue={checkIn}/>
         </div>
-        <div className="form-floating">
+        <div key="checkOut" className="form-floating">
             <label className="pt-1 text-success fw-bold" style={{fontSize: "0.75em"}} htmlFor="floatingInputValue">CHECK-OUT</label>
-            <input id="startDate" className="form-control border-success fw-medium" required={true} type="date" value={checkOut}/>
+            <input id="startDate" className="form-control border-success fw-medium" required={true} type="date" defaultValue={checkOut}/>
         </div>
-        <select required={true} className="btn btn-outline-success bg-success text-white" defaultValue="Amount">
-            {/*<option selected={true} disabled={true} hidden={true}><MdPeopleAlt/></option>*/}
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
+        <select key="amount" required={true} className="btn btn-outline-success bg-success text-white" defaultValue={numberOfPersons}>
+            <option key="1" value="1">1</option>
+            <option key="2" value="2">2</option>
+            <option key="3" value="3">3</option>
+            <option key="4" value="4">4</option>
+            <option key="5" value="5">5</option>
         </select>
         {/*<button list="peopleAmount" className="btn btn-outline-success dropdown-toggle bg-success text-white" type="button" data-bs-toggle="dropdown" aria-expanded="false"><MdPeopleAlt/></button>*/}
         {/*<ul className="dropdown-menu dropdown-menu-end border-success">*/}
@@ -44,7 +43,7 @@ const TravelSearch = ({goingTo, checkIn, checkOut, numberOfPersons}) => {
         {/*    <li><a className="dropdown-item">4</a></li>*/}
         {/*    <li><a className="dropdown-item">5</a></li>*/}
         {/*</ul>*/}
-        <button className="btn btn-outline-success ps-5 pe-5" type="submit" id="button-addon2">Search</button>
+        <button key="submit" className="btn btn-outline-success ps-5 pe-5" type="submit" id="button-addon2">Search</button>
     </form>
     )
 }
