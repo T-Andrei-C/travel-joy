@@ -1,5 +1,6 @@
 package com.codecool.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -41,6 +42,4 @@ public class Accommodation {
     )
 
     private Set<AccommodationFacility> accommodation_facilities;
-
-
 }

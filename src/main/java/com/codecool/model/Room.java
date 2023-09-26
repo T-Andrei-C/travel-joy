@@ -47,4 +47,8 @@ public class Room {
     @JsonIgnore
     @OneToMany(mappedBy = "room")
     private List<Reservation> reservations;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "room")
+    private List<TravelPackage> travel_packages;
 }

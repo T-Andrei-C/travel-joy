@@ -20,7 +20,7 @@ public class AccommodationService {
     private RoomRepository roomRepository;
     private ReservationFilter reservationFilter;
 
-    public AccommodationService(AccommodationRepository accommodationRepository, RoomRepository roomRepository,ReservationFilter reservationFilter) {
+    public AccommodationService(AccommodationRepository accommodationRepository, RoomRepository roomRepository, ReservationFilter reservationFilter) {
         this.accommodationRepository = accommodationRepository;
         this.roomRepository = roomRepository;
         this.reservationFilter = reservationFilter;
@@ -61,22 +61,21 @@ public class AccommodationService {
     public List<Accommodation> accommodationSearch(int currentPage, int itemsPerPage, String cityName,
                                                    LocalDate checkIn, LocalDate checkOut, Integer numberOfPersons) {
         List<Accommodation> filteredAccommodations = new ArrayList<>();
-
         List<Accommodation> filteredAccommodationsByCity = filterAccommodationsByCity(cityName);
-        for(var accommodation : filteredAccommodationsByCity){
-            for(var room : accommodation.getRooms()){
-                if(room.getType().getCapacity() >= numberOfPersons){
-                    if(
-                            reservationFilter.checkBeforeReservation(room,checkIn,checkOut) ||
-                            reservationFilter.checkAfterReservation(room,checkIn,checkOut)
-                    ){
+        for (var accommodation : filteredAccommodationsByCity) {
+            for (var room : accommodation.getRooms()) {
+                if (room.getType().getCapacity() >= numberOfPersons) {
+                    if (
+                            reservationFilter.checkBeforeReservation(room, checkIn, checkOut) ||
+                            reservationFilter.checkAfterReservation(room, checkIn, checkOut)
+                    ) {
                         filteredAccommodations.add(accommodation);
                         break;
                     }
-                    }
                 }
             }
-        return sortAccommodationPerPage(currentPage, itemsPerPage,filteredAccommodations);
+        }
+        return sortAccommodationPerPage(currentPage, itemsPerPage, filteredAccommodations);
     }
 
     private List<Accommodation> sortAccommodationPerPage(int currentPage, int itemsPerPage, List<Accommodation> accommodations) {
@@ -86,7 +85,7 @@ public class AccommodationService {
         return accommodations.subList(numberOfFirstEmployee, numberOfLastEmployee);
     }
 
-    private List<Accommodation> filterAccommodationsByCity(String cityName){
+    private List<Accommodation> filterAccommodationsByCity(String cityName) {
         return accommodationRepository.findAll().stream().filter(a -> a.getCity().getName().equals(cityName)).collect(Collectors.toList());
     }
 
