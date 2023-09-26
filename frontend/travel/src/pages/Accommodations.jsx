@@ -24,21 +24,21 @@ const Accommodations = () => {
                     setAccommodationsByCity(accommodationsByCity);
                 })
         }
-
+        console.log(checkIn)
         getAccommodationsSearch(destination, itemsPerPage, numberOfPage, checkIn, checkOut, numberOfPersons)
             .then((accommodations) => {
                 setAccommodationsSearch(accommodations);
             })
-    }, [numberOfPage]);
+    }, [numberOfPage, checkIn, checkOut, numberOfPersons, destination]);
 
-    console.log(accommodationsSearch)
+    console.log(accommodationsSearch);
 
     return (
         <>
             <div className="h-100 d-flex align-items-center justify-content-center pt-5">
                 <h1 className="fw-medium">Search for Accommodations</h1>
             </div>
-            <TravelSearch goingTo={destination}/>
+            <TravelSearch goingTo={destination} checkIn={checkIn} checkOut={checkOut} numberOfPersons={numberOfPersons}/>
             <div className="container h-100">
                 <div className="row h-100 justify-content-center align-items-center  ms-1 me-1">
                     {
