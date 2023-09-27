@@ -19,7 +19,9 @@ const router = createBrowserRouter(
             <Route path="/accommodations/:itemsPerPage/:numberOfPage" element={<Accommodations/>}/>
             <Route path="/accommodations/:destination/:itemsPerPage/:numberOfPage" element={<Accommodations/>}/>
             <Route path="/accommodations/:destination/:itemsPerPage/:numberOfPage/:checkIn/:checkOut/:numberOfPersons" element={<Accommodations/>}/>
-            <Route path="/packages" element={<Package/>} />
+            <Route path="/packages/3/1" element={<Package/>} />
+            <Route path="/packages/:destination/3/1" element={<Package/>}/>
+            <Route path="/packages/:destination/3/1/:checkIn/:checkOut/:numberOfPersons" element={<Package/>}/>
             <Route path="/aboutus" element={<AboutUs/>} />
             <Route path="/login" element={<LogIn/>} />
             <Route path="/signup" element={<SignUp/>} />

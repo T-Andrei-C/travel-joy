@@ -1,6 +1,7 @@
 package com.codecool.services;
 
 import com.codecool.configurations.ReservationFilter;
+import com.codecool.model.Accommodation;
 import com.codecool.model.Reservation;
 import com.codecool.model.TravelPackage;
 import com.codecool.model.Room;
@@ -10,7 +11,10 @@ import com.codecool.repositories.RoomRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TravelPackageService {
@@ -30,11 +34,18 @@ public class TravelPackageService {
         return travelPackageRepository.findAll();
     }
 
+    public List<TravelPackage> getTravelPackagesByCity(String cityName){
+        return travelPackageRepository.findAll()
+                .stream()
+                .filter(travelPackage -> travelPackage.getRoom().getAccommodation().getCity().getName().equals(cityName))
+                .collect(Collectors.toList());
+    }
+
+
     public void addTravelPackage (TravelPackage travelPackage){
         Room room = roomRepository.findById(travelPackage.getRoom().getId()).orElse(null);
         if (room != null){
-            if (reservationFilter.checkBeforeReservation(room, travelPackage.getCheckIn(), travelPackage.getCheckOut()) ||
-                reservationFilter.checkAfterReservation(room, travelPackage.getCheckIn(), travelPackage.getCheckOut()))
+            if (reservationFilter.checkReservation(room, travelPackage.getCheckIn(), travelPackage.getCheckOut()))
             {
                 travelPackageRepository.save(travelPackage);
                 reservationRepository.save(new Reservation(0L, travelPackage.getCheckIn(), travelPackage.getCheckOut(), room));
@@ -45,4 +56,20 @@ public class TravelPackageService {
             throw new EntityNotFoundException("The room doesn't exists!");
         }
     }
+
+    public List<TravelPackage> travelPackagesSearch( String cityName, LocalDate checkIn, LocalDate checkOut,
+                                                      Integer numberOfPersons) {
+        List<TravelPackage> filteredTravelPackages = new ArrayList<>();
+        List<TravelPackage> filteredTravelPackagesByCity = getTravelPackagesByCity(cityName);
+        for (var travelPackage : filteredTravelPackagesByCity) {
+                if (travelPackage.getRoom().getType().getCapacity() >= numberOfPersons) {
+                    if (reservationFilter.checkTravelPackages(travelPackage, checkIn, checkOut)){
+                        filteredTravelPackages.add(travelPackage);
+                        break;
+                    }
+                }
+        }
+        return filteredTravelPackages;
+    }
+
 }

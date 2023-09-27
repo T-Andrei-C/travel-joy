@@ -66,8 +66,7 @@ public class AccommodationService {
             for (var room : accommodation.getRooms()) {
                 if (room.getType().getCapacity() >= numberOfPersons) {
                     if (
-                            reservationFilter.checkBeforeReservation(room, checkIn, checkOut) ||
-                            reservationFilter.checkAfterReservation(room, checkIn, checkOut)
+                            reservationFilter.checkReservation(room, checkIn, checkOut)
                     ) {
                         filteredAccommodations.add(accommodation);
                         break;

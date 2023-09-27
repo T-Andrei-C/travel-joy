@@ -20,15 +20,15 @@ const TravelSearch = ({goingTo, checkIn, checkOut, numberOfPersons}) => {
             {/*</div>*/}
             <div className="form-floating col-md-3 col-12 m-0 p-0">
                 <label className="pt-1 text-success fw-bold" style={{fontSize: "0.75em"}} htmlFor="floatingInputValue">GOING TO</label>
-                <input type="text" className="w-100 pt-4 ps-2" id="floatingInputValue"  style={{ height: "58px", border: "1px solid #198754"}} required={true} value={goingTo} />
+                <input type="text" className="w-100 pt-4 ps-2" id="floatingInputValue"  style={{ height: "58px", border: "1px solid #198754"}} required={true} defaultValue={goingTo}  />
             </div>
             <div className="form-floating col-md-3 col-12 m-0 p-0">
                 <label className="pt-1 text-success fw-bold" style={{fontSize: "0.75em"}} htmlFor="floatingInputValue">CHECK-IN</label>
-                <input id="startDate" className="fw-medium w-100 pt-4 ps-2 pe-2" style={{ height: "58px", border: "1px solid #198754"}} required={true} type="date" value={checkIn}/>
+                <input id="startDate" className="fw-medium w-100 pt-4 ps-2 pe-2" style={{ height: "58px", border: "1px solid #198754"}} required={true} type="date" defaultValue={checkIn}/>
             </div>
             <div className="form-floating col-md-3 col-12 m-0 p-0">
                 <label className="pt-1 text-success fw-bold" style={{fontSize: "0.75em"}} htmlFor="floatingInputValue">CHECK-OUT</label>
-                <input id="startDate" className="fw-medium w-100 pt-4 ps-2 pe-2" style={{ height: "58px", border: "1px solid #198754"}} required={true} type="date" value={checkOut}/>
+                <input id="startDate" className="fw-medium w-100 pt-4 ps-2 pe-2" style={{ height: "58px", border: "1px solid #198754"}} required={true} type="date" defaultValue={checkOut}/>
             </div>
             <div className="row m-0 p-0 col-md-3 col-12">
                 <select required={true} className="btn-outline-success bg-success text-white col-3" style={{border: "1px solid #198754"}} defaultValue="Amount">
