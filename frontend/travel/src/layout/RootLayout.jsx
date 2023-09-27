@@ -1,5 +1,5 @@
 import {NavLink, Outlet} from "react-router-dom";
-import TravelJoy from "../components/img/TravelJoy.png"
+import Travel_Joy from "../components/img/Travel_Joy.svg"
 import {BsFacebook, BsInstagram, BsTwitch, BsTwitter} from "react-icons/bs";
 
 const RootLayout = () => {
@@ -8,7 +8,7 @@ const RootLayout = () => {
             <nav className="navbar navbar-expand-lg bg-success sticky-top text-white" data-bs-theme="dark">
                 <div className="container-fluid">
                     <NavLink to="/">
-                        <img height={35} className="ps-2" src={TravelJoy} alt="logo"/>
+                        <img height={35} className="ps-2" src={Travel_Joy} alt="logo"/>
                     </NavLink>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
                             data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false"
