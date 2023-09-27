@@ -21,7 +21,7 @@ const RootLayout = () => {
                                 <NavLink to="/accommodations/3/1" className="nav-link">Accommodations</NavLink>
                             </li>
                             <li className="nav-item">
-                                <NavLink to="/packages" className="nav-link">Packages</NavLink>
+                                <NavLink to="/packages/3/1" className="nav-link">Packages</NavLink>
                             </li>
                             <li className="nav-item">
                                 <NavLink to="/aboutus" className="nav-link">About us</NavLink>

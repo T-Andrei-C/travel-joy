@@ -46,8 +46,7 @@ public class ReservationService {
         LocalDate checkIn = reservation.getCheck_in();
         LocalDate checkOut = reservation.getCheck_out();
         if (
-                reservationFilter.checkBeforeReservation(currentRoom, checkIn, checkOut) ||
-                reservationFilter.checkAfterReservation(currentRoom, checkIn, checkOut)
+                reservationFilter.checkReservation(currentRoom, checkIn, checkOut)
         ) {
             reservationRepository.save(reservation);
         } else {
