@@ -1,7 +1,7 @@
 package com.codecool.model;
 
 import com.codecool.model.enums.RoomType;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 
 import jakarta.persistence.*;
@@ -16,6 +16,9 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name = "rooms")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Room {
 
     @Id
@@ -32,7 +35,7 @@ public class Room {
     )
     private List<Image> images_url;
 
-    @JsonIgnore
+//    @JsonBackReference
     @ManyToOne
     private Accommodation accommodation;
 

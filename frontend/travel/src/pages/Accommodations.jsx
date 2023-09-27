@@ -33,6 +33,8 @@ const Accommodations = () => {
         }
     }, [numberOfPage, checkIn, checkOut, numberOfPersons, destination]);
 
+    console.log(accommodations);
+
     return (
         <>
             <div className="h-100 d-flex align-items-center justify-content-center pt-5">
