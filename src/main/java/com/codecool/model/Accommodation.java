@@ -1,6 +1,6 @@
 package com.codecool.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,6 +14,9 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name = "accommodations")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Accommodation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,6 +34,7 @@ public class Accommodation {
     @ManyToOne
     private City city;
 
+//    @JsonManagedReference
     @OneToMany(mappedBy = "accommodation")
     private List<Room> rooms;
 
