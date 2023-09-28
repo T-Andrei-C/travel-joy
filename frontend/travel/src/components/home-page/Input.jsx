@@ -19,7 +19,7 @@ const Input = () => {
     const onSubmit = (e) =>
     {
         e.preventDefault();
-        navigate("/" + selectPackages + "/" + destination + "/3/1");
+        navigate("/" + selectPackages + "/" + destination + "/3/0");
     }
     console.log(selectPackages);
 

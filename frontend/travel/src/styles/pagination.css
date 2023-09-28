@@ -1,0 +1,27 @@
+.pagination .active .page-link {
+    background-color: #198754; /* Change this to your desired background color */
+    color: #ffffff; /* Change this to your desired text color */
+    border-color: #198754;
+}
+
+.pagination .page-link{
+    background-color: #ffffff; /* Change this to your desired background color */
+    color: #198754; /* Change this to your desired text color */
+    border-color: #198754;
+}
+
+.pagination .page-link:hover{
+    cursor: pointer;
+    background-color: #198754; /* Change this to your desired background color */
+    color: #ffffff; /* Change this to your desired text color */
+    border-color: #198754;
+}
+
+.pagination .btn-outline-success:hover{
+    cursor: pointer;
+    border-radius: 100%;
+}
+
+.pagination .btn-outline-success.disabled:hover{
+    cursor: default;
+}

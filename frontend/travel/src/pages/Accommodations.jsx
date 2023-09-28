@@ -5,6 +5,7 @@ import {getAccommodationsByCityName, getAccommodationsPerPage, getAccommodations
 
 import TravelSearch from "../components/TravelSearch";
 import HotelCard from "../components/HotelCard";
+import Pagination from "../components/Pagination";
 
 const Accommodations = () => {
     const [accommodations, setAccommodations] = useState([]);
@@ -45,28 +46,25 @@ const Accommodations = () => {
                 <div className="row h-100 justify-content-center align-items-center  ms-1 me-1">
                     {
                         destination !== undefined && checkIn !== undefined ?
-                            accommodationsSearch.map((a) => (
+                            accommodationsSearch.content?.map((a) => (
                                 <HotelCard key={a.id} accommodation={a} />
                             )) : destination !== undefined ?
-                            accommodationsByCity.map((a) => (
+                            accommodationsByCity.content?.map((a) => (
                                 <HotelCard key={a.id} accommodation={a} />
                             )) :
-                            accommodations.map((a) => (
+                            accommodations.content?.map((a) => (
                                 <HotelCard key={a.id} accommodation={a}/>
                             ))
                     }
                 </div>
             </div>
             {
-                destination !== undefined ?
-                    <div className="d-flex justify-content-evenly mt-5">
-                        <button className="btn btn-outline-success" onClick={() => navigate("/accommodations/" + destination + "/" + itemsPerPage + "/" + (parseInt(numberOfPage) - 1))}>Back</button>
-                        <button className="btn btn-outline-success" onClick={() => navigate("/accommodations/" + destination + "/" + itemsPerPage + "/" + (parseInt(numberOfPage) + 1))}>Next</button>
-                    </div> :
-                    <div className="d-flex justify-content-evenly mt-5">
-                        <button className="btn btn-outline-success" onClick={() => navigate("/accommodations/" + itemsPerPage + "/" + (parseInt(numberOfPage) - 1))}>Back</button>
-                        <button className="btn btn-outline-success" onClick={() => navigate("/accommodations/" + itemsPerPage + "/" + (parseInt(numberOfPage) + 1))}>Next</button>
-                    </div>
+                destination !== undefined && checkIn !== undefined ?
+                        <Pagination travelBundles={accommodationsSearch} link={`accommodations/${destination}/${checkIn}/${checkOut}/${numberOfPersons}/${accommodationsByCity.size}`}  numberOfPage={accommodationsSearch.number}/>
+                : destination !== undefined ?
+                        <Pagination travelBundles={accommodationsByCity} link={`accommodations/${destination}/${accommodationsByCity.size}`} numberOfPage={accommodationsByCity.number} />
+                :
+                        <Pagination travelBundles={accommodations} link={`accommodations/${accommodations.size}`} numberOfPage={accommodations.number}/>
             }
         </>
     );
