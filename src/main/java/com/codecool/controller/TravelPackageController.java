@@ -3,6 +3,7 @@ package com.codecool.controller;
 import com.codecool.model.Accommodation;
 import com.codecool.model.TravelPackage;
 import com.codecool.services.TravelPackageService;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -23,21 +24,28 @@ public class TravelPackageController {
         return travelPackageService.getAllTravelPackages();
     }
 
+    @GetMapping("/{itemsPerPage}/{numberOfPage}")
+    public Page<TravelPackage> getAccommodationPerPage(@PathVariable int itemsPerPage, @PathVariable int numberOfPage){
+        return travelPackageService.getTravelPackagePerPage(numberOfPage,itemsPerPage);
+    }
+
+    @GetMapping("/{cityName}/{itemsPerPage}/{numberOfPage}")
+    public Page<TravelPackage> getTravelPackagesByCity(@PathVariable String cityName, @PathVariable int itemsPerPage, @PathVariable int numberOfPage){
+        return travelPackageService.getAllTravelPackagesByCity(numberOfPage,itemsPerPage,cityName);
+    }
+
     @PostMapping
     public void addTravelPackage(@RequestBody TravelPackage travelPackage) {
         travelPackageService.addTravelPackage(travelPackage);
     }
 
-    @GetMapping("/{cityName}")
-    public List<TravelPackage> getTravelPackagesByCity(@PathVariable String cityName) {
-        return travelPackageService.getTravelPackagesByCity(cityName);
-    }
-
-    @GetMapping("/{cityName}/{checkIn}/{checkOut}/{numberOfPersons}")
-    public List<TravelPackage> travelPackagesSearch(@PathVariable String cityName,
+    @GetMapping("/{cityName}/{checkIn}/{checkOut}/{numberOfPersons}/{itemsPerPage}/{numberOfPage}")
+    public Page<TravelPackage> travelPackagesSearch(@PathVariable String cityName,
                                                     @PathVariable LocalDate checkIn,
                                                     @PathVariable LocalDate checkOut,
-                                                    @PathVariable Integer numberOfPersons) {
-        return travelPackageService.travelPackagesSearch(cityName, checkIn, checkOut, numberOfPersons);
+                                                    @PathVariable Integer numberOfPersons,
+                                                    @PathVariable int itemsPerPage,
+                                                    @PathVariable int numberOfPage) {
+        return travelPackageService.travelPackagesSearch(numberOfPage,itemsPerPage,cityName, checkIn, checkOut, numberOfPersons);
     }
 }

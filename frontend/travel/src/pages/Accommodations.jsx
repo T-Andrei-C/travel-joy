@@ -41,7 +41,7 @@ const Accommodations = () => {
             <div className="h-100 d-flex align-items-center justify-content-center pt-5">
                 <h1 className="fw-medium">Search for Accommodations</h1>
             </div>
-            <TravelSearch goingTo={destination} checkIn={checkIn} checkOut={checkOut} numberOfPersons={numberOfPersons}/>
+            <TravelSearch goingTo={destination} checkIn={checkIn} checkOut={checkOut} numberOfPersons={numberOfPersons} type={"accommodations"}/>
             <div className="container h-100">
                 <div className="row h-100 justify-content-center align-items-center  ms-1 me-1">
                     {
@@ -60,11 +60,11 @@ const Accommodations = () => {
             </div>
             {
                 destination !== undefined && checkIn !== undefined ?
-                        <Pagination travelBundles={accommodationsSearch} link={`accommodations/${destination}/${checkIn}/${checkOut}/${numberOfPersons}/${accommodationsByCity.size}`}  numberOfPage={accommodationsSearch.number}/>
+                        <Pagination key="1" travelBundles={accommodationsSearch} link={`accommodations/${destination}/${checkIn}/${checkOut}/${numberOfPersons}/${accommodationsByCity.size}`}  numberOfPage={accommodationsSearch.number}/>
                 : destination !== undefined ?
-                        <Pagination travelBundles={accommodationsByCity} link={`accommodations/${destination}/${accommodationsByCity.size}`} numberOfPage={accommodationsByCity.number} />
+                        <Pagination key="2" travelBundles={accommodationsByCity} link={`accommodations/${destination}/${accommodationsByCity.size}`} numberOfPage={accommodationsByCity.number} />
                 :
-                        <Pagination travelBundles={accommodations} link={`accommodations/${accommodations.size}`} numberOfPage={accommodations.number}/>
+                        <Pagination key="3" travelBundles={accommodations} link={`accommodations/${accommodations.size}`} numberOfPage={accommodations.number}/>
             }
         </>
     );

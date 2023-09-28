@@ -2,7 +2,6 @@ import {useNavigate} from "react-router-dom";
 
 const Pagination = ({travelBundles, link, numberOfPage}) => {
     const navigate = useNavigate();
-    console.log(link)
     return (
         <div className="d-flex justify-content-evenly mt-5">
             <ul className="pagination">
@@ -13,7 +12,7 @@ const Pagination = ({travelBundles, link, numberOfPage}) => {
                 {
                     Array.from(Array(travelBundles.totalPages).keys()).map((i) => (
                         // <li className={i === travelBundles.number ? "active" : ""}><a className="page-link"  onClick={() => navigate(`/${type}/${travelBundles.size}/${i}`)}>{i + 1}</a></li>
-                        <li className={i === travelBundles.number ? "active" : ""}><a className="page-link"  onClick={() => navigate(`/${link}/${i}`)}>{i + 1}</a></li>
+                        <li key={i} className={i === travelBundles.number ? "active" : ""}><a className="page-link"  onClick={() => navigate(`/${link}/${i}`)}>{i + 1}</a></li>
                     ))
                 }
                 <li className={travelBundles.number === travelBundles.totalPages - 1 ? "page-item btn-outline-success disabled" : "page-item btn-outline-success"}>

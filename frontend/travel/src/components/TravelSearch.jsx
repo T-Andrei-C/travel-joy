@@ -3,14 +3,14 @@ import {MdPeopleAlt} from "react-icons/md";
 import {useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 
-const TravelSearch = ({goingTo, checkIn, checkOut, numberOfPersons}) => {
+const TravelSearch = ({goingTo, checkIn, checkOut, numberOfPersons,type}) => {
 
     const navigate = useNavigate();
     const {itemsPerPage, numberOfPage} = useParams();
 
     const onSubmit = (e) => {
         e.preventDefault();
-        navigate(`/accommodations/${e.target[0].value}/${e.target[1].value}/${e.target[2].value}/${e.target[3].value}/${itemsPerPage}/${numberOfPage}`)
+        navigate(`/${type}/${e.target[0].value}/${e.target[1].value}/${e.target[2].value}/${e.target[3].value}/${itemsPerPage}/0`)
     }
 
     return (
