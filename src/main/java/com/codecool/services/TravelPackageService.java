@@ -9,6 +9,8 @@ import com.codecool.repositories.ReservationRepository;
 import com.codecool.repositories.TravelPackageRepository;
 import com.codecool.repositories.RoomRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -34,11 +36,14 @@ public class TravelPackageService {
         return travelPackageRepository.findAll();
     }
 
-    public List<TravelPackage> getTravelPackagesByCity(String cityName){
-        return travelPackageRepository.findAll()
-                .stream()
-                .filter(travelPackage -> travelPackage.getRoom().getAccommodation().getCity().getName().equals(cityName))
-                .collect(Collectors.toList());
+    public Page<TravelPackage> getTravelPackagePerPage(int currentPage, int itemsPerPage) {
+        PageRequest pageRequest = PageRequest.of(currentPage, itemsPerPage);
+        return travelPackageRepository.findAll(pageRequest);
+    }
+
+    public Page<TravelPackage> getAllTravelPackagesByCity(int currentPage, int itemsPerPage, String cityName) {
+        PageRequest pageRequest = PageRequest.of(currentPage, itemsPerPage);
+        return travelPackageRepository.findAllByRoomAccommodationCityName(cityName, pageRequest);
     }
 
 
@@ -57,7 +62,7 @@ public class TravelPackageService {
         }
     }
 
-    public List<TravelPackage> travelPackagesSearch( String cityName, LocalDate checkIn, LocalDate checkOut,
+    public Page<TravelPackage> travelPackagesSearch(int currentPage, int itemsPerPage, String cityName, LocalDate checkIn, LocalDate checkOut,
                                                       Integer numberOfPersons) {
         List<TravelPackage> filteredTravelPackages = new ArrayList<>();
         List<TravelPackage> filteredTravelPackagesByCity = getTravelPackagesByCity(cityName);
@@ -69,7 +74,15 @@ public class TravelPackageService {
                     }
                 }
         }
-        return filteredTravelPackages;
+        PageRequest pageRequest = PageRequest.of(currentPage, itemsPerPage);
+        return travelPackageRepository.findAllByTravelPackagesSearch(filteredTravelPackages,pageRequest);
+    }
+
+    private List<TravelPackage> getTravelPackagesByCity(String cityName){
+        return travelPackageRepository.findAll()
+                .stream()
+                .filter(travelPackage -> travelPackage.getRoom().getAccommodation().getCity().getName().equals(cityName))
+                .collect(Collectors.toList());
     }
 
 }
