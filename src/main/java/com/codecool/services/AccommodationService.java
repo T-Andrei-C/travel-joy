@@ -5,6 +5,9 @@ import com.codecool.model.Accommodation;
 import com.codecool.model.Room;
 import com.codecool.repositories.AccommodationRepository;
 import com.codecool.repositories.RoomRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -30,12 +33,14 @@ public class AccommodationService {
         return accommodationRepository.findAll();
     }
 
-    public List<Accommodation> getAccommodationPerPage(int currentPage, int itemsPerPage) {
-        return sortAccommodationPerPage(currentPage, itemsPerPage, accommodationRepository.findAll());
+    public Page<Accommodation> getAccommodationPerPage(int currentPage, int itemsPerPage) {
+        PageRequest pageRequest = PageRequest.of(currentPage, itemsPerPage);
+        return accommodationRepository.findAll(pageRequest);
     }
 
-    public List<Accommodation> getAllAccommodationsByCity(int currentPage, int itemsPerPage, String cityName) {
-        return sortAccommodationPerPage(currentPage, itemsPerPage, filterAccommodationsByCity(cityName));
+    public Page<Accommodation> getAllAccommodationsByCity(int currentPage, int itemsPerPage, String cityName) {
+        PageRequest pageRequest = PageRequest.of(currentPage, itemsPerPage);
+        return accommodationRepository.findAllByCityName(cityName, pageRequest);
     }
 
     public void addAccommodation(Accommodation accommodation) {
@@ -58,7 +63,7 @@ public class AccommodationService {
         }
     }
 
-    public List<Accommodation> accommodationSearch(int currentPage, int itemsPerPage, String cityName,
+    public Page<Accommodation> accommodationSearch(int currentPage, int itemsPerPage, String cityName,
                                                    LocalDate checkIn, LocalDate checkOut, Integer numberOfPersons) {
         List<Accommodation> filteredAccommodations = new ArrayList<>();
         List<Accommodation> filteredAccommodationsByCity = filterAccommodationsByCity(cityName);
@@ -74,7 +79,10 @@ public class AccommodationService {
                 }
             }
         }
-        return sortAccommodationPerPage(currentPage, itemsPerPage, filteredAccommodations);
+
+
+        PageRequest pageRequest = PageRequest.of(currentPage, itemsPerPage);
+        return accommodationRepository.findAllByAccommodations(filteredAccommodations, pageRequest);
     }
 
     private List<Accommodation> sortAccommodationPerPage(int currentPage, int itemsPerPage, List<Accommodation> accommodations) {

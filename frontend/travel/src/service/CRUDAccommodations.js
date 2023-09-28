@@ -11,5 +11,5 @@ export const getAccommodationsByCityName = async (destination, itemsPerPage, num
 }
 
 export const getAccommodationsSearch = async (destination, itemsPerPage, numberOfPage, checkIn, checkOut, numberOfPersons) => {
-    return fetch(`http://localhost:8080/travel/api/accommodations/${destination}/${itemsPerPage}/${numberOfPage}/${checkIn}/${checkOut}/${numberOfPersons}`).then(res => res.json());
+    return fetch(`http://localhost:8080/travel/api/accommodations/${destination}/${checkIn}/${checkOut}/${numberOfPersons}/${itemsPerPage}/${numberOfPage}`).then(res => res.json());
 }

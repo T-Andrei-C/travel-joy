@@ -10,7 +10,7 @@ const TravelSearch = ({goingTo, checkIn, checkOut, numberOfPersons}) => {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        navigate(`/accommodations/${e.target[0].value}/${itemsPerPage}/${numberOfPage}/${e.target[1].value}/${e.target[2].value}/${e.target[3].value}`)
+        navigate(`/accommodations/${e.target[0].value}/${e.target[1].value}/${e.target[2].value}/${e.target[3].value}/${itemsPerPage}/${numberOfPage}`)
     }
 
     return (
