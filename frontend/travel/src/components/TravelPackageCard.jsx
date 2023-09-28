@@ -11,7 +11,7 @@ const TravelPackageCard = ({travelPackage}) => {
         <div className="card col-12 col-md-10 col-lg-8 border-success m-3" style={{maxWidth: "80%"}}>
             <div className="row no-gutters">
                 <div className="col-md-4">
-                    <img src={testImage} className="card-img" alt={travelPackage.room.accommodation.name} />
+                    <img src={travelPackage.room.accommodation.image_url?.image_url} className="card-img" alt={travelPackage.room.accommodation.name} />
                 </div>
                 <div className="col-md-8">
                     <div className="card-body">
