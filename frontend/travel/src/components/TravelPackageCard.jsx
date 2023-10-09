@@ -25,8 +25,8 @@ const TravelPackageCard = ({travelPackage}) => {
                         </div>
 
                         <hr className="border-success" />
-                        <div className="d-flex justify-content-between">
-                        <div>
+                        <div className="row">
+                        <div className="col-xl-9 col-12 px-auto">
                             <div className="ps-1 col-12 d-flex" style={{marginTop: "-0.5em"}}>
                                 <p><BiSolidCalendar/></p>
                                 <div className="p-0 col-12 d-flex">
@@ -45,8 +45,8 @@ const TravelPackageCard = ({travelPackage}) => {
                                 <p className="ps-1 pt-1" style={{fontSize: "13px"}}> {travelPackage.room.type}</p>
                             </div>
                         </div>
-                        <div style={{marginTop: "1.3em"}}>
-                            <a href="#" className="btn btn-success float-md-end mb-3">
+                        <div className="my-auto col-xl-3 col-12">
+                            <a href="#" className="btn btn-success float-md-end mb-3 col-12">
                                 Buy Now
                             </a>
                         </div>

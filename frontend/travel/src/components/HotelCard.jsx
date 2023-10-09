@@ -26,14 +26,11 @@ const HotelCard = ({accommodation}) => {
                                 <div className="ps-1 col-12 d-flex">
                                     <p className="ps-1 pt-1 fw-bold">
                                         <BsFillHouseCheckFill/>
-
                                         {accommodation.accommodation_facilities?.map(f => (
                                             f.name === accommodation.accommodation_facilities[accommodation.accommodation_facilities.length - 1].name ?
-
-                                                <span> {f.name.toUpperCase()} </span> :
-                                                <span> {f.name.toUpperCase()}<BsSlash/></span>
+                                                <span style={{fontSize: "13px"}} > {f.name.toUpperCase()} </span> :
+                                                <span style={{fontSize: "13px"}}> {f.name.toUpperCase()}<BsSlash/></span>
                                         ))
-
                                         }
                                     </p>
                                 </div>
