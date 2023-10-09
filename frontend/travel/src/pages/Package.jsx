@@ -6,8 +6,6 @@ import {
 } from "../service/CRUDTravelPackages";
 import TravelPackageCard from "../components/TravelPackageCard";
 import {useParams} from "react-router-dom";
-import {getAccommodationsSearch} from "../service/CRUDAccommodations";
-import HotelCard from "../components/HotelCard";
 import TravelSearch from "../components/TravelSearch";
 import Pagination from "../components/Pagination";
 
