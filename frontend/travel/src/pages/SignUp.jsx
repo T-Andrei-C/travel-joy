@@ -77,6 +77,7 @@ const SignUp = () => {
                                htmlFor="floatingInputValue">Password</label>
                         <input name="password" type="password" className="form-control form-control-lg border-success" required={true}/>
                     </div>
+                    <p className="text-danger" hidden={error === ""}>Email is already in use !</p>
                     <button className="btn btn-success btn-lg btn-block" type="submit">SignUp</button>
 
                     <hr/>

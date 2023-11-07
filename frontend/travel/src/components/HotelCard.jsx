@@ -4,10 +4,10 @@ import {BsFillHouseCheckFill, BsSlash} from "react-icons/bs";
 
 const HotelCard = ({accommodation}) => {
     return (
-        <div className="card col-12 col-md-10 col-lg-8 border-success m-3">
+        <div className="card col-12 col-md-12 col-lg-12 col-xl-8 border-success m-3">
             <div className="row no-gutters">
-                <div className="col-md-4 justify-content-center d-flex">
-                    <img src={accommodation.image_url?.image_url} className="card-img" alt={accommodation.name}/>
+                <div className="col-md-4 text-center d-flex">
+                    <img src={accommodation.image_url?.image_url} className="img-fluid" alt={accommodation.name}/>
                 </div>
                 <div className="col-md-8">
                     <div className="card-body">
