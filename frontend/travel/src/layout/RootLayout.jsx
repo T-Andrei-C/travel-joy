@@ -1,12 +1,12 @@
 import {NavLink, Outlet} from "react-router-dom";
 import Travel_Joy from "../components/img/Travel_Joy.svg"
 import {BsFacebook, BsInstagram, BsTwitter} from "react-icons/bs";
-import {useIsAuthenticated} from "react-auth-kit";
+import { useIsAuthenticated } from "react-auth-kit";
 import {MdAccountCircle} from "react-icons/md";
-import {useState} from "react";
 
 const RootLayout = () => {
-    const [isAuthenticated, setIsAuthenticated] = useState(useIsAuthenticated.call());
+    const isAuthenticated = useIsAuthenticated();
+
     return (
         <>
             <nav className="navbar navbar-expand-lg bg-success sticky-top text-white" data-bs-theme="dark">
@@ -30,7 +30,7 @@ const RootLayout = () => {
                             <li className="nav-item">
                                 <NavLink to="/aboutus" className="nav-link">About us</NavLink>
                             </li>
-                            {isAuthenticated ?
+                            {isAuthenticated() ?
                                 <li className="nav-item">
                                     <NavLink to="/myaccount" className="nav-link"><MdAccountCircle style={{fontSize: "1.8em"}}/></NavLink>
                                 </li> :
