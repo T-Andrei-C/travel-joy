@@ -6,7 +6,7 @@ const HotelCard = ({accommodation}) => {
     return (
         <div className="card col-12 col-md-10 col-lg-8 border-success m-3">
             <div className="row no-gutters">
-                <div className="col-md-4">
+                <div className="col-md-4 justify-content-center d-flex">
                     <img src={accommodation.image_url?.image_url} className="card-img" alt={accommodation.name}/>
                 </div>
                 <div className="col-md-8">

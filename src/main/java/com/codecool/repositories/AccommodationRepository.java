@@ -1,7 +1,6 @@
 package com.codecool.repositories;
 
 import com.codecool.model.Accommodation;
-import com.codecool.model.Room;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
