@@ -20,7 +20,7 @@ const TravelSearch = ({goingTo, checkIn, checkOut, numberOfPersons,type}) => {
             {/*</div>*/}
             <div className="form-floating col-md-3 col-12 m-0 p-0">
                 <label className="pt-1 text-success fw-bold" style={{fontSize: "0.75em"}} htmlFor="floatingInputValue">GOING TO</label>
-                <input type="text" className="w-100 pt-4 ps-2" id="floatingInputValue"  style={{ height: "58px", border: "1px solid #198754"}} required={true} defaultValue={goingTo}  />
+                <input type="text" className="w-100 pt-4 ps-2" style={{ height: "58px", border: "1px solid #198754"}} required={true} defaultValue={goingTo}  />
             </div>
             <div className="form-floating col-md-3 col-12 m-0 p-0">
                 <label className="pt-1 text-success fw-bold" style={{fontSize: "0.75em"}} htmlFor="floatingInputValue">CHECK-IN</label>

@@ -24,4 +24,6 @@ public class CityController {
     public void addCity(@RequestBody City city){
         cityService.addCity(city);
     }
+
+
 }
