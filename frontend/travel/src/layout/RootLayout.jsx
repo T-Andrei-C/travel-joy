@@ -1,8 +1,12 @@
 import {NavLink, Outlet} from "react-router-dom";
 import Travel_Joy from "../components/img/Travel_Joy.svg"
-import {BsFacebook, BsInstagram, BsTwitch, BsTwitter} from "react-icons/bs";
+import {BsFacebook, BsInstagram, BsTwitter} from "react-icons/bs";
+import {useIsAuthenticated} from "react-auth-kit";
+import {MdAccountCircle} from "react-icons/md";
+import {useState} from "react";
 
 const RootLayout = () => {
+    const [isAuthenticated, setIsAuthenticated] = useState(useIsAuthenticated.call());
     return (
         <>
             <nav className="navbar navbar-expand-lg bg-success sticky-top text-white" data-bs-theme="dark">
@@ -26,12 +30,19 @@ const RootLayout = () => {
                             <li className="nav-item">
                                 <NavLink to="/aboutus" className="nav-link">About us</NavLink>
                             </li>
-                            <li className="nav-item">
-                                <NavLink to="/login" className="nav-link">Log in</NavLink>
-                            </li>
-                            <li className="nav-item">
-                                <NavLink to="/signup" className="nav-link">Sign up</NavLink>
-                            </li>
+                            {isAuthenticated ?
+                                <li className="nav-item">
+                                    <NavLink to="/myaccount" className="nav-link"><MdAccountCircle style={{fontSize: "1.8em"}}/></NavLink>
+                                </li> :
+                                <>
+                                    <li className="nav-item">
+                                        <NavLink to="/login" className="nav-link">Log in</NavLink>
+                                    </li>
+                                    <li className="nav-item">
+                                        <NavLink to="/signup" className="nav-link">Sign up</NavLink>
+                                    </li>
+                                </>
+                            }
                         </ul>
                     </div>
                 </div>
@@ -48,11 +59,12 @@ const RootLayout = () => {
                     <ul className="nav justify-content-center border-bottom pb-3 mb-3">
                         <li className="nav-item"><a href="/" className="nav-link px-2 text-muted">Home</a></li>
                         <li className="nav-item"><a href="/aboutus" className="nav-link px-2 text-muted">About</a></li>
-                        <li className="nav-item"><a href="/contact" className="nav-link px-2 text-muted">Contact</a></li>
+                        <li className="nav-item"><a href="/contact" className="nav-link px-2 text-muted">Contact</a>
+                        </li>
                     </ul>
-                    <div className="col-12 d-flex align-items-center justify-content-between" >
+                    <div className="col-12 d-flex align-items-center justify-content-between">
                         <span className="text-muted">© 2023 Travel's Joy, Inc</span>
-                        <ul className="nav  list-unstyled d-flex" >
+                        <ul className="nav  list-unstyled d-flex">
                             <li className="ms-3"><a className="text-muted" href="#"><BsFacebook/></a></li>
                             <li className="ms-3"><a className="text-muted" href="#"><BsInstagram/></a></li>
                             <li className="ms-3"><a className="text-muted" href="#"><BsTwitter/></a></li>
