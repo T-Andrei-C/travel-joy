@@ -26,22 +26,22 @@ const AboutUs = () => {
                     <p className="mt-3">Discover <strong>Romania</strong> with <strong>TravelJoy</strong> - where adventure, beauty, and authenticity come together to provide you with unforgettable experiences!</p>
                 </div>
             </div>
-            <div className="d-flex justify-content-center">
-                <div className="m-5 col-sm-4">
+            <div className="d-flex justify-content-center row row-cols-xl-6 row-cols-lg-6 row-cols-md-4 row-cols-sm-2">
+                <div className="m-5 col">
                     <img  height={200}  src={RomaniaMap} alt=".."/>
-                    <p className="text-center w-75" >Over 5 years of experience in tourism</p>
+                    <p className="text-center"><strong>Over 5 years of experience in tourism</strong></p>
                 </div>
-                <div className="m-5  col-sm-4">
+                <div className="m-5 col">
                     <img height={200}  src={LocationIcon} alt=".." />
-                    <p className="text-center w-75 ">We operate in over 300 cities in Romania</p>
+                    <p className="text-center"><strong>We operate in over 300 cities in Romania</strong></p>
                 </div>
-                <div className="m-5  col-sm-4">
+                <div className="m-5 col">
                     <img height={200}  src={TouristIcon} alt=".." />
-                    <p className="text-center w-75 ms-4">Over 50k tourist annual</p>
+                    <p className="text-center"><strong>Over 50k tourist annual</strong></p>
                 </div>
-                <div className="m-5  col-sm-4">
+                <div className="m-5 col">
                     <img height={200}  src={AgencyIcon} alt=".." />
-                    <p className="text-center w-75 ms-4">10 agencies of tourism</p>
+                    <p className="text-center"><strong>10 agencies of tourism</strong></p>
                 </div>
             </div>
         </div>
