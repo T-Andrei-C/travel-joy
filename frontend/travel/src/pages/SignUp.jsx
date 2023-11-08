@@ -54,14 +54,14 @@ const SignUp = () => {
                             <div className="form-floating">
                                 <label className="pt-1 text-success fw-bold" style={{fontSize: "0.75em"}}
                                        htmlFor="floatingInputValue">First name</label>
-                                <input name="firstname" className="form-control form-control-lg border-success" required={true}/>
+                                <input name="firstname" className="form-control form-control-lg border-success" required={true} style={{fontSize: "1.1em"}}/>
                             </div>
                         </div>
                         <div className="col-md-6 mb-4">
                             <div className="form-floating">
                                 <label className="pt-1 text-success fw-bold" style={{fontSize: "0.75em"}}
                                        htmlFor="floatingInputValue">Last name</label>
-                                <input name="lastname" type="text" className="form-control form-control-lg border-success" required={true}/>
+                                <input name="lastname" type="text" className="form-control form-control-lg border-success" required={true} style={{fontSize: "1.1em"}}/>
                             </div>
                         </div>
                     </div>
@@ -69,13 +69,13 @@ const SignUp = () => {
                     <div className="form-floating mb-4">
                         <label className="pt-1 text-success fw-bold" style={{fontSize: "0.75em"}}
                                htmlFor="floatingInputValue">Email</label>
-                        <input name="email" type="email" className="form-control form-control-lg border-success" required={true}/>
+                        <input name="email" type="email" className="form-control form-control-lg border-success" required={true} style={{fontSize: "1.1em"}}/>
                     </div>
 
                     <div className="form-floating mb-4">
                         <label className="pt-1 text-success fw-bold" style={{fontSize: "0.75em"}}
                                htmlFor="floatingInputValue">Password</label>
-                        <input name="password" type="password" className="form-control form-control-lg border-success" required={true}/>
+                        <input name="password" type="password" className="form-control form-control-lg border-success" required={true} style={{fontSize: "1.1em"}}/>
                     </div>
                     <p className="text-danger" hidden={error === ""}>Email is already in use !</p>
                     <button className="btn btn-success btn-lg btn-block" type="submit">SignUp</button>
