@@ -5,13 +5,13 @@ const Contact = () => {
 
     }
     return(
-        <div className="container text-center row">
-            <div className="col">
-                <img src={ContactIcon} alt="contactIcon" />
+        <div className="mt-xl-5 container-fluid d-flex justify-content-center text-center row row-cols-xl-3 row-cols-lg-3 row-cols-md-2 row-cols-1">
+            <div className="w-auto justify-content-center me-xl-5 me-xl-4 me-lg-4 me-md-0 ms-xl-0 ms-lg-0 ms-md-5 mt-4 d-xl-flex d-lg-flex d-md-flex d-none">
+                <img className="card-img" src={ContactIcon} alt="contactIcon"/>
             </div>
-            <form onSubmit={onSave} className="d-flex justify-content-center col" style={{marginTop: "2em"}}>
-                <div className="col-12 col-md-12 col-lg-10 col-xl-9 card border-success rounded-4">
-                    <div className="card-body p-lg-4 p-xl-4 p-md-4 text-center">
+            <form onSubmit={onSave} className="d-flex justify-content-center ms-4 w-auto ms-xl-5" style={{marginTop: "1em"}}>
+                <div className="card border-success rounded-4">
+                    <div className="card-body text-center">
                         <h3 className="mb-5">Get in touch with us</h3>
                         <div className="row">
                             <div className="col-md-6 mb-4">

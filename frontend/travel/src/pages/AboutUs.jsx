@@ -49,7 +49,7 @@ const AboutUs = () => {
                 </div>
             </div>
             <div
-                className="d-flex justify-content-center row row-cols-xl-6 row-cols-lg-3 row-cols-md-3 row-cols-sm-3 row-cols-2">
+                className="container-fluid d-flex justify-content-center row row-cols-xl-6 row-cols-lg-3 row-cols-md-3 row-cols-sm-3 row-cols-2">
                 <div className="m-xl-4 m-lg-3 m-md-2 m-1 card border-0">
                     <img height={200} src={RomaniaMap} alt=".."/>
                     <p className="text-center"><strong>Over 5 years of experience in tourism</strong></p>
