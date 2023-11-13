@@ -48,21 +48,20 @@ const AboutUs = () => {
                     </p>
                 </div>
             </div>
-            <div
-                className="container-fluid d-flex justify-content-center row row-cols-xl-6 row-cols-lg-3 row-cols-md-3 row-cols-sm-3 row-cols-2">
-                <div className="m-xl-4 m-lg-3 m-md-2 m-1 card border-0">
+            <div className="col-12 row p-0 m-0">
+                <div className="p-5 m-0 col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12 row">
                     <img height={200} src={RomaniaMap} alt=".."/>
                     <p className="text-center"><strong>Over 5 years of experience in tourism</strong></p>
                 </div>
-                <div className="m-xl-4 m-lg-3 m-md-2 m-1 card border-0">
+                <div className="p-5 m-0 col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12 row">
                     <img height={200} src={LocationIcon} alt=".."/>
                     <p className="text-center"><strong>We operate in over 300 cities in Romania</strong></p>
                 </div>
-                <div className="m-xl-4 m-lg-3 m-md-2 m-1 card border-0">
+                <div className="p-5 m-0 col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12 row">
                     <img height={200} src={TouristIcon} alt=".."/>
                     <p className="text-center"><strong>Over 50k tourist annual</strong></p>
                 </div>
-                <div className="m-xl-4 m-lg-3 m-md-2 m-1 card border-0">
+                <div className="p-5 m-0 col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12 row">
                     <img height={200} src={AgencyIcon} alt=".."/>
                     <p className="text-center"><strong>10 agencies of tourism</strong></p>
                 </div>

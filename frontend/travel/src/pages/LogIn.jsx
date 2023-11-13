@@ -9,7 +9,6 @@ function LogIn() {
     const signIn = useSignIn();
 
     const onSubmit = async (values) => {
-        console.log("Values: ", values);
         // setError("");
 
         try {
@@ -17,7 +16,7 @@ function LogIn() {
                 "http://localhost:8080/travel/api/auth/login",
                 values
             )
-            console.log(response);
+
             signIn({
                 token: response.data.token,
                 expiresIn: 3600,
@@ -42,7 +41,7 @@ function LogIn() {
     }
 
     return (
-        <form onSubmit={onSave} className="d-flex justify-content-center" style={{marginTop: "5em"}}>
+        <form onSubmit={onSave} className="d-flex justify-content-center mt-5" style={{marginTop: "5em"}}>
             <div className="col-10 col-md-8 col-lg-6 col-xl-4 card border-success rounded-4">
                 <div className="card-body p-lg-5 p-xl-5 p-md-5 text-center">
                     <h3 className="mb-5">Log in</h3>

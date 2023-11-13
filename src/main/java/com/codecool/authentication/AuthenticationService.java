@@ -23,7 +23,8 @@ public class AuthenticationService {
     public AuthenticationResponse register(RegisterRequest request) {
         if (userRepository.findByEmail(request.getEmail()).orElse(null) != null){
             throw new EntityExistsException();
-        }
+        } // orElseThrow
+
         User user = User.builder()
                 .firstname(request.getFirstname())
                 .lastname(request.getLastname())

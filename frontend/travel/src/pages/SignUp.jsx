@@ -10,7 +10,6 @@ const SignUp = () => {
     const signIn = useSignIn();
 
     const onSubmit = async (values) => {
-        console.log("Values: ", values);
         setError("");
 
         try {
@@ -18,7 +17,7 @@ const SignUp = () => {
                 "http://localhost:8080/travel/api/auth/signup",
                 values
             )
-            console.log(response);
+
             signIn({
                 token: response.data.token,
                 expiresIn: 3600,
@@ -30,6 +29,7 @@ const SignUp = () => {
             if (err instanceof AxiosError) setError(err.response?.data.message);
             else if (err instanceof Error) setError(err.message);
         }
+        // Todo: eliminate duplicated code
     }
 
     const onSave = (e) => {

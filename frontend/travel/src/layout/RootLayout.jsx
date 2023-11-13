@@ -50,7 +50,7 @@ const RootLayout = () => {
             <div className="root-layout" style={{minHeight: "91.5vh"}}>
                 <header>
                 </header>
-                <main id="main">
+                <main id="main" className="">
                     <Outlet/>
                 </main>
             </div>

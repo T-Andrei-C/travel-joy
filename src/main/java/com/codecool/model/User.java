@@ -27,13 +27,8 @@ public class User implements UserDetails {
     private String firstname;
     private String lastname;
 
-//    @NotBlank
-//    @Size(max = 50)
-//    @Email
     private String email;
 
-    //@NotBlank
-    //@Size(max = 120)
     private String password;
 
     @ManyToOne
