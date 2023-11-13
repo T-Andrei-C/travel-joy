@@ -12,17 +12,13 @@ public class AuthenticationController {
     private final AuthenticationService service;
 
     @PostMapping("/signup")
-    public ResponseEntity<AuthenticationResponse> register(
-            @RequestBody RegisterRequest request
-    ){
+    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) {
         return ResponseEntity.ok(service.register(request));
     }
 
     @PostMapping("/login")
-//    @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<AuthenticationResponse> authenticate(
-            @RequestBody AuthenticateRequest request
-    ){
+    //    @CrossOrigin(origins = "http://localhost:3000")
+    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticateRequest request) {
         return ResponseEntity.ok(service.authenticate(request));
     }
 

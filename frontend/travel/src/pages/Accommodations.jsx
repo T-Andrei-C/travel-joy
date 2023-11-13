@@ -34,7 +34,7 @@ const Accommodations = () => {
         }
     }, [numberOfPage, checkIn, checkOut, numberOfPersons, destination]);
 
-    console.log(accommodations);
+    console.log(accommodationsSearch);
 
     return (
         <>
