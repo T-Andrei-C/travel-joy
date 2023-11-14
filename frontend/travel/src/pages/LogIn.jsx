@@ -2,6 +2,8 @@ import axios, {AxiosError} from "axios";
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {useSignIn} from "react-auth-kit";
+import {API_URL} from "../service/API";
+import FormInput from "../components/FormInput";
 
 function LogIn() {
     const navigate = useNavigate();
@@ -13,7 +15,7 @@ function LogIn() {
 
         try {
             const response = await axios.post(
-                "http://localhost:8080/travel/api/auth/login",
+                API_URL + "auth/login",
                 values
             )
 
@@ -46,19 +48,11 @@ function LogIn() {
                 <div className="card-body p-lg-5 p-xl-5 p-md-5 text-center">
                     <h3 className="mb-5">Log in</h3>
 
-                    <div className="form-floating mb-4">
-                        <label className="pt-1 text-success fw-bold" style={{fontSize: "0.75em"}}
-                               htmlFor="floatingInputValue">Email</label>
-                        <input type="email" name="email" className="form-control form-control-lg border-success"
-                               required={true} style={{fontSize: "1.1em"}}/>
-                    </div>
+                    <FormInput content="Email" type="email" name="email" />
+                    <FormInput content="Password" type="password" name="password" />
 
-                    <div className="form-floating mb-4">
-                        <label className="pt-1 text-success fw-bold" style={{fontSize: "0.75em"}}
-                               htmlFor="floatingInputValue">Password</label>
-                        <input type="password" name="password" className="form-control form-control-lg border-success" required={true} style={{fontSize: "1.1em"}}/>
-                    </div>
                     <p className="text-danger" hidden={error === ""}>Email or password are invalid !</p>
+
                     <button className="btn btn-success btn-lg btn-block " type="submit">LogIn</button>
 
                     <hr/>

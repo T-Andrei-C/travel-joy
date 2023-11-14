@@ -1,9 +1,9 @@
 import {FaMagnifyingGlass} from "react-icons/fa6";
-import {getCity} from "../../service/CRUDCity";
+import {getCity} from "../service/CRUDCity";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 
-const Input = () => {
+const HomeInput = () => {
     const [cities, setCity] = useState([]);
     const [selectPackages, setSelectPackages] = useState("");
     const [destination, setDestination] = useState("");
@@ -48,4 +48,4 @@ const Input = () => {
     )
 }
 
-export default Input;
+export default HomeInput;

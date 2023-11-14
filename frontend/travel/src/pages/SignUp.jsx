@@ -2,6 +2,8 @@ import {useNavigate} from "react-router-dom";
 import {useState} from "react";
 import {useSignIn} from "react-auth-kit";
 import axios, {AxiosError} from "axios";
+import {API_URL} from "../service/API";
+import FormInput from "../components/FormInput";
 
 const SignUp = () => {
 
@@ -14,7 +16,7 @@ const SignUp = () => {
 
         try {
             const response = await axios.post(
-                "http://localhost:8080/travel/api/auth/signup",
+                API_URL + "auth/signup",
                 values
             )
 
@@ -50,34 +52,19 @@ const SignUp = () => {
                 <div className="card-body p-lg-5 p-xl-5 p-md-5 text-center">
                     <h3 className="mb-5">Sign up</h3>
                     <div className="row">
-                        <div className="col-md-6 mb-4">
-                            <div className="form-floating">
-                                <label className="pt-1 text-success fw-bold" style={{fontSize: "0.75em"}}
-                                       htmlFor="floatingInputValue">First name</label>
-                                <input name="firstname" className="form-control form-control-lg border-success" required={true} style={{fontSize: "1.1em"}}/>
-                            </div>
+                        <div className="col-md-6">
+                            <FormInput content="First name" type="text" name="firstname" />
                         </div>
-                        <div className="col-md-6 mb-4">
-                            <div className="form-floating">
-                                <label className="pt-1 text-success fw-bold" style={{fontSize: "0.75em"}}
-                                       htmlFor="floatingInputValue">Last name</label>
-                                <input name="lastname" type="text" className="form-control form-control-lg border-success" required={true} style={{fontSize: "1.1em"}}/>
-                            </div>
+                        <div className="col-md-6">
+                            <FormInput content="Last name" type="text" name="lastname" />
                         </div>
                     </div>
 
-                    <div className="form-floating mb-4">
-                        <label className="pt-1 text-success fw-bold" style={{fontSize: "0.75em"}}
-                               htmlFor="floatingInputValue">Email</label>
-                        <input name="email" type="email" className="form-control form-control-lg border-success" required={true} style={{fontSize: "1.1em"}}/>
-                    </div>
+                    <FormInput content="Email" type="email" name="email" />
+                    <FormInput content="Password" type="password" name="password" />
 
-                    <div className="form-floating mb-4">
-                        <label className="pt-1 text-success fw-bold" style={{fontSize: "0.75em"}}
-                               htmlFor="floatingInputValue">Password</label>
-                        <input name="password" type="password" className="form-control form-control-lg border-success" required={true} style={{fontSize: "1.1em"}}/>
-                    </div>
                     <p className="text-danger" hidden={error === ""}>Email is already in use !</p>
+
                     <button className="btn btn-success btn-lg btn-block" type="submit">SignUp</button>
 
                     <hr/>
