@@ -22,7 +22,7 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf((csrf) -> csrf.disable()) // configure csrf
-                .authorizeHttpRequests((request) -> request.requestMatchers("/travel/api/auth/**","/travel/api/cities/**","/travel/api/accommodations/**","/travel/api/packages/**").permitAll().anyRequest().authenticated())
+                .authorizeHttpRequests((request) -> request.requestMatchers("/travel/api/auth/**","/travel/api/cities/**","/travel/api/accommodations/**","/travel/api/packages/**", "/travel/api/contactus").permitAll().anyRequest().authenticated())
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
