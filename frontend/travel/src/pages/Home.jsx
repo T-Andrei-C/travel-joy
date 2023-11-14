@@ -1,5 +1,5 @@
 import homeImage from "../components/img/homeImage.jpg";
-import Input from "../components/home-page/Input"
+import HomeInput from "../components/HomeInput"
 
 
 const Home = () => {
@@ -13,7 +13,7 @@ const Home = () => {
                         <big id="romania"> Romania</big>
                     </h1>
                 </div>
-                <Input/>
+                <HomeInput/>
             </div>
         </div>
     );

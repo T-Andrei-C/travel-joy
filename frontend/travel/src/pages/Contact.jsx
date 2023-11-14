@@ -1,4 +1,5 @@
 import ContactIcon from "../components/img/ContactIcon.svg"
+import FormInput from "../components/FormInput";
 
 const Contact = () => {
 
@@ -15,38 +16,16 @@ const Contact = () => {
                     <div className="card-body text-center">
                         <h3 className="mb-5">Get in touch with us</h3>
                         <div className="row">
-                            <div className="col-md-6 mb-4">
-                                <div className="form-floating">
-                                    <label className="pt-1 text-success fw-bold" style={{fontSize: "0.75em"}}
-                                           htmlFor="floatingInputValue">First name</label>
-                                    <input name="firstname" className="form-control form-control-lg border-success"
-                                           required={true} style={{fontSize: "1.1em"}}/>
-                                </div>
+                            <div className="col-md-6 ">
+                                <FormInput content="First name" type="text" name="firstname" />
                             </div>
-                            <div className="col-md-6 mb-4">
-                                <div className="form-floating">
-                                    <label className="pt-1 text-success fw-bold" style={{fontSize: "0.75em"}}
-                                           htmlFor="floatingInputValue">Last name</label>
-                                    <input name="lastname" type="text"
-                                           className="form-control form-control-lg border-success" required={true}
-                                           style={{fontSize: "1.1em"}}/>
-                                </div>
+                            <div className="col-md-6 ">
+                                <FormInput content="Last name" type="text" name="lastname" />
                             </div>
                         </div>
 
-                        <div className="form-floating mb-4">
-                            <label className="pt-1 text-success fw-bold" style={{fontSize: "0.75em"}}
-                                   htmlFor="floatingInputValue">Phone Number</label>
-                            <input name="phone" type="number" className="form-control form-control-lg border-success"
-                                   required={true} style={{fontSize: "1.1em"}}/>
-                        </div>
-
-                        <div className="form-floating mb-4">
-                            <label className="pt-1 text-success fw-bold" style={{fontSize: "0.75em"}}
-                                   htmlFor="floatingInputValue">Email</label>
-                            <input name="email" type="email" className="form-control form-control-lg border-success"
-                                   required={true} style={{fontSize: "1.1em"}}/>
-                        </div>
+                        <FormInput content="Phone Number" type="tel"  name="phonenumber"/>
+                        <FormInput content="Email" type="email" name="email" />
 
                         <div className="form-floating mb-4">
                             <label className="pt-1 text-success fw-bold" style={{fontSize: "0.75em"}}
