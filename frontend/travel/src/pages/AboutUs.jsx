@@ -3,6 +3,8 @@ import LocationIcon from "../components/img/LocationIcon.svg"
 import TouristIcon from "../components/img/TouristIcon.svg"
 import AgencyIcon from "../components/img/AgencyIcon.svg"
 import TravelJoyLogoGreen from "../components/img/TravelJoyLogoGreen.svg"
+import AboutUsIcon from "../components/AboutUsIcon";
+
 
 const AboutUs = () => {
     return (
@@ -49,22 +51,10 @@ const AboutUs = () => {
                 </div>
             </div>
             <div className="col-12 row p-0 m-0">
-                <div className="p-5 m-0 col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12 row">
-                    <img height={200} src={RomaniaMap} alt=".."/>
-                    <p className="text-center"><strong>Over 5 years of experience in tourism</strong></p>
-                </div>
-                <div className="p-5 m-0 col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12 row">
-                    <img height={200} src={LocationIcon} alt=".."/>
-                    <p className="text-center"><strong>We operate in over 300 cities in Romania</strong></p>
-                </div>
-                <div className="p-5 m-0 col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12 row">
-                    <img height={200} src={TouristIcon} alt=".."/>
-                    <p className="text-center"><strong>Over 50k tourist annual</strong></p>
-                </div>
-                <div className="p-5 m-0 col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12 row">
-                    <img height={200} src={AgencyIcon} alt=".."/>
-                    <p className="text-center"><strong>10 agencies of tourism</strong></p>
-                </div>
+                <AboutUsIcon src={RomaniaMap} content="Over 5 years of experience in tourism" />
+                <AboutUsIcon src={LocationIcon} content="We operate in over 300 cities in Romania" />
+                <AboutUsIcon src={TouristIcon} content="Over 50k tourist annual" />
+                <AboutUsIcon src={AgencyIcon} content="10 agencies of tourism" />
             </div>
         </div>
     );
