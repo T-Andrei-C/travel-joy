@@ -5,8 +5,10 @@ import {BiSolidCalendar} from "react-icons/bi";
 import {BsArrowRightShort} from "react-icons/bs";
 import {HiArrowNarrowRight} from "react-icons/hi";
 import {FaLocationDot, FaMapLocationDot} from "react-icons/fa6";
+import {useNavigate} from "react-router-dom";
 
 const TravelPackageCard = ({travelPackage}) => {
+    const navigate = useNavigate();
     return (
         <div className="card col-12 col-md-10 col-lg-8 border-success m-3" style={{maxWidth: "80%"}}>
             <div className="row no-gutters">
@@ -46,7 +48,7 @@ const TravelPackageCard = ({travelPackage}) => {
                             </div>
                         </div>
                         <div className="my-auto col-xl-3 col-12">
-                            <a href="#" className="btn btn-success float-md-end mb-3 col-12">
+                            <a onClick={() => navigate("/checkout")} className="btn btn-success float-md-end mb-3 col-12">
                                 Buy Now
                             </a>
                         </div>
