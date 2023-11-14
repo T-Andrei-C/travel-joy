@@ -2,6 +2,7 @@ import {useNavigate} from "react-router-dom";
 import {useState} from "react";
 import {useSignIn} from "react-auth-kit";
 import axios, {AxiosError} from "axios";
+import {API_URL} from "../service/API";
 
 const SignUp = () => {
 
@@ -14,7 +15,7 @@ const SignUp = () => {
 
         try {
             const response = await axios.post(
-                "http://localhost:8080/travel/api/auth/signup",
+                API_URL + "auth/signup",
                 values
             )
 
