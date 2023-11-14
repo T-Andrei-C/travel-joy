@@ -1,36 +1,14 @@
-import axios, {AxiosError} from "axios";
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {useSignIn} from "react-auth-kit";
-import {API_URL} from "../service/API";
 import FormInput from "../components/FormInput";
+import {onSubmit} from "../service/AuthenticateService";
 
 function LogIn() {
     const navigate = useNavigate();
     const [error, setError] = useState("");
     const signIn = useSignIn();
 
-    const onSubmit = async (values) => {
-        // setError("");
-
-        try {
-            const response = await axios.post(
-                API_URL + "auth/login",
-                values
-            )
-
-            signIn({
-                token: response.data.token,
-                expiresIn: 3600,
-                tokenType: "Bearer",
-                authState: {email: values.email},
-            })
-            navigate("/");
-        } catch (err) {
-            if (err instanceof AxiosError) setError(err.response?.data.message);
-            else if (err instanceof Error) setError(err.message);
-        }
-    }
 
     const onSave = (e) => {
         e.preventDefault();
@@ -39,7 +17,7 @@ function LogIn() {
             email: formData.get("email"),
             password: formData.get("password"),
         };
-        onSubmit(authenticateData);
+        onSubmit("auth/login", setError, authenticateData, navigate, signIn);
     }
 
     return (
