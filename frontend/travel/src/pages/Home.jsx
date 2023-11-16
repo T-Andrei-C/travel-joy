@@ -1,7 +1,4 @@
-import homeImage from "../components/img/homeImage.jpg";
 import HomeInput from "../components/HomeInput"
-import test from "../components/img/photo-1692313532979-7c06e90b72de.webp"
-
 
 const Home = () => {
 
