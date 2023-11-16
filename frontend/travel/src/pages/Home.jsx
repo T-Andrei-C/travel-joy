@@ -7,7 +7,7 @@ const Home = () => {
 
     const imageClass = "card-img img-fluid position-absolute object-fit-cover z-n1 w-100 h-100 carousel-item";
 
-    return(
+    return (
         <div className="" id="blur">
             <div id="carouselExampleSlidesOnly" className="carousel-fade slide" data-ride="carousel" data-interval="2000">
                 <img src="https://cdn.discordapp.com/attachments/1151791153004413009/1171746366070997054/sokol-eugeniu-LD5-9Qr6uqc-unsplash.jpg?ex=655dccd7&is=654b57d7&hm=ced99cd99458e5da72c756268229734472fe99d7f52ebb434689952018e80d6f&" className={imageClass + " active"} alt="..."/>
@@ -32,7 +32,7 @@ const Home = () => {
                 <img src="https://images.unsplash.com/photo-1520529986992-d4ce365fcfc9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" className={imageClass} alt="..."/>
                 <img src="https://images.unsplash.com/photo-1456491882918-2bc1929963f6?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" className={imageClass} alt="..."/>
             </div>
-            <div className="card-img-overlay mt-5">
+            <div className="card-img-overlay h-100" style={{backgroundColor: "rgba(0, 0, 0, 0.3)", marginTop: "3.5em"}}>
                 <div className="message mt-2">
                     <h1 className="text-center text-white" id="description-txt">
                         Explore the unknown places of
