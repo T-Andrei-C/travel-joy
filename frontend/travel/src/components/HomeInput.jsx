@@ -21,7 +21,6 @@ const HomeInput = () => {
         e.preventDefault();
         navigate("/" + selectPackages + "/" + destination + "/3/0");
     }
-    console.log(selectPackages);
 
     return (
         <form id="home-elements" onSubmit={onSubmit}>

@@ -14,8 +14,8 @@ const RootLayout = () => {
                     <NavLink to="/">
                         <img height={35} className="ps-2" src={Travel_Joy} alt="logo"/>
                     </NavLink>
-                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false"
+                    <button className="navbar-toggler" type="button" data-toggle="collapse"
+                            data-target="#navbarText" aria-controls="navbarText" aria-expanded="false"
                             aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon text-white"></span>
                     </button>
