@@ -11,6 +11,7 @@ import LogIn from "./pages/LogIn";
 import SignUp from "./pages/SignUp";
 import Contact from "./pages/Contact";
 import Checkout from "./pages/checkout/Checkout";
+import ViewDetails from "./pages/ViewDetails";
 
 
 const router = createBrowserRouter(
@@ -28,6 +29,8 @@ const router = createBrowserRouter(
             <Route path="/signup" element={<SignUp/>} />
             <Route path="/contact" element={<Contact/>} />
             <Route path="/checkout" element={<Checkout/>} />
+            <Route path="/accommodations/details/:name/:destination/:checkIn/:checkOut/:numberOfPersons" element={<ViewDetails/>}/>
+            <Route path="/accommodations/details/:name/:destination" element={<ViewDetails/>}/>
         </Route>
     )
 )

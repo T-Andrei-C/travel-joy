@@ -32,6 +32,7 @@ const TravelSearch = ({goingTo, checkIn, checkOut, numberOfPersons,type}) => {
             <div className=" form-floating row m-0 p-0 col-md-3 col-12">
                 <label className="pt-0 text-white fw-bold" style={{fontSize: "1.15em"}} htmlFor="floatingInputValue"><MdPeopleAlt/></label>
                 <select required={true} className="btn-outline-success bg-success text-white pt-4 ps-2 pe-2 col-3 " style={{border: "1px solid #198754"}} defaultValue="Amount">
+                    <option value="" hidden={true}></option>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
