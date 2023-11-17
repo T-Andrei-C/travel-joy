@@ -1,7 +1,7 @@
 import {NavLink, Outlet} from "react-router-dom";
 import Travel_Joy from "../components/img/Travel_Joy.svg"
 import {BsFacebook, BsInstagram, BsTwitter} from "react-icons/bs";
-import { useIsAuthenticated } from "react-auth-kit";
+import {useIsAuthenticated} from "react-auth-kit";
 import {MdAccountCircle} from "react-icons/md";
 
 const RootLayout = () => {
@@ -14,8 +14,8 @@ const RootLayout = () => {
                     <NavLink to="/">
                         <img height={35} className="ps-2" src={Travel_Joy} alt="logo"/>
                     </NavLink>
-                    <button className="navbar-toggler" type="button" data-toggle="collapse"
-                            data-target="#navbarText" aria-controls="navbarText" aria-expanded="false"
+                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false"
                             aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon text-white"></span>
                     </button>
@@ -32,7 +32,8 @@ const RootLayout = () => {
                             </li>
                             {isAuthenticated() ?
                                 <li className="nav-item">
-                                    <NavLink to="/myaccount" className="nav-link"><MdAccountCircle style={{fontSize: "1.8em"}}/></NavLink>
+                                    <NavLink to="/myaccount" className="nav-link"><MdAccountCircle
+                                        style={{fontSize: "1.8em"}}/></NavLink>
                                 </li> :
                                 <>
                                     <li className="nav-item">
@@ -47,6 +48,42 @@ const RootLayout = () => {
                     </div>
                 </div>
             </nav>
+            {/*<nav className="navbar navbar-expand-lg bg-body-tertiary">*/}
+            {/*    <div className="container-fluid">*/}
+            {/*        <a className="navbar-brand" href="#">Navbar</a>*/}
+            {/*        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">*/}
+            {/*            <span className="navbar-toggler-icon"></span>*/}
+            {/*        </button>*/}
+            {/*        <div className="collapse navbar-collapse" id="navbarSupportedContent">*/}
+            {/*            <ul className="navbar-nav me-auto mb-2 mb-lg-0">*/}
+            {/*                <li className="nav-item">*/}
+            {/*                    <a className="nav-link active" aria-current="page" href="#">Home</a>*/}
+            {/*                </li>*/}
+            {/*                <li className="nav-item">*/}
+            {/*                    <a className="nav-link" href="#">Link</a>*/}
+            {/*                </li>*/}
+            {/*                <li className="nav-item dropdown">*/}
+            {/*                    <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">*/}
+            {/*                        Dropdown*/}
+            {/*                    </a>*/}
+            {/*                    <ul className="dropdown-menu">*/}
+            {/*                        <li><a className="dropdown-item" href="#">Action</a></li>*/}
+            {/*                        <li><a className="dropdown-item" href="#">Another action</a></li>*/}
+            {/*                        <li><hr className="dropdown-divider"/></li>*/}
+            {/*                        <li><a className="dropdown-item" href="#">Something else here</a></li>*/}
+            {/*                    </ul>*/}
+            {/*                </li>*/}
+            {/*                <li className="nav-item">*/}
+            {/*                    <a className="nav-link disabled" aria-disabled="true">Disabled</a>*/}
+            {/*                </li>*/}
+            {/*            </ul>*/}
+            {/*            <form className="d-flex" role="search">*/}
+            {/*                <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>*/}
+            {/*                    <button className="btn btn-outline-success" type="submit">Search</button>*/}
+            {/*            </form>*/}
+            {/*        </div>*/}
+            {/*    </div>*/}
+            {/*</nav>*/}
             <div className="root-layout" style={{minHeight: "91.5vh"}}>
                 <header>
                 </header>

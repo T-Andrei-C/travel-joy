@@ -46,8 +46,8 @@ const ViewDetails = () => {
                         <span className="visually-hidden">Next</span>
                     </button>
                 </div>
-                <div className="col-4">
-                    <div className="col-12 bg-black bg-opacity-10">
+                <div className="col-4 position-relative">
+                    <div className="col-12 bg-black bg-opacity-10 position-absolute top-0 start-50 translate-middle-x rounded-3">
                         <div className="text-success col-12 row d-flex justify-content-center">
                             <h3 className="col-5"><BiSolidCalendar/></h3>
                             <p className="col-7">{checkIn} -> {checkOut}</p>
@@ -65,7 +65,7 @@ const ViewDetails = () => {
                         <hr/>
                         <div>Price</div>
                     </div>
-                    <a onClick={() => navigate("/checkout")} className="btn btn-success float-md-end mb-3 col-12 ">
+                    <a onClick={() => navigate("/checkout")} className="text- btn btn-success col-12 position-absolute bottom-0 start-50 translate-middle-x">
                         Buy Now
                     </a>
                 </div>

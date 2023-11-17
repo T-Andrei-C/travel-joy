@@ -45,11 +45,11 @@ const Contact = () => {
     }
 
     return (
-        <div className="col-12 row mt-lg-5 mt-md-5 mt-3 p-0 m-0">
-            <div className="col-lg-6 col-12 d-flex justify-content-center align-items-center d-lg-flex d-none">
-                <img className="card-img col-6 my-4" src={ContactIcon} alt="contactIcon"/>
+        <div className="col-12 row p-0 m-0 mt-5">
+            <div className="col-lg-6 col-12 d-flex justify-content-center d-lg-flex d-none">
+                <img className="my-4" src={ContactIcon} alt="contactIcon"/>
             </div>
-            <form onSubmit={onSave} className="d-flex justify-content-center align-items-center col-lg-6 col-12">
+            <form onSubmit={onSave} className="d-flex justify-content-center col-lg-6 col-12">
                 <div className="card border-success rounded-4">
                     <div className="card-body text-center">
                         <h3 className="mb-5">Get in touch with us</h3>
