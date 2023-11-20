@@ -9,13 +9,13 @@ const ViewDetails = () => {
     const navigate = useNavigate();
     const {destination, name, checkIn, checkOut, numberOfPersons} = useParams();
     return (
-        <div className="justify-content-center align-items-center row p-0 m-0">
-            <div className=" col-9 mt-3 me-4">
-                <h2>{name}</h2>
-                <h6 className="text-success"><FaLocationDot/> {destination}</h6>
-            </div>
-            <div className="col-10 row ps-5 pe-5 ">
-                <div id="carouselExampleIndicators" className="col-8 carousel slide carousel-fade ">
+        <div className="d-flex justify-content-center align-items-center row p-0 m-0">
+            <div className="col-xl-9 col-12 row d-flex justify-content-md-center justify-content-sm-center align-items-md-center align-items-sm-center p-0 m-0">
+                <div className="col-xl-12 col-lg-12 col-md-8 col-sm-11 col-12">
+                    <h2>{name}</h2>
+                    <h6 className="text-success"><FaLocationDot/> {destination}</h6>
+                </div>
+                <div id="carouselExampleIndicators" className="col-xl-7 col-lg-7 col-md-8 col-sm-11 col-12 carousel slide carousel-fade ">
                     <div className="carousel-indicators">
                         <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
                                 className="active" aria-current="true" aria-label="Slide 1"></button>
@@ -46,26 +46,29 @@ const ViewDetails = () => {
                         <span className="visually-hidden">Next</span>
                     </button>
                 </div>
-                <div className="col-4 position-relative">
-                    <div className="col-12 bg-black bg-opacity-10 position-absolute top-0 start-50 translate-middle-x rounded-3">
-                        <div className="text-success col-12 row d-flex justify-content-center">
-                            <h3 className="col-5"><BiSolidCalendar/></h3>
-                            <p className="col-7">{checkIn} -> {checkOut}</p>
+                <div className="col-xl-5 col-lg-5 col-md-8 col-sm-11 col-12 d-flex align-items-start flex-column mb-3">
+                    <div className="col-12">
+                        <div className="col-12 row d-flex justify-content-between  align-items-center">
+                            <h3 className="text-success col-3"><BiSolidCalendar/></h3>
+                            <p className="col-9 fw-bold text-end">{checkIn} -> {checkOut}</p>
                         </div>
                         <hr className="text-black"/>
-                        <div className="col-12 row text-success">
-                            <h3 className="col-5"><FaBed/></h3>
-                            <p className="col-7">DOUBLE</p>
+                        <div className="col-12 row d-flex justify-content-between align-items-center">
+                            <h3 className="text-success col-3"><FaBed/></h3>
+                            <p className="col-9 fw-bold text-end m-0 p-0">DOUBLE</p>
                         </div>
                         <hr/>
-                        <div className="col-12 row text-success">
-                            <h3 className="col-5"><BsFillHouseCheckFill/></h3>
-                            <p className="col-7">Facilitati</p>
+                        <div className="col-12 row d-flex justify-content-between align-items-center">
+                            <h3 className="text-success col-3 "><BsFillHouseCheckFill/></h3>
+                            <p className="col-9 fw-bold text-end m-0 p-0">Facilitati / facilitati / facilitati / Facilitati / facilitati / facilitati</p>
                         </div>
                         <hr/>
-                        <div>Price</div>
+                        <div className="col-12 row d-flex justify-content-between align-items-center">
+                            <p className="fw-bold text-success col-4">PRICE</p>
+                            <p className="col-8 fw-bold text-end fs-5">800 RON</p>
+                        </div>
                     </div>
-                    <a onClick={() => navigate("/checkout")} className="text- btn btn-success col-12 position-absolute bottom-0 start-50 translate-middle-x">
+                    <a onClick={() => navigate("/checkout")} className="btn btn-success col-12 mt-auto p-2 ">
                         Buy Now
                     </a>
                 </div>
