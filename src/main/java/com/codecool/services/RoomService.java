@@ -21,12 +21,12 @@ public class RoomService {
         this.reservationFilter = reservationFilter;
     }
 
-    public List<Room> getAllAvailableRooms(String accommodationName, String cityName, Integer capacity){
-        List<Room> rooms = roomRepository.findRoomsByAccommodation_NameAndAccommodation_City_NameAndType_Capacity(accommodationName,cityName,capacity);
-        List<Room> filteredRooms = new ArrayList<>();
-        for(var room : rooms){
-           // if(reservationFilter.checkReservation(room))
-        }
-        return rooms;
-    }
+//    public List<Room> getAllAvailableRooms(String accommodationName, String cityName, Integer capacity){
+//        List<Room> rooms = roomRepository.findRoomsByAccommodation_NameAndAccommodation_City_NameAndType_Capacity(accommodationName,cityName,capacity);
+//        List<Room> filteredRooms = new ArrayList<>();
+//        for(var room : rooms){
+//           // if(reservationFilter.checkReservation(room))
+//        }
+//        return rooms;
+//    }
 }
