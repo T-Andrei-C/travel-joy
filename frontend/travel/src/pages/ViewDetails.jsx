@@ -10,7 +10,7 @@ const ViewDetails = () => {
     const {destination, name, checkIn, checkOut, numberOfPersons} = useParams();
     return (
         <div className="d-flex justify-content-center align-items-center row p-0 m-0">
-            <div className="col-xl-9 col-12 row d-flex justify-content-md-center justify-content-sm-center align-items-md-center align-items-sm-center p-0 m-0">
+            <div className="col-xl-9 col-12 row mt-3 d-flex justify-content-md-center justify-content-sm-center align-items-md-center align-items-sm-center p-0 m-0">
                 <div className="col-xl-12 col-lg-12 col-md-8 col-sm-11 col-12">
                     <h2>{name}</h2>
                     <h6 className="text-success"><FaLocationDot/> {destination}</h6>
@@ -48,7 +48,7 @@ const ViewDetails = () => {
                 </div>
                 <div className="col-xl-5 col-lg-5 col-md-8 col-sm-11 col-12 d-flex align-items-start flex-column mb-3">
                     <div className="col-12">
-                        <div className="col-12 row d-flex justify-content-between  align-items-center">
+                        <div className="col-12 row d-flex justify-content-between mt-xl-0 mt-lg-0 mt-md-4 mt-sm-4 mt-4 align-items-center">
                             <h3 className="text-success col-3"><BiSolidCalendar/></h3>
                             <p className="col-9 fw-bold text-end">{checkIn} -> {checkOut}</p>
                         </div>
