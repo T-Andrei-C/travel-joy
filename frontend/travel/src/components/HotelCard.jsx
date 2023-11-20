@@ -4,12 +4,12 @@ import {BsFillHouseCheckFill, BsSlash} from "react-icons/bs";
 
 const HotelCard = ({accommodation}) => {
     return (
-        <div className="card col-12 col-md-12 col-lg-12 col-xl-8 border-success m-3">
-            <div className="row no-gutters">
-                <div className="col-md-4 text-center">
-                    <img src={accommodation.image_url?.image_url} className="img-fluid" alt={accommodation.name}/>
+        <div className="card col-12 col-md-12 col-lg-12 col-xl-9 border-success m-3 p-lg-0">
+            <div className="row g-0 d-flex align-items-md-center justify-content-md-center">
+                <div className="col-lg-5 col-md-6 text-center ">
+                    <img src={accommodation.image_url?.image_url} className="img-fluid rounded" alt={accommodation.name}/>
                 </div>
-                <div className="col-md-8">
+                <div className="col-lg-7 col-md-6">
                     <div className="card-body">
                         <div className="col-12 d-flex justify-content-between p-0">
                             <h3 className="card-title text-success ps-1">{accommodation.name}</h3>
@@ -22,7 +22,7 @@ const HotelCard = ({accommodation}) => {
 
                         <hr className="border-success"/>
                         <div className="row">
-                            <div className="col-xl-9 col-12">
+                            <div className="col-xl-8 col-12">
                                 <div className="ps-1 col-12 d-flex">
                                     <p className="ps-1 pt-1 fw-bold">
                                         <BsFillHouseCheckFill/>
@@ -40,7 +40,7 @@ const HotelCard = ({accommodation}) => {
                                        style={{fontSize: "15px"}}>{accommodation.description}</p>
                                 </div>
                             </div>
-                            <div className="my-auto col-xl-3 col-12 ">
+                            <div className="my-auto col-xl-4 col-12 ">
                                 <a href="#" className="btn btn-success float-md-end mb-3 col-12">
                                     View Details
                                 </a>

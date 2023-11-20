@@ -13,7 +13,7 @@ const TravelSearch = ({goingTo, checkIn, checkOut, numberOfPersons,type}) => {
     }
 
     return (
-        <form className="p-5 row" id="test"  onSubmit={onSubmit}>
+        <form className="p-5 m-0 row" id="test"  onSubmit={onSubmit}>
             {/*<div className="form-floating col-md-1 col-12 m-0 p-0">*/}
             {/*    <span className="bg-white border-success col-1" id="basic-addon1"><FaLocationDot/></span>*/}
             {/*</div>*/}
