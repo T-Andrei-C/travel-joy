@@ -35,12 +35,10 @@ const Package = () => {
         }
     }, [destination, checkIn, checkOut, numberOfPersons, numberOfPage])
 
-    console.log(travelPackagesSearch);
-
     return (
-         // travelPackages.length === 0 || travelPackagesByCity.length === 0 || travelPackagesSearch.length === 0 ?
+         // travelPackages.length === 0 && travelPackagesByCity.length === 0 && travelPackagesSearch.length === 0 ?
          //    <h1>There are no packages available</h1> :
-            <>
+            <div>
                 <div className="h-100 d-flex align-items-center justify-content-center pt-5">
                     <h1>Search for Packages</h1>
                 </div>
@@ -48,7 +46,7 @@ const Package = () => {
                               numberOfPersons={numberOfPersons}
                               type={"packages"}/>
                 <div className="container h-100">
-                    <div className="row h-100 justify-content-center align-items-center  ms-1 me-1">
+                    <div className="row h-100 justify-content-center align-items-center mx-1">
                         {
                             destination !== undefined && checkIn !== undefined ?
                                 travelPackagesSearch.content?.map((p) => (
@@ -76,7 +74,7 @@ const Package = () => {
                             <Pagination key="3" travelBundles={travelPackages} link={`packages/${travelPackages.size}`}
                                         numberOfPage={travelPackages.number}/>
                 }
-            </>
+            </div>
 
     );
 }
