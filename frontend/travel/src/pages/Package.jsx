@@ -34,6 +34,7 @@ const Package = () => {
                 })
         }
     }, [destination, checkIn, checkOut, numberOfPersons, numberOfPage])
+    console.log(travelPackages);
 
     return (
          // travelPackages.length === 0 && travelPackagesByCity.length === 0 && travelPackagesSearch.length === 0 ?
