@@ -4,10 +4,18 @@ import {BiSolidCalendar} from "react-icons/bi";
 import {FaBed} from "react-icons/fa";
 import {BsFillHouseCheckFill} from "react-icons/bs";
 import {FaLocationDot} from "react-icons/fa6";
+import {useEffect, useState} from "react";
+import {getAllAvailableRooms} from "../service/CRUDRooms";
 
 const ViewDetails = () => {
     const navigate = useNavigate();
+    const [rooms, setRooms] = useState([]);
     const {destination, name, checkIn, checkOut, numberOfPersons} = useParams();
+    useEffect(() => {
+        getAllAvailableRooms(name,destination,numberOfPersons,checkIn,checkOut).then(room => setRooms(room));
+    }, []);
+
+    console.log(rooms);
     return (
         <div className="d-flex justify-content-center align-items-center row p-0 m-0">
             <div className="col-xl-9 col-12 row mt-3 d-flex justify-content-md-center justify-content-sm-center align-items-md-center align-items-sm-center p-0 m-0">

@@ -14,9 +14,9 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name = "accommodations")
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
+//@JsonIdentityInfo(
+//        generator = ObjectIdGenerators.PropertyGenerator.class,
+//        property = "id")
 public class Accommodation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,7 +34,9 @@ public class Accommodation {
     @ManyToOne
     private City city;
 
-//    @JsonManagedReference
+ //  @JsonManagedReference
+   @JsonBackReference
+   // @JsonIgnore
     @OneToMany(mappedBy = "accommodation")
     private List<Room> rooms;
 
