@@ -2,7 +2,7 @@ import {FaLocationDot} from "react-icons/fa6";
 import {MdPeopleAlt} from "react-icons/md";
 import {useNavigate, useParams} from "react-router-dom";
 
-const TravelSearch = ({goingTo, checkIn, checkOut, numberOfPersons,type}) => {
+const TravelSearch = ({goingTo, checkIn, checkOut, numberOfPersons, type}) => {
 
     const navigate = useNavigate();
     const {itemsPerPage, numberOfPage} = useParams();
@@ -31,7 +31,7 @@ const TravelSearch = ({goingTo, checkIn, checkOut, numberOfPersons,type}) => {
             </div>
             <div className=" form-floating row m-0 p-0 col-md-3 col-12">
                 <label className="pt-0 text-white fw-bold" style={{fontSize: "1.15em"}} htmlFor="floatingInputValue"><MdPeopleAlt/></label>
-                <select required={true} className="btn-outline-success bg-success text-white pt-4 ps-2 pe-2 col-3 " style={{border: "1px solid #198754"}} defaultValue="Amount">
+                <select required={true} className="btn-outline-success bg-success text-white pt-4 ps-2 pe-2 col-3 " style={{border: "1px solid #198754"}} defaultValue={numberOfPersons}>
                     <option value="" hidden={true}></option>
                     <option value="1">1</option>
                     <option value="2">2</option>

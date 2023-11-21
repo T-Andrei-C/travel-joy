@@ -47,13 +47,13 @@ const Accommodations = () => {
                     {
                         destination !== undefined && checkIn !== undefined ?
                             accommodationsSearch.content?.map((a) => (
-                                <HotelCard key={a.id} accommodation={a} />
+                                <HotelCard key={a.id} accommodation={a} city={destination} checkIn={checkIn} checkOut={checkOut} numberOfPersons={numberOfPersons}/>
                             )) : destination !== undefined ?
                             accommodationsByCity.content?.map((a) => (
-                                <HotelCard key={a.id} accommodation={a} />
+                                <HotelCard key={a.id} accommodation={a} city={destination} checkIn={checkIn} checkOut={checkOut} numberOfPersons={numberOfPersons}/>
                             )) :
                             accommodations.content?.map((a) => (
-                                <HotelCard key={a.id} accommodation={a}/>
+                                <HotelCard key={a.id} accommodation={a} city={destination} checkIn={checkIn} checkOut={checkOut} numberOfPersons={numberOfPersons}/>
                             ))
                     }
                 </div>
