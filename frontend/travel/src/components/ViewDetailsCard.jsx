@@ -4,6 +4,12 @@ import {FaBed} from "react-icons/fa";
 import {BsFillHouseCheckFill, BsSlash} from "react-icons/bs";
 
 const ViewDetailsCard = ({room, checkIn, checkOut, navigate}) => {
+    const totalPrice = () =>{
+        const checkInDate = new Date(checkIn);
+        const checkOUtDate = new Date(checkOut);
+        return (checkOUtDate.getTime() - checkInDate.getTime()) / (1000 * 3600 * 24);
+    }
+
     return (
         <>
             <div id="carouselExampleIndicators" className="col-xl-7 col-lg-7 col-md-8 col-sm-11 col-12 carousel slide carousel-fade mt-5">
@@ -64,7 +70,7 @@ const ViewDetailsCard = ({room, checkIn, checkOut, navigate}) => {
                     <hr/>
                     <div className="col-12 row d-flex justify-content-between align-items-center">
                         <p className="fw-bold text-success col-4">PRICE</p>
-                        <p className="col-8 fw-bold text-end fs-5">{room.price} RON</p>
+                        <p className="col-8 fw-bold text-end fs-5">{totalPrice() * room.price} RON</p>
                     </div>
                 </div>
                 <a onClick={() => navigate("/checkout")} className="btn btn-success col-12 mt-auto p-2 ">

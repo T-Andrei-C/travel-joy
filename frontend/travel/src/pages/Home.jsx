@@ -15,8 +15,21 @@ const Home = () => {
         for (let i = 0; i < carouselImages?.length; i++) {
             if (i === imageNumber){
                 carouselImages[i].classList.add("active");
+                carouselImages[i].classList.add("carousel-item-next");
+                carouselImages[i].classList.add("carousel-item-start");
+                setTimeout(() => {
+                    carouselImages[i].classList.remove("carousel-item-next");
+                    carouselImages[i].classList.remove("carousel-item-start");
+
+                },2000);
             } else {
                 carouselImages[i].classList.remove("active");
+                carouselImages[i].classList.add("carousel-item-start");
+                setTimeout(() => {
+                    carouselImages[i].classList.remove("carousel-item-start");
+                },2000);
+
+
             }
         }
 
