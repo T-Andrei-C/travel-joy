@@ -31,4 +31,8 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(changePassword.getNewPassword()));
         userRepository.save(user);
     }
+
+    public User getAuthUser(Principal connectedUser){
+        return (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
+    }
 }
