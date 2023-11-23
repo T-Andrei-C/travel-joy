@@ -1,6 +1,6 @@
 package com.codecool.repositories;
 
-import com.codecool.model.User;
+import com.codecool.model.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

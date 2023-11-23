@@ -1,5 +1,6 @@
-package com.codecool.model;
+package com.codecool.model.user;
 
+import com.codecool.model.Role;
 import jakarta.persistence.*;
 import lombok.*;
 import jakarta.validation.constraints.Email;
