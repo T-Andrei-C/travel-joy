@@ -1,7 +1,7 @@
 package com.codecool.authentication;
 
 import com.codecool.configurations.JwtService;
-import com.codecool.model.User;
+import com.codecool.model.user.User;
 import com.codecool.repositories.RoleRepository;
 import com.codecool.repositories.UserRepository;
 import jakarta.persistence.EntityExistsException;
