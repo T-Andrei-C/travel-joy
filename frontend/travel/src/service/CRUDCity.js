@@ -1,5 +1,13 @@
 import {API_URL} from "./API";
 
-export const getCity = async () => {
-    return fetch(API_URL + "cities").then(res => res.json());
+export const getCity = async (token) => {
+    return fetch(API_URL + "cities"
+    //     {
+    //     method: "GET",
+    //     headers: {
+    //         "Content-type" : "application/json",
+    //         "Authorization" : token
+    //     }
+    // }
+    ).then(res => res.json());
 }
