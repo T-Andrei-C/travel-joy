@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
+import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,10 +17,14 @@ import java.util.function.Function;
 
 @Service
 public class JwtService {
-    private static final String SECRET_KEY="pYIvPjGHi6kiLcGKOpDswpJLH+B5wHR1Hm3gjUFNSzI=";
+    private static String SECRET_KEY="pYIvPjGHi6kiLcGKOpDswpJLH+B5wHR1Hm3gjUFNSzI=";
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
+    }
+
+    public JwtService() {
+        SECRET_KEY = Base64.getEncoder().encodeToString("pYIvPjGHi6kiLcGKOpDswpJLH+B5wHR1Hm3gjUFNSzI=".getBytes());
     }
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
@@ -37,11 +42,12 @@ public class JwtService {
     ){
         return Jwts
                 .builder()
+                .setHeaderParam("typ","JWT")
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24)) //time the token is available(24h now)
-               // .signWith(getSignInKey(), SignatureAlgorithm.HS256)
+                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
@@ -68,7 +74,7 @@ public class JwtService {
     }
 
     private Key getSignInKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
+        byte[] keyBytes = Base64.getDecoder().decode(SECRET_KEY);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 }

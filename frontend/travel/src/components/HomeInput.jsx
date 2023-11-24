@@ -2,15 +2,17 @@ import {FaMagnifyingGlass} from "react-icons/fa6";
 import {getCity} from "../service/CRUDCity";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
+import {useAuthHeader} from "react-auth-kit";
 
 const HomeInput = () => {
     const [cities, setCity] = useState([]);
     const [selectPackages, setSelectPackages] = useState("");
     const [destination, setDestination] = useState("");
     const navigate = useNavigate();
+    const token = useAuthHeader();
 
     useEffect(() => {
-        getCity()
+        getCity(token())
             .then((cities) => {
                 setCity(cities);
             })
