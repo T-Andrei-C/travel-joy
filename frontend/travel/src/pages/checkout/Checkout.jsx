@@ -10,6 +10,9 @@ import Typography from '@mui/material/Typography';
 import AddressForm from './AddressForm';
 import PaymentForm from './PaymentForm';
 import Review from './Review';
+import {useIsAuthenticated} from "react-auth-kit";
+import {useEffect} from "react";
+import {useNavigate} from "react-router-dom";
 
 
 const steps = ['Billing Data', 'Payment details', 'Review your order'];
@@ -29,6 +32,14 @@ function getStepContent(step) {
 
 export default function Checkout() {
     const [activeStep, setActiveStep] = React.useState(0);
+    const navigate = useNavigate();
+    const isAuth = useIsAuthenticated();
+
+    useEffect(() => {
+        if(!isAuth()){
+            navigate("/login");
+        }
+    },[])
 
     const handleNext = (e) => {
         e.preventDefault();

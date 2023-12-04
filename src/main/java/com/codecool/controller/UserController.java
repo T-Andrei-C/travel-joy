@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
-@Controller
+@RestController
 @RequestMapping("/travel/api/users")
 public class UserController {
     private final UserService userService;
@@ -22,9 +22,9 @@ public class UserController {
         userService.changePassword(request, connectedUser);
     }
 
-    @GetMapping("/test")
+    @GetMapping
     @CrossOrigin(origins = "*")
-    public String getAuthUser(Principal connectedUser) {
-        return connectedUser.getName();
+    public User getAuthUser(Principal connectedUser) {
+        return userService.getAuthUser(connectedUser);
     }
 }

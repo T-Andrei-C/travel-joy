@@ -1,6 +1,6 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import {useSignIn} from "react-auth-kit";
+import {useIsAuthenticated, useSignIn} from "react-auth-kit";
 import FormInput from "../components/FormInput";
 import {onSubmit} from "../service/AuthenticateService";
 
@@ -8,7 +8,13 @@ function LogIn() {
     const navigate = useNavigate();
     const [error, setError] = useState("");
     const signIn = useSignIn();
+    const isAuth = useIsAuthenticated();
 
+    useEffect(() => {
+        if(isAuth()){
+            navigate("/");
+        }
+    },[])
 
     const onSave = (e) => {
         e.preventDefault();
@@ -29,7 +35,10 @@ function LogIn() {
                     <FormInput content="Email" type="email" name="email" />
                     <FormInput content="Password" type="password" name="password" />
 
-                    <p className="text-danger" hidden={error === ""}>Email or password are invalid !</p>
+                    <p className="text-danger" hidden={error === ""}>
+                        Email or password are invalid ! <a href="" className="text-danger">Forgot password?</a>
+                    </p>
+
 
                     <button className="btn btn-success btn-lg btn-block " type="submit">LogIn</button>
 
