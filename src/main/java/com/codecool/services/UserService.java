@@ -32,7 +32,7 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public Principal getAuthUser(Principal connectedUser){
-        return connectedUser;
+    public User getAuthUser(Principal connectedUser){
+        return (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
     }
 }

@@ -1,6 +1,6 @@
 import {useNavigate} from "react-router-dom";
-import {useState} from "react";
-import {useSignIn} from "react-auth-kit";
+import {useEffect, useState} from "react";
+import {useIsAuthenticated, useSignIn} from "react-auth-kit";
 import FormInput from "../components/FormInput";
 import {onSubmit} from "../service/AuthenticateService";
 
@@ -9,6 +9,13 @@ const SignUp = () => {
     const navigate = useNavigate();
     const [error, setError] = useState("");
     const signIn = useSignIn();
+    const isAuth = useIsAuthenticated();
+
+    useEffect(() => {
+        if(isAuth()){
+            navigate("/");
+        }
+    },[])
 
     const onSave = (e) => {
         e.preventDefault();

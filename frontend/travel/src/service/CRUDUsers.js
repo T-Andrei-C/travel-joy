@@ -1,9 +1,9 @@
 import {API_URL} from "./API";
+import {json} from "react-router-dom";
 
 
 export const getAuthUser = async (token) => {
-    console.log(token)
-    return fetch(API_URL + "users/test", {
+    return fetch(API_URL + "users", {
         method: "GET",
         headers: {
             'Content-Type': 'application/json',
@@ -11,3 +11,15 @@ export const getAuthUser = async (token) => {
         }
     }).then(res => res.json());
 }
+
+export const changePassword = async (token,changePassword) => {
+    return fetch(API_URL + "users", {
+        method: "PATCH",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `${token}`
+        },
+        body:JSON.stringify(changePassword)
+    });
+}
+

@@ -1,6 +1,7 @@
 package com.codecool.model.user;
 
 import com.codecool.model.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import jakarta.validation.constraints.Email;
@@ -30,6 +31,7 @@ public class User implements UserDetails {
 
     private String email;
 
+    @JsonIgnore
     private String password;
 
     @ManyToOne
