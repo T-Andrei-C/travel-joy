@@ -13,6 +13,7 @@ import Contact from "./pages/Contact";
 import Checkout from "./pages/checkout/Checkout";
 import ViewDetails from "./pages/ViewDetails";
 import MyAccount from "./pages/MyAccount";
+import ForgotPassword from "./pages/ForgotPassword";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -30,6 +31,7 @@ const router = createBrowserRouter(
             <Route path="/contact" element={<Contact/>} />
             <Route path="/checkout" element={<Checkout/>} />
             <Route path="/myaccount" element={<MyAccount/>}/>
+            <Route path="/forgotpassword" element={<ForgotPassword/>}/>
             <Route path="/accommodations/details/:accommodationName/:destination/:checkIn/:checkOut/:numberOfPersons" element={<ViewDetails/>}/>
         </Route>
     )
