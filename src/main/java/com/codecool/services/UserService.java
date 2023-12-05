@@ -1,6 +1,7 @@
 package com.codecool.services;
 
 import com.codecool.model.user.ChangePassword;
+import com.codecool.model.user.ForgotPassword;
 import com.codecool.model.user.User;
 import com.codecool.repositories.UserRepository;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,6 +30,17 @@ public class UserService {
         }
 
         user.setPassword(passwordEncoder.encode(changePassword.getNewPassword()));
+        userRepository.save(user);
+    }
+
+    public void forgotPassword(ForgotPassword forgotPassword){
+        User user = userRepository.findByEmail(forgotPassword.getEmail()).orElseThrow();
+
+        if (!forgotPassword.getNewPassword().equals(forgotPassword.getConfirmNewPassword())){
+            throw new IllegalStateException("Password are not the same");
+        }
+
+        user.setPassword(passwordEncoder.encode(forgotPassword.getNewPassword()));
         userRepository.save(user);
     }
 

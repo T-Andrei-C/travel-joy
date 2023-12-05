@@ -22,7 +22,7 @@ public class EmailSenderService {
         mailMessage.setFrom("Travel Joy<" + sender + ">");
         mailMessage.setTo(email.getRecipient());
         mailMessage.setSubject("Forgot Password");
-        mailMessage.setText("Visit this link to reset your password: http://localhost:3000/");
+        mailMessage.setText("Visit this link to reset your password: http://localhost:3000/forgotpassword");
 
         javaMailSender.send(mailMessage);
     }

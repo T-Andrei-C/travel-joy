@@ -1,6 +1,7 @@
 package com.codecool.controller;
 
 import com.codecool.model.user.ChangePassword;
+import com.codecool.model.user.ForgotPassword;
 import com.codecool.model.user.User;
 import com.codecool.services.UserService;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,11 @@ public class UserController {
     @PatchMapping
     public void changePassword(@RequestBody ChangePassword request, Principal connectedUser) {
         userService.changePassword(request, connectedUser);
+    }
+
+    @PatchMapping("/forgotpassword")
+    public void forgotPassword(@RequestBody ForgotPassword forgotPassword){
+        userService.forgotPassword(forgotPassword);
     }
 
     @GetMapping

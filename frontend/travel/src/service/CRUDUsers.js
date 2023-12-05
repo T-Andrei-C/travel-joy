@@ -23,3 +23,13 @@ export const changePassword = async (token,changePassword) => {
     });
 }
 
+// export const forgotPassword = async (forgotPassword) => {
+//     return await fetch(API_URL + "users/forgotpassword", {
+//         method: "PATCH",
+//         headers: {
+//             'Content-Type': 'application/json'
+//         },
+//         body:JSON.stringify(forgotPassword)
+//     }).catch(err => console.log(err));
+// }
+
