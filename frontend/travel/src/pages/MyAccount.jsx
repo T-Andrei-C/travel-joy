@@ -40,10 +40,9 @@ const MyAccount = () => {
 
     }
     return (
-        <div className="col-12 row p-0 m-0 mt-5">
-            <div className="col-lg-6 col-12 d-flex justify-content-center d-lg-flex">
-                <form className="col-12">
-                    <div className="col-10 col-md-8 col-lg-6 col-xl-4 card border-success rounded-4">
+        <div className="row p-0 m-0 mt-5">
+                <form className="col-10 col-sm-8 col-lg-6 col-md-6 align-content-center mx-auto">
+                    <div className="col-12 col-md-12 col-lg-10 col-xl-8 card border-success rounded-4 ms-lg-5">
                         <div className="card-body p-lg-5 p-xl-5 p-md-5 text-center">
                             <h3 className="mb-5">Hello, {user?.firstname} {user?.lastname}!</h3>
                             <FormInput content="First name" type="text" name="firstname" test={user?.firstname}/>
@@ -59,17 +58,17 @@ const MyAccount = () => {
                         </div>
                     </div>
                 </form>
-            </div>
-            {/*<p>Do you want to change your password?</p>*/}
-            <div className="d-flex justify-content-center col-lg-6 col-12">
-                <button className="btn btn-success btn-lg btn-block " onClick={() => setVisibility("")}
+
+            <div className="col-lg-6 col-sm-12  col-12 mt-4 text-center">
+                <h3 className="text-center">Do you want to change your password?</h3>
+                <button className="btn btn-success btn-lg btn-block mt-2 " onClick={() => setVisibility("")}
                         type="button">Change Password
                 </button>
-                <form onSubmit={onSave} hidden={visibility}>
+                <form onSubmit={onSave} className="mt-4 col-6 align-content-center mx-auto" hidden={visibility}>
                     <FormInput type="password" name="currentPassword" content="Current Password"/>
                     <FormInput type="password" name="newPassword" content="New Password"/>
                     <FormInput type="password" name="confirmNewPassword" content="Confirm Password"/>
-                    <button type="submit">Change</button>
+                    <button className="btn btn-success btn-lg btn-block" type="submit">Change</button>
                 </form>
             </div>
         </div>
