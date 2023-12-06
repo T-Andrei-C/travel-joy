@@ -1,11 +1,20 @@
-import {NavLink, Outlet} from "react-router-dom";
+import {NavLink, Outlet, useNavigate} from "react-router-dom";
 import Travel_Joy from "../components/img/Travel_Joy.svg"
 import {BsFacebook, BsInstagram, BsTwitter} from "react-icons/bs";
 import {useIsAuthenticated} from "react-auth-kit";
 import {MdAccountCircle} from "react-icons/md";
+import {FaPowerOff} from "react-icons/fa";
 
 const RootLayout = () => {
     const isAuthenticated = useIsAuthenticated();
+    const navigate = useNavigate();
+
+
+    const logOut = () => {
+        document.cookie = "_auth_state=logout";
+        navigate("/");
+        window.location.reload();
+    }
 
     return (
         <>
@@ -31,10 +40,19 @@ const RootLayout = () => {
                                 <NavLink to="/aboutus" className="nav-link">About us</NavLink>
                             </li>
                             {isAuthenticated() ?
-                                <li className="nav-item">
-                                    <NavLink to="/myaccount" className="nav-link"><MdAccountCircle
-                                        style={{fontSize: "1.8em"}}/></NavLink>
-                                </li> :
+                                <>
+                                    <li className="nav-item">
+                                        <NavLink to="/myaccount" className="nav-link"><MdAccountCircle
+                                            style={{fontSize: "1.8em"}}/></NavLink>
+                                    </li>
+                                    <li className="nav-item">
+                                        <button data-bs-toggle="modal"
+                                                data-bs-target="#logout"
+                                                className="nav-link"><FaPowerOff
+                                            style={{fontSize: "1.5em"}}/></button>
+                                    </li>
+                                </>
+                                :
                                 <>
                                     <li className="nav-item">
                                         <NavLink to="/login" className="nav-link">Log in</NavLink>
@@ -72,6 +90,25 @@ const RootLayout = () => {
                         </ul>
                     </div>
                 </footer>
+            </div>
+
+            <div className="modal fade" id="logout" tabIndex="-1"
+                 aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header position-relative">
+                            <h1 className="modal-title fs-5 position-absolute top-50 start-50 translate-middle" id="exampleModalLabel">Verify Logout</h1>
+                            <button type="button" className="btn-close d-flex align-content-end" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body text-center">Are you sure you want to log out? You may lose unsaved progress. </div>
+                        <div className="modal-footer d-flex justify-content-center">
+                            <button onClick={logOut} type="button" className="btn btn-success"
+                                    data-bs-dismiss="modal">Log Out
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </>
     )
