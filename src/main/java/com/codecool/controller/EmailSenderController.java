@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/travel/api/email")
 public class EmailSenderController {
-    private EmailSenderService emailSenderService;
+    private final EmailSenderService emailSenderService;
 
     public EmailSenderController(EmailSenderService emailSenderService) {
         this.emailSenderService = emailSenderService;

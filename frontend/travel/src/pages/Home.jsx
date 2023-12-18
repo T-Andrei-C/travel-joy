@@ -5,6 +5,7 @@ const Home = () => {
 
     const imageClass = "card-img img-fluid position-absolute object-fit-cover z-n1 w-100 h-100 carousel-item";
     const [carouselImages, setCarouselImages] = useState();
+    const [test, setTest] = useState(null);
     let index = 0;
 
     useEffect(() => {

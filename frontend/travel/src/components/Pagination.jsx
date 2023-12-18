@@ -3,6 +3,8 @@ import {useEffect, useState} from "react";
 
 const Pagination = ({travelBundles, link, numberOfPage}) => {
     const navigate = useNavigate();
+
+    // number of pages to the left of current page, number of pages to the right of current page including page
     const [paginationNumbers, setPaginationNumbers] = useState([]);
 
     useEffect(() => {

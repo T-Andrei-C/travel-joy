@@ -20,6 +20,8 @@ export const changePassword = async (token,changePassword) => {
             'Authorization': `${token}`
         },
         body:JSON.stringify(changePassword)
+    }).then(res => {
+        if(res.status > 400) throw new Error("response error")
     });
 }
 

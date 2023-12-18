@@ -34,7 +34,7 @@ public class UserService {
     }
 
     public void forgotPassword(ForgotPassword forgotPassword){
-        User user = userRepository.findByEmail(forgotPassword.getEmail()).orElseThrow();
+        User user = userRepository.findByEmail(forgotPassword.getEmail()).orElseThrow(() -> new IllegalStateException("User does not exists"));
 
         if (!forgotPassword.getNewPassword().equals(forgotPassword.getConfirmNewPassword())){
             throw new IllegalStateException("Password are not the same");
