@@ -8,7 +8,8 @@ export const chargePayment = async (paymentData) => {
     return fetch(API_URL + "payment", {
         method: "POST",
         headers: {
-            "Content-type" : "application/json",
+            "Content-Type": "application/json",
+            "Accept": "application/json"
         },
         body: JSON.stringify(paymentData)
     }).then(res => res.json());

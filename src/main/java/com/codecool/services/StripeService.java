@@ -1,15 +1,18 @@
 package com.codecool.services;
 
-import com.codecool.model.payment.Order;
+import com.codecool.model.Reservation;
+import com.stripe.Stripe;
 import com.stripe.model.PaymentIntent;
 import com.stripe.param.PaymentIntentCreateParams;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class StripeService {
-//    @Value("${stripe.keys.secret}")
-//    private String API_SECRET_KEY;
-    public String createCharge(Order payment) {
+    @Value("${stripe.keys.secret}")
+    private String API_PUBLIC_KEY;
+    public String createCharge(Reservation payment) {
+        Stripe.apiKey = API_PUBLIC_KEY;
         try {
             PaymentIntentCreateParams createParams = new PaymentIntentCreateParams.Builder()
                     .setCurrency("ron")

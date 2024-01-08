@@ -1,7 +1,7 @@
 package com.codecool.controller;
 
+import com.codecool.model.Reservation;
 import com.codecool.model.payment.Key;
-import com.codecool.model.payment.Order;
 import com.codecool.services.StripeService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +23,7 @@ public class PaymentController {
     }
 
     @PostMapping
-    public Key createPayment (@RequestBody Order payment){
+    public Key createPayment (@RequestBody Reservation payment){
         return Key.builder().key(stripeService.createCharge(payment)).build();
     }
 }
