@@ -18,8 +18,23 @@ const Payment = () => {
 
     useEffect(() => {
         const paymentModel = {
-            email: "toroaba_andrei@gmail.com",
-            amount: 1000 * 100
+            email : "",
+            phoneNumber : "",
+            name: "",
+
+            country: "",
+           county: "",
+            city: "",
+            address: "",
+             amount: 1000 * 100,
+
+            reservation: {
+                id: 9
+            },
+
+            user: {
+                id: 10
+            }
         }
 
         chargePayment(paymentModel).then((clientSecret) => {
