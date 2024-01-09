@@ -52,13 +52,16 @@ public class TravelPackageService {
         if (room != null){
             if (reservationFilter.checkReservation(room, travelPackage.getCheckIn(), travelPackage.getCheckOut()))
             {
-                travelPackageRepository.save(travelPackage);
                 Reservation reservation = Reservation.builder()
                         .check_in(travelPackage.getCheckIn())
                         .check_out(travelPackage.getCheckOut())
                         .room(room)
+                        .bought(false)
                         .build();
                 reservationRepository.save(reservation);
+                travelPackage.setReservation(reservation);
+                travelPackageRepository.save(travelPackage);
+
             } else {
                 throw new EntityNotFoundException("The period selected is already booked!");
             }
