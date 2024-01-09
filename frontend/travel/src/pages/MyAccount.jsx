@@ -4,14 +4,16 @@ import {useAuthHeader} from "react-auth-kit";
 import FormInput from "../components/FormInput";
 import {useNavigate} from "react-router-dom";
 import {useIsAuthenticated} from "react-auth-kit";
-import Popup from "../components/Popup";
+
 
 const MyAccount = () => {
     const token = useAuthHeader();
     const [user, setUser] = useState();
     const [visibility, setVisibility] = useState("hidden");
+    const[error,setError] = useState(false);
     const navigate = useNavigate();
     const isAuth = useIsAuthenticated();
+    console.log(user);
 
     useEffect(() => {
         if (!isAuth()) {
@@ -22,11 +24,18 @@ const MyAccount = () => {
         })
     }, []);
 
-    const onSubmit = (changePasswordData) => {
-        changePassword(token(), changePasswordData);
-        document.cookie = "_auth_state=logout";
-        navigate("/login");
-        window.location.reload();
+    const onSubmit = async (changePasswordData) => {
+        try{
+            setError(false);
+            await changePassword(token(), changePasswordData);
+            document.cookie = "_auth_state=logout";
+            navigate("/login");
+            window.location.reload();
+        }catch (err){
+            console.log(err);
+            setError(true);
+        }
+
     }
     const onSave = (e) => {
         e.preventDefault();
@@ -68,6 +77,7 @@ const MyAccount = () => {
                     <FormInput type="password" name="currentPassword" content="Current Password"/>
                     <FormInput type="password" name="newPassword" content="New Password"/>
                     <FormInput type="password" name="confirmNewPassword" content="Confirm Password"/>
+                    <p className="text-danger" hidden={!error}>Current or New Password are invalid!</p>
                     <button className="btn btn-success btn-lg btn-block" type="submit">Change</button>
                 </form>
             </div>
