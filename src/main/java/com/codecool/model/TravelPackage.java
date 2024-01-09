@@ -29,4 +29,8 @@ public class TravelPackage {
     private LocalDate checkOut;
 
     private TravelPackageType travelPackageType;
+
+    @OneToOne
+    private Reservation reservation;
+
 }

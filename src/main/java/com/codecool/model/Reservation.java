@@ -2,6 +2,7 @@ package com.codecool.model;
 
 import com.codecool.model.user.User;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.*;
@@ -36,10 +37,15 @@ public class Reservation {
     private String city;
     private String address;
     private Integer amount;
+    private Boolean bought;
 
     @ManyToOne
     private User user;
 
     @ManyToOne
     private Room room;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "reservation")
+    private TravelPackage travelPackage;
 }

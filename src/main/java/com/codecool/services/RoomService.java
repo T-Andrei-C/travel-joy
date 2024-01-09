@@ -28,7 +28,7 @@ public class RoomService {
 //        rooms =  rooms.stream().filter(room -> room.getType().getCapacity().equals(capacity)).collect(Collectors.toList());
 //        rooms = rooms.stream().filter(room -> reservationFilter.checkReservation(room,checkIn,checkOut)).collect(Collectors.toList());
         return rooms.stream()
-                .filter(room -> room.getType().getCapacity().equals(capacity))
+                .filter(room -> room.getType().getCapacity() >= capacity)
                 .filter(room -> reservationFilter.checkReservation(room, checkIn, checkOut))
                 .collect(Collectors.toList());
     }
