@@ -11,8 +11,8 @@ const TravelPackageCard = ({travelPackage}) => {
         <div className="card col-12 col-md-12 col-lg-12 col-xl-9 border-success m-3 p-lg-0">
             <div className="row g-0 d-flex align-items-md-center justify-content-md-center">
                 <div className="col-lg-5 col-md-6 text-center">
-                    <img src={travelPackage.room.images_url[0]} className="card-img"
-                         alt={travelPackage.room.images_url[0]}/>
+                    <img src={travelPackage.room.accommodation.image_url.image_url} className="card-img"
+                         alt={travelPackage.room.accommodation.name}/>
                 </div>
                 <div className="col-lg-7 col-md-6 card-body">
                     <div className="col-12 d-flex justify-content-between p-0">

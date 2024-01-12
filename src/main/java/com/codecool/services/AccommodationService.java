@@ -70,9 +70,7 @@ public class AccommodationService {
         for (var accommodation : filteredAccommodationsByCity) {
             for (var room : accommodation.getRooms()) {
                 if (room.getType().getCapacity() >= numberOfPersons) {
-                    if (
-                            reservationFilter.checkReservation(room, checkIn, checkOut)
-                    ) {
+                    if (reservationFilter.checkReservation(room, checkIn, checkOut)) {
                         filteredAccommodations.add(accommodation);
                         break;
                     }

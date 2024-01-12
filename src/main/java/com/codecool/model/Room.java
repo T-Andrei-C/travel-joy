@@ -35,9 +35,9 @@ public class Room {
     )
     private List<Image> images_url;
 
-   // @JsonBackReference
-//    @JsonManagedReference
-    @JsonIgnore
+//    @JsonBackReference
+    @JsonManagedReference
+//    @JsonIgnore
     @ManyToOne
     private Accommodation accommodation;
 

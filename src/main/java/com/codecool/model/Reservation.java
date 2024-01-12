@@ -42,6 +42,7 @@ public class Reservation {
     @ManyToOne
     private User user;
 
+    @JsonIgnore
     @ManyToOne
     private Room room;
 

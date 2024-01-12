@@ -34,7 +34,7 @@ public class Accommodation {
     @ManyToOne
     private City city;
 
- //  @JsonManagedReference
+//   @JsonManagedReference
    @JsonBackReference
    // @JsonIgnore
     @OneToMany(mappedBy = "accommodation")

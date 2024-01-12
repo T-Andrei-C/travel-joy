@@ -1,5 +1,14 @@
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
+import {
+    MdNavigateNext,
+    MdOutlineFirstPage,
+    MdOutlineLastPage,
+    MdOutlineNavigateBefore,
+    MdOutlineNavigateNext
+} from "react-icons/md";
+import {IoChevronBack, IoChevronBackSharp, IoChevronForward} from "react-icons/io5";
+import {GrFormPrevious} from "react-icons/gr";
 
 const Pagination = ({travelBundles, link, numberOfPage}) => {
     const navigate = useNavigate();
@@ -22,12 +31,16 @@ const Pagination = ({travelBundles, link, numberOfPage}) => {
             }
         }
     }, [numberOfPage])
-
+    console.log(travelBundles)
     return (
         <div className="d-flex justify-content-evenly mt-5">
             <ul className="pagination">
+                <li className={numberOfPage === 0 ? "page-item btn-outline-success disabled" : "page-item btn-outline-success"}>
+                    <a className="page-link"
+                       onClick={() => navigate(`/${link}/0`)}><MdOutlineFirstPage className="pb-1"/></a>
+                </li>
                 <li className={travelBundles?.number === 0 ? "page-item btn-outline-success disabled" : "page-item btn-outline-success"}>
-                    <a className="page-link" onClick={() => navigate(`/${link}/${numberOfPage - 1}`)}>Back</a>
+                    <a className="page-link" onClick={() => navigate(`/${link}/${numberOfPage - 1}`)}><MdOutlineNavigateBefore className="pb-1"/></a>
                 </li>
                 {
                     travelBundles.totalPages <= 4 ?
@@ -56,33 +69,12 @@ const Pagination = ({travelBundles, link, numberOfPage}) => {
                             }
                         </>
                 }
-                {/*}*/}
-                {/*{*/}
-                {/*    Array.from(Array(travelBundles.totalPages).keys()).map((i) => (*/}
-                {/*        <li key={i} className={i === travelBundles.number ? "active" : ""}>*/}
-                {/*            <a className="page-link" onClick={() => navigate(`/${link}/${i}`)}>{i + 1}</a>*/}
-                {/*        </li>*/}
-                {/*    ))*/}
-                {/*}*/}
-                {/*{*/}
-                {/*    Array.from(Array(test1[0]).keys()).toReversed().map(i => (*/}
-                {/*        <li key={i} className={i === travelBundles.number ? "active" : ""}>*/}
-                {/*            <a className="page-link"*/}
-                {/*               onClick={() => navigate(`/${link}/${numberOfPage <= 1 ? i : numberOfPage - i - 1}`)}>{numberOfPage <= 1 ? i + 1 : numberOfPage - i}</a>*/}
-                {/*        </li>*/}
-                {/*    ))*/}
-                {/*}*/}
-                {/*{*/}
-                {/*    Array.from(Array(test1[1]).keys()).map(i => (*/}
-                {/*        <li key={i + travelBundles.number + 1}*/}
-                {/*            className={i + travelBundles.number + 1 === travelBundles.number + 1 ? "active" : ""}>*/}
-                {/*            <a className="page-link"*/}
-                {/*               onClick={() => navigate(`/${link}/${i + travelBundles.number}`)}>{i + travelBundles.number + 1}</a>*/}
-                {/*        </li>*/}
-                {/*    ))*/}
-                {/*}*/}
                 <li className={travelBundles.number >= travelBundles.totalPages - 1 ? "page-item btn-outline-success disabled" : "page-item btn-outline-success"}>
-                    <a className="page-link" onClick={() => navigate(`/${link}/${numberOfPage + 1}`)}>Next</a>
+                    <a className="page-link" onClick={() => navigate(`/${link}/${numberOfPage + 1}`)}><MdOutlineNavigateNext className="pb-1"/></a>
+                </li>
+                <li className={numberOfPage + 1 === travelBundles.totalPages ? "page-item btn-outline-success disabled" : "page-item btn-outline-success"}>
+                    <a className="page-link"
+                       onClick={() => navigate(`/${link}/${travelBundles.totalPages - 1}`)}><MdOutlineLastPage className="pb-1"/></a>
                 </li>
             </ul>
         </div>
