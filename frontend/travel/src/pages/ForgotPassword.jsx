@@ -2,8 +2,6 @@ import FormInput from "../components/FormInput";
 import {useState} from "react";
 import {forgotPassword} from "../service/CRUDUsers";
 import {useNavigate} from "react-router-dom";
-import axios, {AxiosError} from "axios";
-import {API_URL} from "../service/API";
 
 const ForgotPassword = () => {
 
@@ -13,14 +11,16 @@ const ForgotPassword = () => {
     const onSubmit = async (forgotPasswordData) => {
         setError("");
         try {
-            const response = await axios.patch(
-                API_URL + "users/forgotpassword",
-                forgotPasswordData
-            )
-            navigate("/login");
-        } catch (err){
-            if (err instanceof AxiosError) setError(err.response?.data.message);
-            else if (err instanceof Error) setError(err.message);
+            const response = await forgotPassword(forgotPasswordData, setError);
+            console.log(response.message);
+            if (response.message === "Password are not the same") {
+                setError(response.message);
+            } else {
+                navigate("/login");
+            }
+        } catch (er) {
+            console.log("catch");
+            console.log(er);
         }
     }
 

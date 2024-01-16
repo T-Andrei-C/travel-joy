@@ -27,13 +27,18 @@ const MyAccount = () => {
     const onSubmit = async (changePasswordData) => {
         try{
             setError(false);
-            await changePassword(token(), changePasswordData);
-            document.cookie = "_auth_state=logout";
-            navigate("/login");
-            window.location.reload();
+            const response = await changePassword(token(), changePasswordData);
+            if(response.message === "Password are not the same"){
+                setError(true);
+            }else{
+                document.cookie = "_auth_state=logout";
+                navigate("/login");
+                window.location.reload();
+            }
+
         }catch (err){
             console.log(err);
-            setError(true);
+
         }
 
     }

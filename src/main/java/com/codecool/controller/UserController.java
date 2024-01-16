@@ -4,6 +4,7 @@ import com.codecool.model.user.ChangePassword;
 import com.codecool.model.user.ForgotPassword;
 import com.codecool.model.user.User;
 import com.codecool.services.UserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,8 +25,9 @@ public class UserController {
     }
 
     @PatchMapping("/forgotpassword")
-    public void forgotPassword(@RequestBody ForgotPassword forgotPassword){
+    public ResponseEntity<String> forgotPassword(@RequestBody ForgotPassword forgotPassword){
         userService.forgotPassword(forgotPassword);
+        return ResponseEntity.ok("{}");
     }
 
     @GetMapping
