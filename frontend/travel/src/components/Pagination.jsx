@@ -1,14 +1,12 @@
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {
-    MdNavigateNext,
     MdOutlineFirstPage,
     MdOutlineLastPage,
     MdOutlineNavigateBefore,
     MdOutlineNavigateNext
 } from "react-icons/md";
-import {IoChevronBack, IoChevronBackSharp, IoChevronForward} from "react-icons/io5";
-import {GrFormPrevious} from "react-icons/gr";
+
 
 const Pagination = ({travelBundles, link, numberOfPage}) => {
     const navigate = useNavigate();
@@ -40,7 +38,9 @@ const Pagination = ({travelBundles, link, numberOfPage}) => {
                        onClick={() => navigate(`/${link}/0`)}><MdOutlineFirstPage className="pb-1"/></a>
                 </li>
                 <li className={travelBundles?.number === 0 ? "page-item btn-outline-success disabled" : "page-item btn-outline-success"}>
-                    <a className="page-link" onClick={() => navigate(`/${link}/${numberOfPage - 1}`)}><MdOutlineNavigateBefore className="pb-1"/></a>
+                    <a className="page-link"
+                       onClick={() => navigate(`/${link}/${numberOfPage - 1}`)}><MdOutlineNavigateBefore
+                        className="pb-1"/></a>
                 </li>
                 {
                     travelBundles.totalPages <= 4 ?
@@ -70,11 +70,14 @@ const Pagination = ({travelBundles, link, numberOfPage}) => {
                         </>
                 }
                 <li className={travelBundles.number >= travelBundles.totalPages - 1 ? "page-item btn-outline-success disabled" : "page-item btn-outline-success"}>
-                    <a className="page-link" onClick={() => navigate(`/${link}/${numberOfPage + 1}`)}><MdOutlineNavigateNext className="pb-1"/></a>
+                    <a className="page-link"
+                       onClick={() => navigate(`/${link}/${numberOfPage + 1}`)}><MdOutlineNavigateNext
+                        className="pb-1"/></a>
                 </li>
                 <li className={numberOfPage + 1 === travelBundles.totalPages ? "page-item btn-outline-success disabled" : "page-item btn-outline-success"}>
                     <a className="page-link"
-                       onClick={() => navigate(`/${link}/${travelBundles.totalPages - 1}`)}><MdOutlineLastPage className="pb-1"/></a>
+                       onClick={() => navigate(`/${link}/${travelBundles.totalPages - 1}`)}><MdOutlineLastPage
+                        className="pb-1"/></a>
                 </li>
             </ul>
         </div>
