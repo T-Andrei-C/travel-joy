@@ -22,7 +22,7 @@ public class AuthenticationService {
 
     public AuthenticationResponse register(RegisterRequest request) {
         if (userRepository.findByEmail(request.getEmail()).orElse(null) != null){
-            throw new EntityExistsException();
+            throw new EntityExistsException("Access Denied");
         } // orElseThrow
 
         User user = User.builder()
@@ -31,6 +31,7 @@ public class AuthenticationService {
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(roleRepository.findByName("USER"))
+                .isEnabled(true)
                 .build();
         userRepository.save(user);
         var jwtToken = jwtService.generateToken(user);

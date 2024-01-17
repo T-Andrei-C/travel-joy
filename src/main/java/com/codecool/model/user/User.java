@@ -28,6 +28,8 @@ public class User implements UserDetails {
 
     private String email;
 
+    private Boolean isEnabled;
+
     @JsonIgnore
     private String password;
 
@@ -66,6 +68,6 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return isEnabled;
     }
 }
