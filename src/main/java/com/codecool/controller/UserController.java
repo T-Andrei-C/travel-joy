@@ -35,4 +35,9 @@ public class UserController {
     public User getAuthUser(Principal connectedUser) {
         return userService.getAuthUser(connectedUser);
     }
+
+    @PatchMapping("/disableAccount")
+    public void deleteUserAccount(Principal connectedUser){
+        userService.disableUserAccount(connectedUser);
+    }
 }

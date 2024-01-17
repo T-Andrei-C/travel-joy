@@ -1,6 +1,5 @@
 import {API_URL} from "./API";
 
-
 export const getAuthUser = async (token) => {
     const request = await fetch(`${API_URL}users`, {
         method: "GET",
@@ -33,5 +32,15 @@ export const forgotPassword = async (forgotPassword, setError) => {
         body: JSON.stringify(forgotPassword)
     });
     return await request.json();
+}
+
+export const disableUserAccount = async (token) => {
+    const request = await fetch(`${API_URL}users/disableAccount`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": token
+        }
+    })
 }
 

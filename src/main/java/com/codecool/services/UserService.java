@@ -47,4 +47,10 @@ public class UserService {
     public User getAuthUser(Principal connectedUser){
         return (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
     }
+
+    public void disableUserAccount(Principal connectedUser){
+        User user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
+        user.setIsEnabled(false);
+        userRepository.save(user);
+    }
 }
