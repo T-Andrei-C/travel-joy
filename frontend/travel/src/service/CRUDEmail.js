@@ -9,3 +9,8 @@ export const sendEmailForForgotPassword = async (email) => {
         body: JSON.stringify(email)
     });
 }
+
+export const getMailExpiration = async (uuid) => {
+    const request = await fetch(`${API_URL}forgotpassword/${uuid}`);
+    return await request.json();
+}
