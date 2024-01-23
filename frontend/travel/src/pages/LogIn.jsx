@@ -3,7 +3,7 @@ import {useNavigate} from "react-router-dom";
 import {useIsAuthenticated, useSignIn} from "react-auth-kit";
 import FormInput from "../components/FormInput";
 import {onSubmit} from "../service/AuthenticateService";
-import Popup from "../components/Popup";
+import InfoPopup from "../components/InfoPopup";
 import {sendEmailForForgotPassword} from "../service/CRUDEmail";
 
 function LogIn() {
@@ -57,7 +57,7 @@ function LogIn() {
                            onClick={sendEmailForgotPassword}
                            data-bs-target="#exampleModal" href="#" className="text-danger">Forgot password?</a>
                     </p>
-                    <Popup header="Password Reset Email Sent" content="We've sent an email to the address associated with your account. Please check your inbox and follow the instructions in the email to reset your password."/>
+                    <InfoPopup header="Password Reset Email Sent" content="We've sent an email to the address associated with your account. Please check your inbox and follow the instructions in the email to reset your password."/>
 
                     <button className="btn btn-success btn-lg btn-block " type="submit">LogIn</button>
 
