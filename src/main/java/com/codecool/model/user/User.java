@@ -1,5 +1,6 @@
 package com.codecool.model.user;
 
+import com.codecool.model.MailExpiration;
 import com.codecool.model.Reservation;
 import com.codecool.model.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -41,6 +42,9 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<Reservation> reservations;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<MailExpiration> expiration_mails;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.getName()));

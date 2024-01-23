@@ -15,6 +15,7 @@ import ViewDetails from "./pages/ViewDetails";
 import MyAccount from "./pages/MyAccount";
 import ForgotPassword from "./pages/ForgotPassword";
 import Payment from "./pages/Payment";
+import Error from "./pages/Error";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -32,7 +33,8 @@ const router = createBrowserRouter(
             <Route path="/contact" element={<Contact/>} />
             <Route path="/checkout" element={<Checkout/>} />
             <Route path="/myaccount" element={<MyAccount/>}/>
-            <Route path="/forgotpassword" element={<ForgotPassword/>}/>
+            <Route path="/forgotpassword/:uuid" element={<ForgotPassword/>}/>
+            <Route path="/error" element={<Error/>}/>
             <Route path="/test" element={<Payment/>}/>
             <Route path="/accommodations/details/:accommodationName/:destination/:checkIn/:checkOut/:numberOfPersons" element={<ViewDetails/>}/>
         </Route>

@@ -1,12 +1,27 @@
 import FormInput from "../components/FormInput";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {forgotPassword} from "../service/CRUDUsers";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
+import {getMailExpiration} from "../service/CRUDEmail";
 
 const ForgotPassword = () => {
 
+    const [mailExpiration, setMailExpiration] = useState();
     const [error, setError] = useState("");
     const navigate = useNavigate();
+    const { uuid } = useParams();
+
+    useEffect(() => {
+        getMailExpiration(uuid).then(mail => {
+            if (mail.status >= 400){
+                navigate("/error");
+            }
+            setMailExpiration(mail);
+        })
+
+    },[])
+
+    console.log(mailExpiration);
 
     const onSubmit = async (forgotPasswordData) => {
         setError("");
