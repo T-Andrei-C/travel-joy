@@ -97,11 +97,11 @@ const MyAccount = () => {
                 </div>
             </div>
             <div className="text-center mt-5 pt-5">
-                <button data-bs-toggle="modal" data-bs-target="#disableAccount" className="btn btn-danger btn-lg btn-block">Delete Account</button>
+                <button data-bs-toggle="modal" data-bs-target="#disableAccount" className="btn btn-danger btn-lg btn-block">Disable Account</button>
             </div>
             <ActionPopup
-                content="Are you sure you want to log out? You may lose unsaved progress."
-                header="Verify Logout"
+                content="Are you sure you want to disable your account ?"
+                header=":("
                 onSubmit={disableAccount}
                 btnText="Disable"
                 id="disableAccount"

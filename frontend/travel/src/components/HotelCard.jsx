@@ -1,8 +1,7 @@
 import {FaLocationDot} from "react-icons/fa6";
 import {BsFillHouseCheckFill, BsSlash} from "react-icons/bs";
 import {useNavigate} from "react-router-dom";
-import {Popover} from "@mui/material";
-import Popup from "./Popup";
+import InfoPopup from "./InfoPopup";
 
 const HotelCard = ({accommodation, city, checkIn, checkOut, numberOfPersons}) => {
 
@@ -58,8 +57,8 @@ const HotelCard = ({accommodation, city, checkIn, checkOut, numberOfPersons}) =>
                                    data-bs-target="#exampleModal">
                                     View Details
                                 </a>
-                                <Popup header="Oops! Fill in travel details for adventure!"
-                                       content="We share your excitement to discover our offers! Just one more step: complete the search fields before unlocking the next stage."/>
+                                <InfoPopup header="Oops! Fill in travel details for adventure!"
+                                           content="We share your excitement to discover our offers! Just one more step: complete the search fields before unlocking the next stage."/>
                             </div>
                         </div>
                     </div>

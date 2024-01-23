@@ -19,7 +19,7 @@ const RootLayout = () => {
 
     return (
         <>
-            <nav className="navbar navbar-expand-lg bg-success sticky-top text-white" data-bs-theme="dark">
+            <nav className="navbar navbar-expand-md bg-success sticky-top text-white" data-bs-theme="dark">
                 <div className="container-fluid">
                     <NavLink to="/">
                         <img height={35} className="ps-2" src={Travel_Joy} alt="logo"/>
@@ -30,7 +30,7 @@ const RootLayout = () => {
                         <span className="navbar-toggler-icon text-white"></span>
                     </button>
                     <div className="collapse navbar-collapse" id="navbarText">
-                        <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <ul className="navbar-nav ms-auto mb-lg-0">
                             <li className="nav-item">
                                 <NavLink to="/accommodations/3/0" className="nav-link">Accommodations</NavLink>
                             </li>
@@ -41,18 +41,18 @@ const RootLayout = () => {
                                 <NavLink to="/aboutus" className="nav-link">About us</NavLink>
                             </li>
                             {isAuthenticated() ?
-                                <>
+                                <div className="d-inline-flex">
                                     <li className="nav-item">
                                         <NavLink to="/myaccount" className="nav-link"><MdAccountCircle
                                             style={{fontSize: "1.8em"}}/></NavLink>
                                     </li>
-                                    <li className="nav-item">
+                                    <li className="nav-item ms-lg-0 ms-md-0 ms-sm-2 ms-2">
                                         <button data-bs-toggle="modal"
                                                 data-bs-target="#logout"
                                                 className="nav-link"><FaPowerOff
-                                            style={{fontSize: "1.5em"}}/></button>
+                                            style={{fontSize: "1.6em"}}/></button>
                                     </li>
-                                </>
+                                </div>
                                 :
                                 <>
                                     <li className="nav-item">
