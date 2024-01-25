@@ -3,8 +3,7 @@ import {useEffect, useState} from "react";
 import {Elements} from "@stripe/react-stripe-js";
 import {loadStripe} from "@stripe/stripe-js";
 import CheckoutForm from "./CheckoutForm";
-import {API_URL} from "../service/API";
-import {chargePayment, getPublicKey} from "../service/CRUDPayment";
+import {chargePayment, getPublicKey} from "../../service/CRUDPayment";
 
 const Payment = () => {
     const [stripePromise, setStripePromise] = useState(null);
@@ -43,14 +42,14 @@ const Payment = () => {
     }, []);
 
     return (
-        <>
-            <h1>React Stripe and the Payment Element</h1>
+        <div className="text-center">
+            <h3 className="mb-4">Payment details</h3>
             {clientSecret && stripePromise && (
                 <Elements stripe={stripePromise} options={{clientSecret}}>
                     <CheckoutForm/>
                 </Elements>
             )}
-        </>
+        </div>
     );
 }
 

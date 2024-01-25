@@ -11,7 +11,6 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -45,8 +44,7 @@ public class EmailSenderService {
         mailMessage.setFrom("Travel Joy<" + sender + ">");
         mailMessage.setTo(email.getRecipient());
         mailMessage.setSubject("Forgot Password");
-        mailMessage.setText("Visit this link to reset your password: http://localhost:3000/forgotpassword/" + uuid);
-
+        mailMessage.setText("We have received your request to change your password. For security purposes, please click the link below within the next 15 minutes to complete the process:\nhttp://localhost:3000/forgotpassword/" + uuid);
         mailExpirationRepository.save(mailExpiration);
         javaMailSender.send(mailMessage);
     }

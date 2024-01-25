@@ -68,8 +68,8 @@ const MyAccount = () => {
                     <div className="col-12 col-md-12 col-lg-10 col-xl-8 card border-success rounded-4 ms-lg-5">
                         <div className="card-body p-lg-5 p-xl-5 p-md-5 text-center">
                             <h3 className="mb-5">Hello, {user?.firstname} {user?.lastname}!</h3>
-                            <FormInput content="First name" type="text" name="firstname" test={user?.firstname}/>
-                            <FormInput content="Last name" type="text" name="lastname" test={user?.lastname}/>
+                            <FormInput content="First name" type="text" name="firstname" defaultValue={user?.firstname}/>
+                            <FormInput content="Last name" type="text" name="lastname" defaultValue={user?.lastname}/>
                             <div className="form-floating mb-4">
                                 <label className="pt-1 text-success fw-bold" style={{fontSize: "0.75em"}}
                                        htmlFor="floatingInputValue">Email</label>
