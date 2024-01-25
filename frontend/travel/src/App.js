@@ -14,8 +14,9 @@ import Checkout from "./pages/checkout/Checkout";
 import ViewDetails from "./pages/ViewDetails";
 import MyAccount from "./pages/MyAccount";
 import ForgotPassword from "./pages/ForgotPassword";
-import Payment from "./pages/Payment";
+import Payment from "./pages/test/Payment";
 import Error from "./pages/Error";
+import CheckoutTest from "./pages/test/CheckoutTest";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -35,7 +36,7 @@ const router = createBrowserRouter(
             <Route path="/myaccount" element={<MyAccount/>}/>
             <Route path="/forgotpassword/:uuid" element={<ForgotPassword/>}/>
             <Route path="/error" element={<Error/>}/>
-            <Route path="/test" element={<Payment/>}/>
+            <Route path="/test" element={<CheckoutTest/>}/>
             <Route path="/accommodations/details/:accommodationName/:destination/:checkIn/:checkOut/:numberOfPersons" element={<ViewDetails/>}/>
             <Route path="/:random" element={<Error/>}/>
         </Route>
