@@ -37,6 +37,7 @@ const router = createBrowserRouter(
             <Route path="/error" element={<Error/>}/>
             <Route path="/test" element={<Payment/>}/>
             <Route path="/accommodations/details/:accommodationName/:destination/:checkIn/:checkOut/:numberOfPersons" element={<ViewDetails/>}/>
+            <Route path="/:random" element={<Error/>}/>
         </Route>
     )
 )
