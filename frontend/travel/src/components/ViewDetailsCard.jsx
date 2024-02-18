@@ -1,4 +1,6 @@
-import homeImage from "./img/homeImage.jpg";
+import dummyRoom1 from "./img/dummyRoom1.jpg";
+import dummyRoom2 from "./img/dummyRoom2.jpg";
+import dummyRoom3 from "./img/dummyRoom3.jpg";
 import {BiSolidCalendar} from "react-icons/bi";
 import {FaBed} from "react-icons/fa";
 import {BsFillHouseCheckFill, BsSlash} from "react-icons/bs";
@@ -23,13 +25,13 @@ const ViewDetailsCard = ({room, checkIn, checkOut, navigate}) => {
                 </div>
                 <div className="carousel-inner">
                     <div className="carousel-item active">
-                        <img src={homeImage} className="d-block w-100" alt="..."/>
+                        <img src={dummyRoom1} className="d-block w-100" alt="..."/>
                     </div>
                     <div className="carousel-item">
-                        <img src={homeImage} className="d-block w-100" alt="..."/>
+                        <img src={dummyRoom2} className="d-block w-100" alt="..."/>
                     </div>
                     <div className="carousel-item">
-                        <img src={homeImage} className="d-block w-100" alt="..."/>
+                        <img src={dummyRoom3} className="d-block w-100" alt="..."/>
                     </div>
                 </div>
                 <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
