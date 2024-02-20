@@ -26,7 +26,7 @@ const ForgotPassword = () => {
     const onSubmit = async (forgotPasswordData) => {
         setError("");
         try {
-            const response = await forgotPassword(forgotPasswordData, setError);
+            const response = await forgotPassword(forgotPasswordData);
             console.log(response.message);
             if (response.message === "Password are not the same") {
                 setError(response.message);
@@ -43,9 +43,10 @@ const ForgotPassword = () => {
         e.preventDefault();
         const formData = new FormData(e.target);
         const forgotPasswordData = {
-            email: formData.get("email"),
+            email: mailExpiration.user.email,
             newPassword: formData.get("newPassword"),
             confirmNewPassword: formData.get("confirmNewPassword"),
+            uuid:mailExpiration.uuid
         };
         onSubmit(forgotPasswordData);
     }
@@ -56,7 +57,6 @@ const ForgotPassword = () => {
                 <div className="card-body p-lg-5 p-xl-5 p-md-5 text-center">
                     <h3 className="mb-5">Update Password</h3>
 
-                    <FormInput content="Confirm email" type="email" name="email"/>
                     <FormInput content="New password" type="password" name="newPassword"/>
                     <FormInput content="Confirm new password" type="password" name="confirmNewPassword"/>
 

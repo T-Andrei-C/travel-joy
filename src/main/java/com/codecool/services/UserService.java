@@ -1,8 +1,10 @@
 package com.codecool.services;
 
+import com.codecool.model.MailExpiration;
 import com.codecool.model.user.ChangePassword;
 import com.codecool.model.user.ForgotPassword;
 import com.codecool.model.user.User;
+import com.codecool.repositories.MailExpirationRepository;
 import com.codecool.repositories.UserRepository;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,10 +16,12 @@ import java.security.Principal;
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final MailExpirationRepository mailExpirationRepository;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, MailExpirationRepository mailExpirationRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.mailExpirationRepository = mailExpirationRepository;
     }
 
     public void changePassword(ChangePassword changePassword, Principal connectedUser){
@@ -39,9 +43,11 @@ public class UserService {
         if (!forgotPassword.getNewPassword().equals(forgotPassword.getConfirmNewPassword())){
             throw new IllegalStateException("Password are not the same");
         }
-
         user.setPassword(passwordEncoder.encode(forgotPassword.getNewPassword()));
         userRepository.save(user);
+        MailExpiration mailExpiration = mailExpirationRepository.findMailExpirationByUuid(forgotPassword.getUuid()).orElseThrow(() -> new IllegalStateException("Mail expiration does not exist"));
+        mailExpiration.setIsClosed(true);
+        mailExpirationRepository.save(mailExpiration);
     }
 
     public User getAuthUser(Principal connectedUser){
