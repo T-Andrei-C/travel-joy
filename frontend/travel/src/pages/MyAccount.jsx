@@ -29,9 +29,10 @@ const MyAccount = () => {
         try {
             setError(false);
             const response = await changePassword(token(), changePasswordData);
-            if (response.message === "Password are not the same") {
+            if (response.message === "Password are not the same" || response.message ==="Wrong password!") {
                 setError(true);
             } else {
+                console.log(response)
                 document.cookie = "_auth_state=logout";
                 navigate("/login");
                 window.location.reload();

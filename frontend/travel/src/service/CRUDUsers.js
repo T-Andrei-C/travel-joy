@@ -23,7 +23,7 @@ export const changePassword = async (token, changePassword) => {
     return await request.json();
 }
 
-export const forgotPassword = async (forgotPassword, setError) => {
+export const forgotPassword = async (forgotPassword) => {
     const request = await fetch(`${API_URL}users/forgotpassword`, {
         method: "PATCH",
         headers: {

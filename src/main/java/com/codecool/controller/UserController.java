@@ -1,5 +1,6 @@
 package com.codecool.controller;
 
+import com.codecool.model.MailExpiration;
 import com.codecool.model.user.ChangePassword;
 import com.codecool.model.user.ForgotPassword;
 import com.codecool.model.user.User;
