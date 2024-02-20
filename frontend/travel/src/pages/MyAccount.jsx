@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {changePassword, disableUserAccount, getAuthUser} from "../service/CRUDUsers";
+import {changePassword, disableUserAccount, getAuthUser, updateUserName} from "../service/CRUDUsers";
 import {useAuthHeader} from "react-auth-kit";
 import FormInput from "../components/FormInput";
 import {useNavigate} from "react-router-dom";
@@ -12,6 +12,7 @@ const MyAccount = () => {
     const [user, setUser] = useState();
     const [visibility, setVisibility] = useState("hidden");
     const [error, setError] = useState(false);
+    const [successUpdateUserName, setSuccessUpdateUserName] = useState(false);
     const navigate = useNavigate();
     const isAuth = useIsAuthenticated();
     console.log(user);
@@ -25,14 +26,13 @@ const MyAccount = () => {
         })
     }, []);
 
-    const onSubmit = async (changePasswordData) => {
+    const onSubmitNewPassword = async (changePasswordData) => {
         try {
             setError(false);
             const response = await changePassword(token(), changePasswordData);
-            if (response.message === "Password are not the same" || response.message ==="Wrong password!") {
+            if (response.message === "Password are not the same" || response.message === "Wrong password!") {
                 setError(true);
             } else {
-                console.log(response)
                 document.cookie = "_auth_state=logout";
                 navigate("/login");
                 window.location.reload();
@@ -40,11 +40,20 @@ const MyAccount = () => {
 
         } catch (err) {
             console.log(err);
+        }
+    }
 
+    const onSubmitUpdateUserName = async (userName) => {
+        try {
+            setSuccessUpdateUserName(false);
+            const response = await updateUserName(userName);
+            setSuccessUpdateUserName(true);
+        } catch (err) {
+            console.log(err);
         }
 
     }
-    const onSave = (e) => {
+    const onSaveNewPassword = (e) => {
         e.preventDefault();
         const formData = new FormData(e.target);
         const changePasswordData = {
@@ -52,7 +61,18 @@ const MyAccount = () => {
             newPassword: formData.get("newPassword"),
             confirmNewPassword: formData.get("confirmNewPassword")
         };
-        onSubmit(changePasswordData);
+        onSubmitNewPassword(changePasswordData);
+    }
+
+    const onSaveUpdateUserName = (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const updateUserName = {
+            firstName: formData.get("firstname"),
+            lastName: formData.get("lastname"),
+            email: user.email
+        }
+        onSubmitUpdateUserName(updateUserName);
     }
 
     const disableAccount = async () => {
@@ -62,14 +82,17 @@ const MyAccount = () => {
         window.location.reload();
     }
 
+
     return (
         <>
             <div className="row p-0 m-0 mt-5">
-                <form className="col-10 col-sm-8 col-lg-6 col-md-6 align-content-center mx-auto">
+                <form onSubmit={onSaveUpdateUserName}
+                      className="col-10 col-sm-8 col-lg-6 col-md-6 align-content-center mx-auto">
                     <div className="col-12 col-md-12 col-lg-10 col-xl-8 card border-success rounded-4 ms-lg-5">
                         <div className="card-body p-lg-5 p-xl-5 p-md-5 text-center">
                             <h3 className="mb-5">Hello, {user?.firstname} {user?.lastname}!</h3>
-                            <FormInput content="First name" type="text" name="firstname" defaultValue={user?.firstname}/>
+                            <FormInput content="First name" type="text" name="firstname"
+                                       defaultValue={user?.firstname}/>
                             <FormInput content="Last name" type="text" name="lastname" defaultValue={user?.lastname}/>
                             <div className="form-floating mb-4">
                                 <label className="pt-1 text-success fw-bold" style={{fontSize: "0.75em"}}
@@ -78,6 +101,8 @@ const MyAccount = () => {
                                        className="form-control form-control-lg border-success"
                                        required={true} value={user?.email} style={{fontSize: "1.1em"}}/>
                             </div>
+                            <p className="text-success" hidden={!successUpdateUserName}>The changes were made
+                                successfully!</p>
                             <button className="btn btn-success btn-lg btn-block " type="submit">Save</button>
                         </div>
                     </div>
@@ -88,7 +113,8 @@ const MyAccount = () => {
                     <button className="btn btn-success btn-lg btn-block mt-2 " onClick={() => setVisibility("")}
                             type="button">Change Password
                     </button>
-                    <form onSubmit={onSave} className="mt-4 col-6 align-content-center mx-auto" hidden={visibility}>
+                    <form onSubmit={onSaveNewPassword} className="mt-4 col-6 align-content-center mx-auto"
+                          hidden={visibility}>
                         <FormInput type="password" name="currentPassword" content="Current Password"/>
                         <FormInput type="password" name="newPassword" content="New Password"/>
                         <FormInput type="password" name="confirmNewPassword" content="Confirm Password"/>
@@ -98,7 +124,9 @@ const MyAccount = () => {
                 </div>
             </div>
             <div className="text-center mt-5 pt-5">
-                <button data-bs-toggle="modal" data-bs-target="#disableAccount" className="btn btn-danger btn-lg btn-block">Disable Account</button>
+                <button data-bs-toggle="modal" data-bs-target="#disableAccount"
+                        className="btn btn-danger btn-lg btn-block">Disable Account
+                </button>
             </div>
             <ActionPopup
                 content="Are you sure you want to disable your account ?"
