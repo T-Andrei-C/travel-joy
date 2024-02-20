@@ -3,6 +3,7 @@ package com.codecool.controller;
 import com.codecool.model.MailExpiration;
 import com.codecool.model.user.ChangePassword;
 import com.codecool.model.user.ForgotPassword;
+import com.codecool.model.user.UpdateUserName;
 import com.codecool.model.user.User;
 import com.codecool.services.UserService;
 import org.springframework.http.ResponseEntity;
@@ -40,5 +41,10 @@ public class UserController {
     @PatchMapping("/disableAccount")
     public void disableUserAccount(Principal connectedUser){
         userService.disableUserAccount(connectedUser);
+    }
+
+    @PatchMapping("/updateUserName")
+    public void updateUserName(@RequestBody UpdateUserName updateUserName){
+        userService.updateUserName(updateUserName);
     }
 }

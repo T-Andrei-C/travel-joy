@@ -44,3 +44,13 @@ export const disableUserAccount = async (token) => {
     })
 }
 
+export const updateUserName = async(updateUserName) => {
+    const request = await fetch(`${API_URL}users/updateUserName`, {
+        method: "PATCH",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updateUserName)
+    })
+}
+
