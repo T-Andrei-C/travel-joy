@@ -15,7 +15,17 @@ const MyAccount = () => {
     const [successUpdateUserName, setSuccessUpdateUserName] = useState(false);
     const navigate = useNavigate();
     const isAuth = useIsAuthenticated();
-    console.log(user);
+
+    const onSaveUpdateUserName = (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const updateUserName = {
+            firstName: formData.get("firstname"),
+            lastName: formData.get("lastname"),
+            email: user.email
+        }
+        onSubmitUpdateUserName(updateUserName);
+    }
 
     useEffect(() => {
         if (!isAuth()) {
@@ -24,7 +34,7 @@ const MyAccount = () => {
         getAuthUser(token()).then((user) => {
             setUser(user);
         })
-    }, []);
+    }, [onSaveUpdateUserName]);
 
     const onSubmitNewPassword = async (changePasswordData) => {
         try {
@@ -37,7 +47,6 @@ const MyAccount = () => {
                 navigate("/login");
                 window.location.reload();
             }
-
         } catch (err) {
             console.log(err);
         }
@@ -64,16 +73,7 @@ const MyAccount = () => {
         onSubmitNewPassword(changePasswordData);
     }
 
-    const onSaveUpdateUserName = (e) => {
-        e.preventDefault();
-        const formData = new FormData(e.target);
-        const updateUserName = {
-            firstName: formData.get("firstname"),
-            lastName: formData.get("lastname"),
-            email: user.email
-        }
-        onSubmitUpdateUserName(updateUserName);
-    }
+
 
     const disableAccount = async () => {
         await disableUserAccount(token());
