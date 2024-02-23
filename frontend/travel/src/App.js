@@ -36,7 +36,7 @@ const router = createBrowserRouter(
             <Route path="/myaccount" element={<MyAccount/>}/>
             <Route path="/forgotpassword/:uuid" element={<ForgotPassword/>}/>
             <Route path="/error" element={<Error/>}/>
-            <Route path="/test" element={<CheckoutTest/>}/>
+            <Route path="/test" element={<Payment/>}/>
             <Route path="/accommodations/details/:accommodationName/:destination/:checkIn/:checkOut/:numberOfPersons" element={<ViewDetails/>}/>
             <Route path="/:random" element={<Error/>}/>
         </Route>

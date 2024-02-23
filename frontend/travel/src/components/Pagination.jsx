@@ -74,7 +74,7 @@ const Pagination = ({travelBundles, link, numberOfPage}) => {
                        onClick={() => navigate(`/${link}/${numberOfPage + 1}`)}><MdOutlineNavigateNext
                         className="pb-1"/></a>
                 </li>
-                <li className={numberOfPage + 1 === travelBundles.totalPages ? "page-item btn-outline-success disabled" : "page-item btn-outline-success"}>
+                <li className={numberOfPage + 1 === travelBundles.totalPages || travelBundles.totalPages === 0 ? "page-item btn-outline-success disabled" : "page-item btn-outline-success"}>
                     <a className="page-link"
                        onClick={() => navigate(`/${link}/${travelBundles.totalPages - 1}`)}><MdOutlineLastPage
                         className="pb-1"/></a>
