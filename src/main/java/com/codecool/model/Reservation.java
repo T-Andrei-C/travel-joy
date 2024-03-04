@@ -32,7 +32,7 @@ public class Reservation {
     private String country;
     private String county;
     private String city;
-    private String address;
+
     private Integer amount;
     private Boolean bought;
 

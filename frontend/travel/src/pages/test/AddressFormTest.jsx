@@ -1,8 +1,24 @@
 import FormInput from "../../components/FormInput";
 
-const AddressFormTest = ({data}) => {
-    return(
-        <div className="card-body p-lg-3 p-xl-3 p-md-3 text-center">
+const AddressFormTest = ({data, dataCallback, user}) => {
+    const onChange = (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target.form);
+        const userData = {
+            name: formData.get("firstname") + " " + formData.get("lastname"),
+            email: formData.get("email"),
+            phoneNumber: formData.get("phoneNumber"),
+            country: formData.get("country"),
+            county: formData.get("county"),
+            city: formData.get("city"),
+            amount: 1000 * 100,
+            user: user
+        }
+        dataCallback(userData);
+    }
+
+    return (
+        <form className="card-body p-lg-3 p-xl-3 p-md-3 text-center" onChange={onChange}>
             <h3 className="mb-4">Billing Data</h3>
             <div className="row">
                 <div className="col-md-6">
@@ -24,7 +40,7 @@ const AddressFormTest = ({data}) => {
                     <FormInput content="County" type="text" name="county" defaultValue={data.county}/>
                 </div>
             </div>
-        </div>
+        </form>
     );
 }
 export default AddressFormTest

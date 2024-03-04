@@ -6,11 +6,29 @@ import CheckoutForm from "./CheckoutForm";
 import {chargePayment, getPublicKey} from "../../service/CRUDPayment";
 import AddressFormTest from "./AddressFormTest";
 import ReviewOrder from "./ReviewOrder";
+import {getAuthUser} from "../../service/CRUDUsers";
+import {useNavigate} from "react-router-dom";
+import {useAuthHeader, useIsAuthenticated} from "react-auth-kit";
 
 const Payment = () => {
     const [stripePromise, setStripePromise] = useState(null);
     const [clientSecret, setClientSecret] = useState("");
-    const [personalInfo, setPersonalInfo] = useState({});
+    const [personalInfo, setPersonalInfo] = useState({
+        email: "3",
+        phoneNumber: "3",
+        name: "e",
+
+        country: "s",
+        county: "d",
+        city: "f",
+        amount: 2 * 100,
+
+        user: {}
+    });
+    const [authUser, setAuthUser] = useState({});
+    const navigate = useNavigate();
+    const isAuth = useIsAuthenticated();
+    const token = useAuthHeader();
 
     useEffect(() => {
         getPublicKey().then((publishableKey) => {
@@ -19,36 +37,31 @@ const Payment = () => {
     }, []);
 
     useEffect(() => {
-        const paymentModel = {
-            email: "",
-            phoneNumber: "",
-            name: "",
-
-            country: "",
-            county: "",
-            city: "",
-            address: "",
-            amount: 1000 * 100,
-
-            reservation: {
-                id: 9
-            },
-
-            user: {
-                id: 10
-            }
+        if (!isAuth()) {
+            navigate("/login");
         }
-
-        chargePayment(paymentModel).then((clientSecret) => {
-            setClientSecret(clientSecret.key);
+        getAuthUser(token()).then((user) => {
+            setAuthUser(user);
         })
     }, []);
+
+    useEffect(() => {
+        // if (personalInfo.name !== "" && personalInfo.email !== "" && personalInfo.phoneNumber !== ""
+        //     && personalInfo.city !== "" && personalInfo.country !== "" && personalInfo.county !== ""){
+        //     console.log("stripe")
+            chargePayment(personalInfo).then((clientSecret) => {
+                setClientSecret(clientSecret.key);
+            })
+        // }
+        // console.log("works")
+        // console.log(personalInfo)
+    }, [personalInfo]);
 
     return (
         <div className="col-12 text-center">
             <div className="col-12 row d-flex justify-content-center">
-                <div className="col-5 ">
-                    <AddressFormTest data={personalInfo}/>
+                <div className="col-5">
+                    <AddressFormTest data={personalInfo} dataCallback={setPersonalInfo} user={authUser}/>
                 </div>
                 <div className="col-5">
                     <ReviewOrder personalInfo={personalInfo}/>

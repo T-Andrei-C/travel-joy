@@ -9,12 +9,21 @@ import ActionPopup from "../components/ActionPopup";
 
 const MyAccount = () => {
     const token = useAuthHeader();
-    const [user, setUser] = useState();
+    const [authUser, setAuthUser] = useState({});
     const [visibility, setVisibility] = useState("hidden");
     const [error, setError] = useState(false);
     const [successUpdateUserName, setSuccessUpdateUserName] = useState(false);
     const navigate = useNavigate();
     const isAuth = useIsAuthenticated();
+
+    useEffect(() => {
+        if (!isAuth()) {
+            navigate("/login");
+        }
+        getAuthUser(token()).then((user) => {
+            setAuthUser(user);
+        })
+    }, [successUpdateUserName]);
 
     const onSaveUpdateUserName = (e) => {
         e.preventDefault();
@@ -22,19 +31,10 @@ const MyAccount = () => {
         const updateUserName = {
             firstName: formData.get("firstname"),
             lastName: formData.get("lastname"),
-            email: user.email
+            email: authUser.email
         }
         onSubmitUpdateUserName(updateUserName);
     }
-
-    useEffect(() => {
-        if (!isAuth()) {
-            navigate("/login");
-        }
-        getAuthUser(token()).then((user) => {
-            setUser(user);
-        })
-    }, [onSaveUpdateUserName]);
 
     const onSubmitNewPassword = async (changePasswordData) => {
         try {
@@ -74,7 +74,6 @@ const MyAccount = () => {
     }
 
 
-
     const disableAccount = async () => {
         await disableUserAccount(token());
         document.cookie = "_auth_state=logout";
@@ -90,16 +89,17 @@ const MyAccount = () => {
                       className="col-10 col-sm-8 col-lg-6 col-md-6 align-content-center mx-auto">
                     <div className="col-12 col-md-12 col-lg-10 col-xl-8 card border-success rounded-4 ms-lg-5">
                         <div className="card-body p-lg-5 p-xl-5 p-md-5 text-center">
-                            <h3 className="mb-5">Hello, {user?.firstname} {user?.lastname}!</h3>
+                            <h3 className="mb-5">Hello, {authUser?.firstname} {authUser?.lastname}!</h3>
                             <FormInput content="First name" type="text" name="firstname"
-                                       defaultValue={user?.firstname}/>
-                            <FormInput content="Last name" type="text" name="lastname" defaultValue={user?.lastname}/>
+                                       defaultValue={authUser?.firstname}/>
+                            <FormInput content="Last name" type="text" name="lastname"
+                                       defaultValue={authUser?.lastname}/>
                             <div className="form-floating mb-4">
                                 <label className="pt-1 text-success fw-bold" style={{fontSize: "0.75em"}}
                                        htmlFor="floatingInputValue">Email</label>
                                 <input type="email" name="email" disabled
                                        className="form-control form-control-lg border-success"
-                                       required={true} value={user?.email} style={{fontSize: "1.1em"}}/>
+                                       required={true} value={authUser?.email} style={{fontSize: "1.1em"}}/>
                             </div>
                             <p className="text-success" hidden={!successUpdateUserName}>The changes were made
                                 successfully!</p>
