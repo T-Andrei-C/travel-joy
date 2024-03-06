@@ -15,14 +15,14 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @Service
 public class TravelPackageService {
-    private TravelPackageRepository travelPackageRepository;
-    private RoomRepository roomRepository;
-    private ReservationRepository reservationRepository;
-    private ReservationFilter reservationFilter;
+    private final TravelPackageRepository travelPackageRepository;
+    private final RoomRepository roomRepository;
+    private final ReservationRepository reservationRepository;
+    private final ReservationFilter reservationFilter;
 
     public TravelPackageService(TravelPackageRepository travelPackageRepository, RoomRepository roomRepository, ReservationFilter reservationFilter, ReservationRepository reservationRepository) {
         this.travelPackageRepository = travelPackageRepository;
@@ -31,14 +31,19 @@ public class TravelPackageService {
         this.reservationFilter = reservationFilter;
     }
 
-    public Page<TravelPackage> getTravelPackagePerPage(int currentPage, int itemsPerPage) {
+    public Page<TravelPackage> getAllTravelPackagesPerPage(int currentPage, int itemsPerPage) {
+        List<TravelPackage> allTravelPackage = travelPackageRepository.findAll();
+        List<TravelPackage> availableTravelPackage = allTravelPackage.stream().filter(atp -> !atp.getReservation().getBought()).toList();
         PageRequest pageRequest = PageRequest.of(currentPage, itemsPerPage);
-        return travelPackageRepository.findAll(pageRequest);
+        return travelPackageRepository.findAllByTravelPackagesSearch(availableTravelPackage, pageRequest);
     }
 
     public Page<TravelPackage> getAllTravelPackagesByCity(int currentPage, int itemsPerPage, String cityName) {
+        List<TravelPackage> allTravelPackage = travelPackageRepository.findAllByRoomAccommodationCityName(cityName);
+        List<TravelPackage> availableTravelPackage = allTravelPackage.stream().filter(atp -> !atp.getReservation().getBought()).toList();
+
         PageRequest pageRequest = PageRequest.of(currentPage, itemsPerPage);
-        return travelPackageRepository.findAllByRoomAccommodationCityName(cityName, pageRequest);
+        return travelPackageRepository.findAllByTravelPackagesSearch(availableTravelPackage, pageRequest);
     }
 
 
@@ -69,7 +74,7 @@ public class TravelPackageService {
         List<TravelPackage> filteredTravelPackagesByCity = travelPackageRepository.findAllByRoomAccommodationCityName(cityName);
 
         for (var travelPackage : filteredTravelPackagesByCity) {
-            if (travelPackage.getReservation() == null) {
+            if (!travelPackage.getReservation().getBought()) {
                 if (travelPackage.getRoom().getType().getCapacity() >= numberOfPersons) {
                     if (reservationFilter.checkTravelPackages(travelPackage, checkIn, checkOut)) {
                         filteredTravelPackages.add(travelPackage);
