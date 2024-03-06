@@ -13,8 +13,6 @@ const ViewDetails = () => {
         getAllAvailableRooms(accommodationName, destination, numberOfPersons, checkIn, checkOut).then(room => setRooms(room));
     }, []);
 
-    console.log(rooms);
-
     return (
         <div className="d-flex justify-content-center align-items-center row p-0 m-0">
             <div

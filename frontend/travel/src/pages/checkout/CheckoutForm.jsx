@@ -11,7 +11,7 @@ export default function CheckoutForm({reservationData, travelType}) {
     const [message, setMessage] = useState(null);
     const [isProcessing, setIsProcessing] = useState(false);
     const navigate = useNavigate();
-    
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();

@@ -8,8 +8,8 @@ import {BsFillHouseCheckFill, BsSlash} from "react-icons/bs";
 const ViewDetailsCard = ({room, checkIn, checkOut, navigate, destination, accommodationName}) => {
     const totalPrice = () =>{
         const checkInDate = new Date(checkIn);
-        const checkOUtDate = new Date(checkOut);
-        return (checkOUtDate.getTime() - checkInDate.getTime()) / (1000 * 3600 * 24);
+        const checkOutDate = new Date(checkOut);
+        return (checkOutDate.getTime() - checkInDate.getTime()) / (1000 * 3600 * 24);
     }
 
     return (
