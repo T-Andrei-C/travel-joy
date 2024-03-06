@@ -10,9 +10,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class StripeService {
     @Value("${stripe.keys.secret}")
-    private String API_PUBLIC_KEY;
+    private String API_SECRET_KEY;
+
     public String createCharge(Reservation payment) {
-        Stripe.apiKey = API_PUBLIC_KEY;
+        Stripe.apiKey = API_SECRET_KEY;
+
         try {
             PaymentIntentCreateParams createParams = new PaymentIntentCreateParams.Builder()
                     .setCurrency("ron")

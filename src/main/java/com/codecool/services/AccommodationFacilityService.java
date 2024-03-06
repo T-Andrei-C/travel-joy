@@ -2,11 +2,8 @@ package com.codecool.services;
 
 import com.codecool.model.AccommodationFacility;
 import com.codecool.repositories.AccommodationFacilityRepository;
-import com.codecool.repositories.AccommodationRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
-
-
 
 @Service
 public class AccommodationFacilityService {

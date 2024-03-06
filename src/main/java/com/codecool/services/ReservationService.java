@@ -1,56 +1,37 @@
 package com.codecool.services;
 
-import com.codecool.configurations.ReservationFilter;
+import com.codecool.DTO.ReservationDTO;
+import com.codecool.mapper.ReservationMapper;
 import com.codecool.model.Reservation;
-import com.codecool.model.Room;
 import com.codecool.repositories.ReservationRepository;
-import com.codecool.repositories.RoomRepository;
-import jakarta.persistence.EntityNotFoundException;
+import com.codecool.repositories.TravelPackageRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 public class ReservationService {
     private ReservationRepository reservationRepository;
-    private RoomRepository roomRepository;
-    private ReservationFilter reservationFilter;
+    private ReservationMapper reservationMapper;
+    private TravelPackageRepository travelPackageRepository;
 
-    public ReservationService(ReservationRepository reservationRepository, RoomRepository roomRepository, ReservationFilter reservationFilter) {
+    public ReservationService(ReservationRepository reservationRepository, ReservationMapper reservationMapper, TravelPackageRepository travelPackageRepository) {
         this.reservationRepository = reservationRepository;
-        this.roomRepository = roomRepository;
-        this.reservationFilter = reservationFilter;
+        this.reservationMapper = reservationMapper;
+        this.travelPackageRepository = travelPackageRepository;
     }
 
     public List<Reservation> getAllReservation() {
         return reservationRepository.findAll();
     }
 
-    public void addReservation(Reservation reservation) {
-        Room currentRoom = roomRepository.findById(reservation.getRoom().getId()).orElse(null);
+    public void addReservation(ReservationDTO reservationDTO) {
+        Reservation reservation = reservationMapper.DTOToReservation(reservationDTO);
+        reservationRepository.save(reservation);
 
-        if (currentRoom != null) {
-            if (currentRoom.getReservations().isEmpty()) {
-                reservationRepository.save(reservation);
-            } else {
-                verifyAndAddReservation(currentRoom, reservation);
-            }
-        } else {
-            throw new EntityNotFoundException("Room not found!");
-        }
-    }
-
-    private void verifyAndAddReservation(Room currentRoom, Reservation reservation) {
-        LocalDate checkIn = reservation.getCheck_in();
-        LocalDate checkOut = reservation.getCheck_out();
-        if (
-                reservationFilter.checkReservation(currentRoom, checkIn, checkOut)
-        ) {
-            reservationRepository.save(reservation);
-        } else {
-            throw new EntityNotFoundException("The period selected is already booked!");
+        if (reservation.getTravelPackage() != null){
+            reservation.getTravelPackage().setReservation(reservation);
+            travelPackageRepository.save(reservation.getTravelPackage());
         }
     }
 }

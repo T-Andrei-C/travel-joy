@@ -6,7 +6,6 @@ import com.codecool.model.Room;
 import com.codecool.repositories.AccommodationRepository;
 import com.codecool.repositories.RoomRepository;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +14,6 @@ import jakarta.persistence.EntityNotFoundException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class AccommodationService {
@@ -27,10 +25,6 @@ public class AccommodationService {
         this.accommodationRepository = accommodationRepository;
         this.roomRepository = roomRepository;
         this.reservationFilter = reservationFilter;
-    }
-
-    public List<Accommodation> getAllAccommodations() {
-        return accommodationRepository.findAll();
     }
 
     public Page<Accommodation> getAccommodationPerPage(int currentPage, int itemsPerPage) {
@@ -65,8 +59,10 @@ public class AccommodationService {
 
     public Page<Accommodation> accommodationSearch(int currentPage, int itemsPerPage, String cityName,
                                                    LocalDate checkIn, LocalDate checkOut, Integer numberOfPersons) {
+
         List<Accommodation> filteredAccommodations = new ArrayList<>();
-        List<Accommodation> filteredAccommodationsByCity = filterAccommodationsByCity(cityName);
+        List<Accommodation> filteredAccommodationsByCity = accommodationRepository.findAllByCityName(cityName);
+
         for (var accommodation : filteredAccommodationsByCity) {
             for (var room : accommodation.getRooms()) {
                 if (room.getType().getCapacity() >= numberOfPersons) {
@@ -78,21 +74,7 @@ public class AccommodationService {
             }
         }
 
-
         PageRequest pageRequest = PageRequest.of(currentPage, itemsPerPage);
         return accommodationRepository.findAllByAccommodations(filteredAccommodations, pageRequest);
     }
-
-    private List<Accommodation> sortAccommodationPerPage(int currentPage, int itemsPerPage, List<Accommodation> accommodations) {
-        int numberOfLastEmployee = Math.min((currentPage * itemsPerPage), accommodations.size());
-        int numberOfFirstEmployee = (currentPage - 1) * itemsPerPage;
-
-        return accommodations.subList(numberOfFirstEmployee, numberOfLastEmployee);
-    }
-
-    private List<Accommodation> filterAccommodationsByCity(String cityName) {
-        return accommodationRepository.findAll().stream().filter(a -> a.getCity().getName().equals(cityName)).collect(Collectors.toList());
-    }
-
-
 }

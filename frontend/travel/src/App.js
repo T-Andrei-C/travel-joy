@@ -10,13 +10,11 @@ import AboutUs from "./pages/AboutUs";
 import LogIn from "./pages/LogIn";
 import SignUp from "./pages/SignUp";
 import Contact from "./pages/Contact";
-import Checkout from "./pages/checkout/Checkout";
 import ViewDetails from "./pages/ViewDetails";
 import MyAccount from "./pages/MyAccount";
 import ForgotPassword from "./pages/ForgotPassword";
-import Payment from "./pages/test/Payment";
+import Payment from "./pages/checkout/Payment";
 import Error from "./pages/Error";
-import CheckoutTest from "./pages/test/CheckoutTest";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -32,11 +30,10 @@ const router = createBrowserRouter(
             <Route path="/login" element={<LogIn/>} />
             <Route path="/signup" element={<SignUp/>} />
             <Route path="/contact" element={<Contact/>} />
-            <Route path="/checkout" element={<Checkout/>} />
             <Route path="/myaccount" element={<MyAccount/>}/>
             <Route path="/forgotpassword/:uuid" element={<ForgotPassword/>}/>
             <Route path="/error" element={<Error/>}/>
-            <Route path="/test" element={<Payment/>}/>
+            <Route path="/checkout/:city/:housingName/:travelType/:room/:checkIn/:checkOut/:price" element={<Payment/>}/>
             <Route path="/accommodations/details/:accommodationName/:destination/:checkIn/:checkOut/:numberOfPersons" element={<ViewDetails/>}/>
             <Route path="/:random" element={<Error/>}/>
         </Route>

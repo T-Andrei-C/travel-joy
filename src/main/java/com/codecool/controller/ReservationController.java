@@ -1,5 +1,6 @@
 package com.codecool.controller;
 
+import com.codecool.DTO.ReservationDTO;
 import com.codecool.model.Reservation;
 import com.codecool.services.ReservationService;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ public class ReservationController {
     }
 
     @PostMapping
-    public void addReservation(@RequestBody Reservation reservation){
-        reservationService.addReservation(reservation);
+    public void addReservation(@RequestBody ReservationDTO reservationDTO){
+        reservationService.addReservation(reservationDTO);
     }
 }

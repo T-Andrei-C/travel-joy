@@ -19,11 +19,6 @@ public class TravelPackageController {
         this.travelPackageService = travelPackageService;
     }
 
-    @GetMapping
-    public List<TravelPackage> getAllPackages() {
-        return travelPackageService.getAllTravelPackages();
-    }
-
     @GetMapping("/{itemsPerPage}/{numberOfPage}")
     public Page<TravelPackage> getAccommodationPerPage(@PathVariable int itemsPerPage, @PathVariable int numberOfPage){
         return travelPackageService.getTravelPackagePerPage(numberOfPage,itemsPerPage);

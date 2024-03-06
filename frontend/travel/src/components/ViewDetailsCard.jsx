@@ -5,7 +5,7 @@ import {BiSolidCalendar} from "react-icons/bi";
 import {FaBed} from "react-icons/fa";
 import {BsFillHouseCheckFill, BsSlash} from "react-icons/bs";
 
-const ViewDetailsCard = ({room, checkIn, checkOut, navigate}) => {
+const ViewDetailsCard = ({room, checkIn, checkOut, navigate, destination, accommodationName}) => {
     const totalPrice = () =>{
         const checkInDate = new Date(checkIn);
         const checkOUtDate = new Date(checkOut);
@@ -75,7 +75,7 @@ const ViewDetailsCard = ({room, checkIn, checkOut, navigate}) => {
                         <p className="col-8 fw-bold text-end fs-5">{totalPrice() * room.price} RON</p>
                     </div>
                 </div>
-                <a onClick={() => navigate("/checkout")} className="btn btn-success col-12 mt-auto p-2 ">
+                <a onClick={() => navigate(`/checkout/${destination}/${accommodationName}/accommodation/${room.id}/${checkIn}/${checkOut}/${totalPrice() * room.price}`)} className="btn btn-success col-12 mt-auto p-2 ">
                     Buy Now
                 </a>
             </div>

@@ -24,6 +24,7 @@ public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private RoomType type;
     private Long price;
 
@@ -35,9 +36,7 @@ public class Room {
     )
     private List<Image> images_url;
 
-//    @JsonBackReference
     @JsonManagedReference
-//    @JsonIgnore
     @ManyToOne
     private Accommodation accommodation;
 

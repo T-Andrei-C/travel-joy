@@ -1,7 +1,6 @@
 package com.codecool.services;
 
 import com.codecool.configurations.ReservationFilter;
-import com.codecool.model.Accommodation;
 import com.codecool.model.Reservation;
 import com.codecool.model.TravelPackage;
 import com.codecool.model.Room;
@@ -32,10 +31,6 @@ public class TravelPackageService {
         this.reservationFilter = reservationFilter;
     }
 
-    public List<TravelPackage> getAllTravelPackages(){
-        return travelPackageRepository.findAll();
-    }
-
     public Page<TravelPackage> getTravelPackagePerPage(int currentPage, int itemsPerPage) {
         PageRequest pageRequest = PageRequest.of(currentPage, itemsPerPage);
         return travelPackageRepository.findAll(pageRequest);
@@ -47,11 +42,10 @@ public class TravelPackageService {
     }
 
 
-    public void addTravelPackage (TravelPackage travelPackage){
+    public void addTravelPackage(TravelPackage travelPackage) {
         Room room = roomRepository.findById(travelPackage.getRoom().getId()).orElse(null);
-        if (room != null){
-            if (reservationFilter.checkReservation(room, travelPackage.getCheckIn(), travelPackage.getCheckOut()))
-            {
+        if (room != null) {
+            if (reservationFilter.checkReservation(room, travelPackage.getCheckIn(), travelPackage.getCheckOut())) {
                 Reservation reservation = Reservation.builder()
                         .check_in(travelPackage.getCheckIn())
                         .check_out(travelPackage.getCheckOut())
@@ -61,7 +55,6 @@ public class TravelPackageService {
                 reservationRepository.save(reservation);
                 travelPackage.setReservation(reservation);
                 travelPackageRepository.save(travelPackage);
-
             } else {
                 throw new EntityNotFoundException("The period selected is already booked!");
             }
@@ -71,26 +64,22 @@ public class TravelPackageService {
     }
 
     public Page<TravelPackage> travelPackagesSearch(int currentPage, int itemsPerPage, String cityName, LocalDate checkIn, LocalDate checkOut,
-                                                      Integer numberOfPersons) {
+                                                    Integer numberOfPersons) {
         List<TravelPackage> filteredTravelPackages = new ArrayList<>();
-        List<TravelPackage> filteredTravelPackagesByCity = getTravelPackagesByCity(cityName);
+        List<TravelPackage> filteredTravelPackagesByCity = travelPackageRepository.findAllByRoomAccommodationCityName(cityName);
+
         for (var travelPackage : filteredTravelPackagesByCity) {
+            if (travelPackage.getReservation() == null) {
                 if (travelPackage.getRoom().getType().getCapacity() >= numberOfPersons) {
-                    if (reservationFilter.checkTravelPackages(travelPackage, checkIn, checkOut)){
+                    if (reservationFilter.checkTravelPackages(travelPackage, checkIn, checkOut)) {
                         filteredTravelPackages.add(travelPackage);
                         break;
                     }
                 }
+            }
         }
+
         PageRequest pageRequest = PageRequest.of(currentPage, itemsPerPage);
-        return travelPackageRepository.findAllByTravelPackagesSearch(filteredTravelPackages,pageRequest);
+        return travelPackageRepository.findAllByTravelPackagesSearch(filteredTravelPackages, pageRequest);
     }
-
-    private List<TravelPackage> getTravelPackagesByCity(String cityName){
-        return travelPackageRepository.findAll()
-                .stream()
-                .filter(travelPackage -> travelPackage.getRoom().getAccommodation().getCity().getName().equals(cityName))
-                .collect(Collectors.toList());
-    }
-
 }

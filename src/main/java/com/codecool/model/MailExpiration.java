@@ -25,5 +25,6 @@ public class MailExpiration {
 
     @ManyToOne
     private User user;
+
     private UUID uuid;
 }

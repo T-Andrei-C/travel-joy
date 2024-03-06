@@ -1,5 +1,8 @@
 package com.codecool.model.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum RoomType {
     SINGLE(1),
     DOUBLE(2),
@@ -10,12 +13,8 @@ public enum RoomType {
     TWIN(2),
     SUITE(5);
 
-    private Integer capacity;
+    private final Integer capacity;
     RoomType(Integer capacity){
         this.capacity = capacity;
-    }
-
-    public Integer getCapacity() {
-        return capacity;
     }
 }

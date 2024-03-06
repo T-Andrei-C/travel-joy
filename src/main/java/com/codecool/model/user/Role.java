@@ -1,6 +1,5 @@
-package com.codecool.model;
+package com.codecool.model.user;
 
-import com.codecool.model.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;

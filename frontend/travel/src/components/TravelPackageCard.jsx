@@ -48,7 +48,7 @@ const TravelPackageCard = ({travelPackage}) => {
                             </div>
                         </div>
                         <div className="my-auto col-xl-4 col-md-5 col-12 mt-lg-5 mt-md-5 mt-0">
-                            <a onClick={() => navigate("/checkout")}
+                            <a onClick={() => navigate(`/checkout/${travelPackage.room.accommodation.city.name}/${travelPackage.room.accommodation.name}/travelPackage/${travelPackage.room.id}/${travelPackage.checkIn}/${travelPackage.checkOut}/${travelPackage.price}`)}
                                className="btn btn-success float-md-end mb-3 col-12">
                                 Buy Now
                             </a>

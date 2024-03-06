@@ -17,11 +17,6 @@ public class AccommodationController {
         this.accommodationService = accommodationService;
     }
 
-    @GetMapping
-    public List<Accommodation> getAllAccommodation(){
-        return accommodationService.getAllAccommodations();
-    }
-
     @GetMapping("/{itemsPerPage}/{numberOfPage}")
     public Page<Accommodation> getAccommodationPerPage(@PathVariable int itemsPerPage, @PathVariable int numberOfPage){
         return accommodationService.getAccommodationPerPage(numberOfPage, itemsPerPage);
