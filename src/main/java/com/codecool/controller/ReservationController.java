@@ -25,4 +25,9 @@ public class ReservationController {
     public void addReservation(@RequestBody ReservationDTO reservationDTO){
         reservationService.addReservation(reservationDTO);
     }
+
+    @PatchMapping
+    public void modifyTravelPackageReservation(@RequestBody ReservationDTO reservationDTO){
+        reservationService.modifyTravelPackageReservation(reservationDTO);
+    }
 }

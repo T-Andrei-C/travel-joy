@@ -1,7 +1,7 @@
 import {PaymentElement} from "@stripe/react-stripe-js";
 import {useState} from "react";
 import {useStripe, useElements} from "@stripe/react-stripe-js";
-import {addReservation} from "../../service/CRUDReservation";
+import {addReservation, updateTravelPackageReservation} from "../../service/CRUDReservation";
 import {useNavigate} from "react-router-dom";
 
 export default function CheckoutForm({reservationData, travelType}) {
@@ -11,6 +11,7 @@ export default function CheckoutForm({reservationData, travelType}) {
     const [message, setMessage] = useState(null);
     const [isProcessing, setIsProcessing] = useState(false);
     const navigate = useNavigate();
+    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -30,11 +31,12 @@ export default function CheckoutForm({reservationData, travelType}) {
         });
 
         if (!error && paymentIntent.status === "succeeded"){
-            // if (travelType === "travelPackage"){
-            //     reservationData.travelPackage = {};
-            // }
             reservationData.bought = true;
-            await addReservation(reservationData);
+            if (travelType === "travelPackage"){
+                await updateTravelPackageReservation(reservationData);
+            }else {
+                await addReservation(reservationData);
+            }
             navigate("/");
         } else if (error.type === "card_error" || error.type === "validation_error") {
             setMessage(error.message);

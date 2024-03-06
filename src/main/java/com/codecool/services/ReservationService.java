@@ -28,11 +28,23 @@ public class ReservationService {
     public void addReservation(ReservationDTO reservationDTO) {
         Reservation reservation = reservationMapper.DTOToReservation(reservationDTO);
         reservationRepository.save(reservation);
+    }
 
-        if (reservation.getTravelPackage() != null){
-            reservation.getTravelPackage().setReservation(reservation);
-            travelPackageRepository.save(reservation.getTravelPackage());
-        }
+    public void modifyTravelPackageReservation(ReservationDTO reservationDTO) {
+        Reservation updatedReservation = reservationMapper.DTOToReservation(reservationDTO);
+        Reservation travelPackageReservation = reservationMapper.DTOToReservation(reservationDTO).getTravelPackage().getReservation();
+
+        travelPackageReservation.setAmount(updatedReservation.getAmount());
+        travelPackageReservation.setBought(updatedReservation.getBought());
+        travelPackageReservation.setCounty(updatedReservation.getCounty());
+        travelPackageReservation.setCity(updatedReservation.getCity());
+        travelPackageReservation.setCountry(updatedReservation.getCountry());
+        travelPackageReservation.setName(updatedReservation.getName());
+        travelPackageReservation.setEmail(updatedReservation.getEmail());
+        travelPackageReservation.setUser(updatedReservation.getUser());
+        travelPackageReservation.setPhoneNumber(updatedReservation.getPhoneNumber());
+
+        reservationRepository.save(travelPackageReservation);
     }
 }
 

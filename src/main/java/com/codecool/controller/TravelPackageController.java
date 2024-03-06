@@ -21,7 +21,7 @@ public class TravelPackageController {
 
     @GetMapping("/{itemsPerPage}/{numberOfPage}")
     public Page<TravelPackage> getAccommodationPerPage(@PathVariable int itemsPerPage, @PathVariable int numberOfPage){
-        return travelPackageService.getTravelPackagePerPage(numberOfPage,itemsPerPage);
+        return travelPackageService.getAllTravelPackagesPerPage(numberOfPage,itemsPerPage);
     }
 
     @GetMapping("/{cityName}/{itemsPerPage}/{numberOfPage}")

@@ -10,3 +10,14 @@ export const addReservation = async (reservationData) => {
         body: JSON.stringify(reservationData)
     });
 }
+
+export const updateTravelPackageReservation = async (reservationData) => {
+    const request = await  fetch(`${API_URL}reservations`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+        body: JSON.stringify(reservationData)
+    });
+}
