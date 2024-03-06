@@ -13,6 +13,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@ToString
 @Table(name = "reservations")
 //@JsonIdentityInfo(
 //        generator = ObjectIdGenerators.PropertyGenerator.class,
@@ -24,19 +25,17 @@ public class Reservation {
 
     private LocalDate check_in;
     private LocalDate check_out;
-
     private String email;
     private String phoneNumber;
     private String name;
-
     private String country;
     private String county;
     private String city;
-
     private Integer amount;
     private Boolean bought;
 
     @ManyToOne
+    @JsonIgnore
     private User user;
 
     @JsonIgnore

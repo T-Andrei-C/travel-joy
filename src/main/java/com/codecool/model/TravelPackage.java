@@ -32,5 +32,4 @@ public class TravelPackage {
 
     @OneToOne
     private Reservation reservation;
-
 }

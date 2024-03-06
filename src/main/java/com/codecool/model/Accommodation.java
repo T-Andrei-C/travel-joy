@@ -23,20 +23,16 @@ public class Accommodation {
     private Long id;
 
     private String name;
-
     private Integer capacity;
     private String description;
 
     @OneToOne
     private Image image_url;
 
-
     @ManyToOne
     private City city;
 
-//   @JsonManagedReference
-   @JsonBackReference
-   // @JsonIgnore
+    @JsonBackReference
     @OneToMany(mappedBy = "accommodation")
     private List<Room> rooms;
 
@@ -46,6 +42,5 @@ public class Accommodation {
             joinColumns = @JoinColumn(name = "accommodation_id"),
             inverseJoinColumns = @JoinColumn(name = "facility_id")
     )
-
     private Set<AccommodationFacility> accommodation_facilities;
 }

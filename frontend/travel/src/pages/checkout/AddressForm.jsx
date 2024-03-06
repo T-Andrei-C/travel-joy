@@ -1,91 +1,51 @@
-import * as React from 'react';
-import Grid from '@mui/material/Grid';
-import TextField from '@mui/material/TextField';
+import FormInput from "../../components/FormInput";
 
-export default function AddressForm() {
+const AddressForm = ({data, dataCallback, user}) => {
+    const onChange = (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target.form);
+        const userData = {
+            name: formData.get("firstname") + " " + formData.get("lastname"),
+            email: formData.get("email"),
+            phoneNumber: formData.get("phoneNumber"),
+            country: formData.get("country"),
+            county: formData.get("county"),
+            city: formData.get("city"),
+            userId: user.id,
+            amount: data.amount,
+            check_in: data.check_in,
+            check_out: data.check_out,
+            travelType: data.travelType,
+            bought: false,
+            roomId: data.roomId
+        }
+        dataCallback(userData);
+    }
+
     return (
-        <React.Fragment>
-            <form>
-            <Grid container spacing={3}>
-                <Grid item xs={12} sm={6}>
-                    <TextField
-                        required
-                        color="success"
-                        id="firstName"
-                        name="firstName"
-                        label="First name"
-                        fullWidth
-                        variant="standard"
-                    />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                    <TextField
-                        required
-                        color="success"
-                        id="lastName"
-                        name="lastName"
-                        label="Last name"
-                        fullWidth
-                        variant="standard"
-                    />
-                </Grid>
-                <Grid item xs={12}>
-                    <TextField
-                        required
-                        color="success"
-                        id="email"
-                        name="email"
-                        label="Email"
-                        fullWidth
-                        variant="standard"
-                    />
-                </Grid>
-                <Grid item xs={12}>
-                    <TextField
-                        required
-                        color="success"
-                        id="phoneNumber"
-                        name="phonenumber"
-                        label="Phone Number"
-                        fullWidth
-                        variant="standard"
-                    />
-                </Grid>
-                <Grid item xs={12}>
-                    <TextField
-                        color="success"
-                        required
-                        id="country"
-                        name="country"
-                        label="Country"
-                        fullWidth
-                        variant="standard"
-                    />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                    <TextField
-                        required
-                        color="success"
-                        id="city"
-                        name="city"
-                        label="City"
-                        fullWidth
-                        variant="standard"
-                    />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                    <TextField
-                        required
-                        color="success"
-                        id="state"
-                        name="state"
-                        label="County"
-                        fullWidth
-                        variant="standard"
-                    />
-                </Grid>
-            </Grid>
-            </form>
-        </React.Fragment>
+        <form className="card-body p-lg-3 p-xl-3 p-md-3 text-center" onChange={onChange}>
+            <h3 className="mb-4">Billing Data</h3>
+            <div className="row">
+                <div className="col-md-6">
+                    <FormInput content="First name" type="text" name="firstname" defaultValue={data.firstname}/>
+                </div>
+                <div className="col-md-6">
+                    <FormInput content="Last name" type="text" name="lastname" defaultValue={data.lastname}/>
+                </div>
+            </div>
+
+            <FormInput content="Email" type="email" name="email" defaultValue={data.email}/>
+            <FormInput content="Phone Number" type="number" name="phoneNumber" defaultValue={data.phoneNumber}/>
+            <FormInput content="Country" type="text" name="country" defaultValue={data.country}/>
+            <div className="row">
+                <div className="col-md-6">
+                    <FormInput content="City" type="text" name="city" defaultValue={data.city}/>
+                </div>
+                <div className="col-md-6">
+                    <FormInput content="County" type="text" name="county" defaultValue={data.county}/>
+                </div>
+            </div>
+        </form>
     );
 }
+export default AddressForm

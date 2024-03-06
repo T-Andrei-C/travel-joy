@@ -4,27 +4,35 @@ import {Elements} from "@stripe/react-stripe-js";
 import {loadStripe} from "@stripe/stripe-js";
 import CheckoutForm from "./CheckoutForm";
 import {chargePayment, getPublicKey} from "../../service/CRUDPayment";
-import AddressFormTest from "./AddressFormTest";
+import AddressForm from "./AddressForm";
 import ReviewOrder from "./ReviewOrder";
 import {getAuthUser} from "../../service/CRUDUsers";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useAuthHeader, useIsAuthenticated} from "react-auth-kit";
 
 const Payment = () => {
     const [stripePromise, setStripePromise] = useState(null);
     const [clientSecret, setClientSecret] = useState("");
+    const {city, housingName, travelType, room, checkIn, checkOut, price} = useParams();
+
     const [personalInfo, setPersonalInfo] = useState({
-        email: "3",
-        phoneNumber: "3",
-        name: "e",
+        email: "",
+        phoneNumber: "",
+        name: "",
+        check_in: checkIn,
+        check_out: checkOut,
+        bought: false,
 
-        country: "s",
-        county: "d",
-        city: "f",
-        amount: 2 * 100,
+        country: "",
+        county: "",
+        city: "",
+        amount: price * 100,
 
-        user: {}
+        travelType: travelType,
+        userId: {},
+        roomId: room
     });
+
     const [authUser, setAuthUser] = useState({});
     const navigate = useNavigate();
     const isAuth = useIsAuthenticated();
@@ -46,22 +54,23 @@ const Payment = () => {
     }, []);
 
     useEffect(() => {
-        // if (personalInfo.name !== "" && personalInfo.email !== "" && personalInfo.phoneNumber !== ""
-        //     && personalInfo.city !== "" && personalInfo.country !== "" && personalInfo.county !== ""){
-        //     console.log("stripe")
+        if (personalInfo.name.trim().length !== 0 && personalInfo.name.trim().includes(" ") && personalInfo.email !== "" && personalInfo.phoneNumber !== ""
+            && personalInfo.city !== "" && personalInfo.country !== "" && personalInfo.county !== ""){
             chargePayment(personalInfo).then((clientSecret) => {
                 setClientSecret(clientSecret.key);
             })
-        // }
-        // console.log("works")
-        // console.log(personalInfo)
+        } else {
+            setClientSecret("");
+        }
     }, [personalInfo]);
+
+    console.log(personalInfo)
 
     return (
         <div className="col-12 text-center">
             <div className="col-12 row d-flex justify-content-center">
                 <div className="col-5">
-                    <AddressFormTest data={personalInfo} dataCallback={setPersonalInfo} user={authUser}/>
+                    <AddressForm data={personalInfo} dataCallback={setPersonalInfo} user={authUser}/>
                 </div>
                 <div className="col-5">
                     <ReviewOrder personalInfo={personalInfo}/>
@@ -72,7 +81,7 @@ const Payment = () => {
                     <h3 className="mb-4">Payment details</h3>
                     {clientSecret && stripePromise && (
                         <Elements stripe={stripePromise} options={{clientSecret}}>
-                            <CheckoutForm/>
+                            <CheckoutForm reservationData={personalInfo} travelType={travelType}/>
                         </Elements>
                     )}
             </div>

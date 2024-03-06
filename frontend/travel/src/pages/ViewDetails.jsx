@@ -10,19 +10,22 @@ const ViewDetails = () => {
     const {destination, accommodationName, checkIn, checkOut, numberOfPersons} = useParams();
 
     useEffect(() => {
-        getAllAvailableRooms(accommodationName,destination,numberOfPersons,checkIn,checkOut).then(room => setRooms(room));
+        getAllAvailableRooms(accommodationName, destination, numberOfPersons, checkIn, checkOut).then(room => setRooms(room));
     }, []);
 
+    console.log(rooms);
 
     return (
         <div className="d-flex justify-content-center align-items-center row p-0 m-0">
-            <div className="col-xl-9 col-12 row mt-3 d-flex justify-content-md-center justify-content-sm-center align-items-md-center align-items-sm-center p-0 m-0">
+            <div
+                className="col-xl-9 col-12 row mt-3 d-flex justify-content-md-center justify-content-sm-center align-items-md-center align-items-sm-center p-0 m-0">
                 <div className="col-xl-12 col-lg-12 col-md-8 col-sm-11 col-12 text-center">
                     <h2>{accommodationName}</h2>
                     <h6 className="text-success"><FaLocationDot/> {destination}</h6>
                 </div>
                 {rooms.map((room, i) => (
-                    <ViewDetailsCard key={i} room={room} checkIn={checkIn} checkOut={checkOut} navigate={navigate}/>
+                    <ViewDetailsCard key={i} room={room} checkIn={checkIn} checkOut={checkOut} navigate={navigate}
+                                     destination={destination} accommodationName={accommodationName}/>
                 ))}
             </div>
         </div>

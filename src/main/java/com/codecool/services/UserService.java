@@ -40,13 +40,15 @@ public class UserService {
 
     public void forgotPassword(ForgotPassword forgotPassword) {
         User user = userRepository.findByEmail(forgotPassword.getEmail()).orElseThrow(() -> new IllegalStateException("User does not exists"));
+        MailExpiration mailExpiration = mailExpirationRepository.findMailExpirationByUuid(forgotPassword.getUuid()).orElseThrow(() -> new IllegalStateException("Mail expiration does not exist"));
 
         if (!forgotPassword.getNewPassword().equals(forgotPassword.getConfirmNewPassword())) {
             throw new IllegalStateException("Password are not the same");
         }
+
         user.setPassword(passwordEncoder.encode(forgotPassword.getNewPassword()));
         userRepository.save(user);
-        MailExpiration mailExpiration = mailExpirationRepository.findMailExpirationByUuid(forgotPassword.getUuid()).orElseThrow(() -> new IllegalStateException("Mail expiration does not exist"));
+
         mailExpiration.setIsClosed(true);
         mailExpirationRepository.save(mailExpiration);
     }
@@ -62,9 +64,6 @@ public class UserService {
     }
 
     public void updateUserName(UpdateUserName updateUserName) {
-        System.out.println(updateUserName.getLastName());
-        System.out.println(updateUserName.getFirstName());
-        System.out.println(updateUserName.getEmail());
         User user = userRepository.findByEmail(updateUserName.getEmail()).orElseThrow(() -> new IllegalStateException("User does not exists"));
         user.setLastname(updateUserName.getLastName());
         user.setFirstname(updateUserName.getFirstName());

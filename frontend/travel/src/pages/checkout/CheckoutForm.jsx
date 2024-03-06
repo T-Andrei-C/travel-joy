@@ -1,13 +1,16 @@
-import { PaymentElement } from "@stripe/react-stripe-js";
-import { useState } from "react";
-import { useStripe, useElements } from "@stripe/react-stripe-js";
+import {PaymentElement} from "@stripe/react-stripe-js";
+import {useState} from "react";
+import {useStripe, useElements} from "@stripe/react-stripe-js";
+import {addReservation} from "../../service/CRUDReservation";
+import {useNavigate} from "react-router-dom";
 
-export default function CheckoutForm() {
+export default function CheckoutForm({reservationData, travelType}) {
     const stripe = useStripe();
     const elements = useElements();
 
     const [message, setMessage] = useState(null);
     const [isProcessing, setIsProcessing] = useState(false);
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -18,15 +21,22 @@ export default function CheckoutForm() {
 
         setIsProcessing(true);
 
-        const { error } = await stripe.confirmPayment({
+        const {error, paymentIntent} = await stripe.confirmPayment({
             elements,
             confirmParams: {
-                // Make sure to change this to your payment completion page
                 return_url: `${window.location.origin}/completion`,
             },
+            redirect: "if_required",
         });
 
-        if (error.type === "card_error" || error.type === "validation_error") {
+        if (!error && paymentIntent.status === "succeeded"){
+            // if (travelType === "travelPackage"){
+            //     reservationData.travelPackage = {};
+            // }
+            reservationData.bought = true;
+            await addReservation(reservationData);
+            navigate("/");
+        } else if (error.type === "card_error" || error.type === "validation_error") {
             setMessage(error.message);
         } else {
             setMessage("An unexpected error occured.");
@@ -37,7 +47,7 @@ export default function CheckoutForm() {
 
     return (
         <form id="payment-form" onSubmit={handleSubmit}>
-            <PaymentElement className="m-5" id="payment-element" />
+            <PaymentElement className="m-5" id="payment-element"/>
             <button disabled={isProcessing || !stripe || !elements} id="submit">
             <span id="button-text">
               {isProcessing ? "Processing ... " : "Pay now"}
