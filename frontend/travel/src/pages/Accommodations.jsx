@@ -1,5 +1,5 @@
 import {useState, useEffect} from "react";
-import {useNavigate, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 
 import {getAccommodationsByCityName, getAccommodationsPerPage, getAccommodationsSearch} from "../service/CRUDAccommodations";
 
@@ -12,7 +12,6 @@ const Accommodations = () => {
     const [accommodationsByCity, setAccommodationsByCity] = useState([]);
     const [accommodationsSearch, setAccommodationsSearch] = useState([]);
     const {destination, itemsPerPage, numberOfPage, checkIn, checkOut, numberOfPersons} = useParams();
-    const navigate = useNavigate();
 
     useEffect(() => {
         getAccommodationsPerPage(itemsPerPage, numberOfPage)
@@ -33,8 +32,6 @@ const Accommodations = () => {
                 })
         }
     }, [numberOfPage, checkIn, checkOut, numberOfPersons, destination]);
-
-    console.log(accommodationsSearch);
 
     return (
         <>

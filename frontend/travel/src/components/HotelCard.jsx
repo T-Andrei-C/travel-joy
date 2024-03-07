@@ -54,10 +54,11 @@ const HotelCard = ({accommodation, city, checkIn, checkOut, numberOfPersons}) =>
                             <div className="my-auto col-xl-4 col-12 ">
                                 <a onClick={checkSearchData} className="btn btn-success float-md-end mb-3 col-12"
                                    data-bs-toggle={city && checkIn && checkOut && numberOfPersons ? "" : "modal"}
-                                   data-bs-target="#exampleModal">
+                                   data-bs-target="#viewDetailsModal">
                                     View Details
                                 </a>
-                                <InfoPopup header="Oops! Fill in travel details for adventure!"
+                                <InfoPopup id="viewDetailsModal"
+                                           header="Oops! Fill in travel details for adventure!"
                                            content="We share your excitement to discover our offers! Just one more step: complete the search fields before unlocking the next stage."/>
                             </div>
                         </div>
