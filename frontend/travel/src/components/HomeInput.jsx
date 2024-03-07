@@ -2,6 +2,7 @@ import {FaMagnifyingGlass} from "react-icons/fa6";
 import {getCity} from "../service/CRUDCity";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
+import {ITEMS_PER_PAGE} from "../service/API";
 
 const HomeInput = () => {
     const [cities, setCity] = useState([]);
@@ -19,7 +20,7 @@ const HomeInput = () => {
     const onSubmit = (e) =>
     {
         e.preventDefault();
-        navigate("/" + selectPackages + "/" + destination + "/3/0");
+        navigate("/" + selectPackages + "/" + destination + `/${ITEMS_PER_PAGE}/0`);
     }
 
     return (

@@ -5,6 +5,7 @@ import {useIsAuthenticated} from "react-auth-kit";
 import {MdAccountCircle} from "react-icons/md";
 import {FaPowerOff} from "react-icons/fa";
 import ActionPopup from "../components/ActionPopup";
+import {ITEMS_PER_PAGE} from "../service/API";
 
 const RootLayout = () => {
     const isAuthenticated = useIsAuthenticated();
@@ -32,10 +33,10 @@ const RootLayout = () => {
                     <div className="collapse navbar-collapse" id="navbarText">
                         <ul className="navbar-nav ms-auto mb-lg-0">
                             <li className="nav-item">
-                                <NavLink to="/accommodations/3/0" className="nav-link">Accommodations</NavLink>
+                                <NavLink to={`/accommodations/${ITEMS_PER_PAGE}/0`} className="nav-link">Accommodations</NavLink>
                             </li>
                             <li className="nav-item">
-                                <NavLink to="/packages/3/0" className="nav-link">Packages</NavLink>
+                                <NavLink to={`/packages/${ITEMS_PER_PAGE}/0`} className="nav-link">Packages</NavLink>
                             </li>
                             <li className="nav-item">
                                 <NavLink to="/aboutus" className="nav-link">About us</NavLink>
