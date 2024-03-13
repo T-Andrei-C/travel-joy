@@ -4,13 +4,20 @@ import dummyRoom3 from "./img/dummyRoom3.jpg";
 import {BiSolidCalendar} from "react-icons/bi";
 import {FaBed} from "react-icons/fa";
 import {BsFillHouseCheckFill, BsSlash} from "react-icons/bs";
+import {useEffect} from "react";
+import {ITEMS_PER_PAGE} from "../service/API";
+import {totalPrice} from "../service/PaymentService";
 
 const ViewDetailsCard = ({room, checkIn, checkOut, navigate, destination, accommodationName}) => {
-    const totalPrice = () =>{
+
+    useEffect(() => {
         const checkInDate = new Date(checkIn);
         const checkOutDate = new Date(checkOut);
-        return (checkOutDate.getTime() - checkInDate.getTime()) / (1000 * 3600 * 24);
-    }
+        if((checkOutDate.getTime() - checkInDate.getTime()) < 0) {
+            navigate(`/accommodations/${ITEMS_PER_PAGE}/0`);
+            window.location.reload();
+        }
+    }, []);
 
     return (
         <>
@@ -72,10 +79,10 @@ const ViewDetailsCard = ({room, checkIn, checkOut, navigate, destination, accomm
                     <hr/>
                     <div className="col-12 row d-flex justify-content-between align-items-center">
                         <p className="fw-bold text-success col-4">PRICE</p>
-                        <p className="col-8 fw-bold text-end fs-5">{totalPrice() * room.price} RON</p>
+                        <p className="col-8 fw-bold text-end fs-5">{totalPrice(checkIn, checkOut) * room.price} RON</p>
                     </div>
                 </div>
-                <a onClick={() => navigate(`/checkout/${destination}/${accommodationName}/accommodation/${room.id}/${checkIn}/${checkOut}/${totalPrice() * room.price}`)} className="btn btn-success col-12 mt-auto p-2 ">
+                <a onClick={() => navigate(`/checkout/${destination}/${accommodationName}/accommodation/${room.id}/${checkIn}/${checkOut}/${totalPrice(checkIn, checkOut) * room.price}`)} className="btn btn-success col-12 mt-auto p-2 ">
                     Buy Now
                 </a>
             </div>

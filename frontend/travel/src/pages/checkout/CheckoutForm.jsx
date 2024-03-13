@@ -1,10 +1,15 @@
 import {PaymentElement} from "@stripe/react-stripe-js";
 import {useState} from "react";
 import {useStripe, useElements} from "@stripe/react-stripe-js";
-import {addReservation, updateTravelPackageReservation} from "../../service/CRUDReservation";
+import {
+    addReservation,
+    checkRoomReservation,
+    checkTravelPackageReservation,
+    updateTravelPackageReservation
+} from "../../service/CRUDReservation";
 import {useNavigate} from "react-router-dom";
 
-export default function CheckoutForm({reservationData, travelType}) {
+export default function CheckoutForm({reservationData, travelType, roomId, checkIn, checkOut}) {
     const stripe = useStripe();
     const elements = useElements();
 
@@ -22,27 +27,58 @@ export default function CheckoutForm({reservationData, travelType}) {
 
         setIsProcessing(true);
 
-        const {error, paymentIntent} = await stripe.confirmPayment({
-            elements,
-            confirmParams: {
-                return_url: `${window.location.origin}/completion`,
-            },
-            redirect: "if_required",
-        });
+        if (travelType === "travelPackage") {
+            checkTravelPackageReservation(roomId, checkIn, checkOut).then(async res => {
+                console.log(res);
+                if (!res) {
+                    const {error, paymentIntent} = await stripe.confirmPayment({
+                        elements,
+                        confirmParams: {
+                            return_url: `${window.location.origin}/completion`,
+                        },
+                        redirect: "if_required",
+                    });
 
-        if (!error && paymentIntent.status === "succeeded"){
-            reservationData.bought = true;
-            if (travelType === "travelPackage"){
-                await updateTravelPackageReservation(reservationData);
-            }else {
-                await addReservation(reservationData);
-            }
-            navigate("/");
-        } else if (error.type === "card_error" || error.type === "validation_error") {
-            setMessage(error.message);
+                    if (!error && paymentIntent.status === "succeeded") {
+                        reservationData.bought = true;
+                        await updateTravelPackageReservation(reservationData);
+                        navigate("/");
+                    } else {
+                        navigate("/error");
+                    }
+                } else {
+                    navigate("/error");
+                }
+            })
         } else {
-            setMessage("An unexpected error occured.");
+            checkRoomReservation(roomId, checkIn, checkOut).then(async res => {
+                if (res) {
+                    const {error, paymentIntent} = await stripe.confirmPayment({
+                        elements,
+                        confirmParams: {
+                            return_url: `${window.location.origin}/completion`,
+                        },
+                        redirect: "if_required",
+                    });
+
+                    if (!error && paymentIntent.status === "succeeded") {
+                        reservationData.bought = true;
+                        await addReservation(reservationData);
+                        navigate("/");
+                    } else {
+                        navigate("/error");
+                    }
+                } else {
+                    navigate("/error");
+                }
+            })
         }
+
+        // if (error.type === "card_error" || error.type === "validation_error") {
+        //     setMessage(error.message);
+        // } else {
+        //     setMessage("An unexpected error occured.");
+        // }
 
         setIsProcessing(false);
     };

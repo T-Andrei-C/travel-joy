@@ -1,33 +1,45 @@
 import {MdPeopleAlt} from "react-icons/md";
 import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
-import InfoPopup from "./InfoPopup";
 
 const TravelSearch = ({goingTo, checkIn, checkOut, numberOfPersons, type}) => {
-    const [invalidCheckOut, setInvalidCheckOut] = useState(false);
     const [valueCheckIn, setValueCheckIn] = useState(checkIn);
     const [valueCheckOut, setValueCheckOut] = useState(checkOut);
     const navigate = useNavigate();
     const {itemsPerPage, numberOfPage} = useParams();
 
     useEffect(() => {
-        setInvalidCheckOut(false);
         const checkInDate = new Date(checkIn);
         const checkOutDate = new Date(checkOut);
         if((checkOutDate.getTime() - checkInDate.getTime()) < 0) {
             navigate(`/${type}/${itemsPerPage}/0`);
+            window.location.reload();
         }
     }, []);
 
-    useEffect(() => {
-        setInvalidCheckOut(false);
-        const checkInDate = new Date(valueCheckIn);
-        const checkOutDate = new Date(valueCheckOut);
-        if((checkOutDate.getTime() - checkInDate.getTime()) < 0) {
-            setInvalidCheckOut(true);
-        }
-    }, [valueCheckOut,valueCheckIn]);
+    const getDate = (extraDays, extraYear) => {
+        const date = new Date;
+        date.setFullYear(date.getFullYear() + extraYear);
+        date.setDate(date.getDate() + extraDays)
 
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+        const day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+
+        return `${year}-${month}-${day}`
+    }
+
+    const getSearchDate = (inputDate, extraDays) => {
+        const date = new Date(inputDate);
+        date.setDate(date.getDate() + extraDays)
+
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+        const day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+
+
+        return `${year}-${month}-${day}`;
+    }
 
     const onSubmit = (e) => {
         e.preventDefault();
@@ -38,9 +50,7 @@ const TravelSearch = ({goingTo, checkIn, checkOut, numberOfPersons, type}) => {
             checkOut: formData.get("checkOut"),
             numberOfPersons: formData.get("numberOfPersons")
         };
-        if(!invalidCheckOut){
-            navigate(`/${type}/${inputSearch.goingTo}/${inputSearch.checkIn}/${inputSearch.checkOut}/${inputSearch.numberOfPersons}/${itemsPerPage}/0`)
-        }
+        navigate(`/${type}/${inputSearch.goingTo}/${inputSearch.checkIn}/${inputSearch.checkOut}/${inputSearch.numberOfPersons}/${itemsPerPage}/0`)
     }
 
     return (
@@ -51,11 +61,11 @@ const TravelSearch = ({goingTo, checkIn, checkOut, numberOfPersons, type}) => {
             </div>
             <div className="form-floating col-md-3 col-12 m-0 p-0">
                 <label className="pt-1 text-success fw-bold" style={{fontSize: "0.75em"}} htmlFor="floatingInputValue">CHECK-IN</label>
-                <input id="startDate" name="checkIn" className="fw-medium w-100 pt-4 ps-2 pe-2" style={{ height: "58px", border: "1px solid #198754"}} required={true} type="date" defaultValue={checkIn} onChange={(e) => setValueCheckIn(e.target.value)}/>
+                <input id="startDate" name="checkIn" min={getDate(0, 0)} max={valueCheckOut !== undefined ? getSearchDate(valueCheckOut, -1) : getDate(0, 2)} className="fw-medium w-100 pt-4 ps-2 pe-2" style={{ height: "58px", border: "1px solid #198754"}} required={true} type="date" defaultValue={checkIn} onChange={(e) => setValueCheckIn(e.target.value)}/>
             </div>
             <div className="position-relative form-floating col-md-3 col-12 m-0 p-0">
                 <label className="pt-1 text-success fw-bold" style={{fontSize: "0.75em"}} htmlFor="floatingInputValue">CHECK-OUT</label>
-                <input id="startDate" name="checkOut"   className="fw-medium w-100 pt-4 ps-2 pe-2" style={{ height: "58px", border: "1px solid #198754"}} required={true} type="date" defaultValue={checkOut} onChange={(e) => setValueCheckOut(e.target.value)} />
+                <input id="startDate" name="checkOut" min={valueCheckIn !== undefined ? getSearchDate(valueCheckIn, 1) : getDate(1, 0)} max={getDate(1, 2)} className="fw-medium w-100 pt-4 ps-2 pe-2" style={{ height: "58px", border: "1px solid #198754"}} required={true} type="date" defaultValue={checkOut} onChange={(e) => setValueCheckOut(e.target.value)} />
             </div>
             <div className=" form-floating row m-0 p-0 col-md-3 col-12">
                 <label className="pt-0 text-white fw-bold" style={{fontSize: "1.15em"}} htmlFor="floatingInputValue"><MdPeopleAlt/></label>
@@ -67,13 +77,7 @@ const TravelSearch = ({goingTo, checkIn, checkOut, numberOfPersons, type}) => {
                     <option value="4">4</option>
                     <option value="5">5</option>
                 </select>
-                <button className="btn btn-outline-success ps-5 pe-5 col-9 lg rounded-end-3"  style={{borderRadius: "0"}} type="submit" id="button-addon2"  data-bs-toggle={invalidCheckOut ? "modal" : ""}
-                        data-bs-target="#invalidPeriodOfTime">Search</button>
-            </div>
-            <div className="my-auto col-xl-4 col-12 ">
-                <InfoPopup id="invalidPeriodOfTime"
-                           header="Oops! Invalid period of time!"
-                           content="Please fill in the input with relevant information for check-in and check-out dates!"/>
+                <button className="btn btn-outline-success ps-5 pe-5 col-9 lg rounded-end-3"  style={{borderRadius: "0"}} type="submit" id="button-addon2">Search</button>
             </div>
         </form>
     )

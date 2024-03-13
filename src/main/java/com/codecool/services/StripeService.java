@@ -22,6 +22,7 @@ public class StripeService {
                     .build();
 
             PaymentIntent paymentIntent = PaymentIntent.create(createParams);
+
             return paymentIntent.getClientSecret();
         } catch (Exception e) {
             return e.getMessage();
