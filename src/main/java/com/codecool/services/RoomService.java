@@ -3,6 +3,7 @@ package com.codecool.services;
 import com.codecool.configurations.ReservationFilter;
 import com.codecool.model.Room;
 import com.codecool.repositories.RoomRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -26,5 +27,9 @@ public class RoomService {
                 .filter(room -> room.getType().getCapacity() >= capacity)
                 .filter(room -> reservationFilter.checkReservation(room, checkIn, checkOut))
                 .collect(Collectors.toList());
+    }
+
+    public Room getRoomById (Long roomId){
+        return roomRepository.findById(roomId).orElseThrow(() -> new EntityNotFoundException("room not found"));
     }
 }

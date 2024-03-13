@@ -3,3 +3,8 @@ export const getAllAvailableRooms = async (accommodationsName,destination,number
     const request = await fetch(`${API_URL}rooms/${accommodationsName}/${destination}/${checkIn}/${checkOut}/${numberOfPersons}`);
     return await request.json();
 }
+
+export const getRoomById = async (roomId) => {
+    const request = await fetch(`${API_URL}rooms/room/${roomId}`);
+    return await request.json();
+}

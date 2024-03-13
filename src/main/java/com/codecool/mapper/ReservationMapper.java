@@ -29,7 +29,6 @@ public class ReservationMapper {
         Room room = roomRepository.findById(reservationDTO.roomId()).orElseThrow(() -> new EntityNotFoundException("room not found"));
         TravelPackage travelPackage = null;
 
-
         if (reservationDTO.travelType().equals("travelPackage")) {
             travelPackage = room.getTravel_packages()
                     .stream()

@@ -1,9 +1,11 @@
 import FormInput from "../../components/FormInput";
+import {totalPrice} from "../../service/PaymentService";
 
-const AddressForm = ({data, dataCallback, user}) => {
+const AddressForm = ({data, dataCallback, user, room, travelPackage}) => {
     const onChange = (e) => {
         e.preventDefault();
         const formData = new FormData(e.target.form);
+        const amount = room === null ? travelPackage.price * 100 : totalPrice(data.check_in, data.check_out) * room.price * 100;
         const userData = {
             name: formData.get("firstname") + " " + formData.get("lastname"),
             email: formData.get("email"),
@@ -12,7 +14,7 @@ const AddressForm = ({data, dataCallback, user}) => {
             county: formData.get("county"),
             city: formData.get("city"),
             userId: user.id,
-            amount: data.amount,
+            amount: amount,
             check_in: data.check_in,
             check_out: data.check_out,
             travelType: data.travelType,

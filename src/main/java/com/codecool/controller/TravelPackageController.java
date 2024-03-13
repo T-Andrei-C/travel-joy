@@ -4,6 +4,7 @@ import com.codecool.model.Accommodation;
 import com.codecool.model.TravelPackage;
 import com.codecool.services.TravelPackageService;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.method.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -42,5 +43,15 @@ public class TravelPackageController {
                                                     @PathVariable int itemsPerPage,
                                                     @PathVariable int numberOfPage) {
         return travelPackageService.travelPackagesSearch(numberOfPage,itemsPerPage,cityName, checkIn, checkOut, numberOfPersons);
+    }
+
+    @GetMapping("/verify/{roomId}/{checkIn}/{checkOut}")
+    public boolean verifyPeriodOfTime (@PathVariable Long roomId, @PathVariable LocalDate checkIn, @PathVariable LocalDate checkOut) {
+        return travelPackageService.verifyPeriodOfTime(roomId, checkIn, checkOut);
+    }
+
+    @GetMapping("/travelPackage/{roomId}/{checkIn}/{checkOut}")
+    public TravelPackage getTravelPackageByRoomId (@PathVariable Long roomId, @PathVariable LocalDate checkIn, @PathVariable LocalDate checkOut){
+        return travelPackageService.getTravelPackageByRoomId(roomId, checkIn, checkOut);
     }
 }

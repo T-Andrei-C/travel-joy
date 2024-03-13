@@ -23,4 +23,9 @@ public class RoomController {
     public List<Room> getAllAvailableRooms(@PathVariable String accommodationName, @PathVariable String cityName, @PathVariable LocalDate checkIn, @PathVariable LocalDate checkOut, @PathVariable Integer capacity){
         return roomService.getAllAvailableRooms(accommodationName,cityName,capacity,checkIn,checkOut);
     }
+
+    @GetMapping("/room/{roomId}")
+    public Room getRoomById (@PathVariable Long roomId){
+        return roomService.getRoomById(roomId);
+    }
 }

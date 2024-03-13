@@ -21,3 +21,13 @@ export const updateTravelPackageReservation = async (reservationData) => {
         body: JSON.stringify(reservationData)
     });
 }
+
+export const checkRoomReservation = async (roomId, checkIn, checkOut) => {
+    const request = await  fetch(`${API_URL}reservations/checkRoom/${roomId}/${checkIn}/${checkOut}`);
+    return await request.json();
+}
+
+export const checkTravelPackageReservation = async (roomId, checkIn, checkOut) => {
+    const request = await  fetch(`${API_URL}reservations/checkTravelPackage/${roomId}/${checkIn}/${checkOut}`);
+    return await request.json();
+}

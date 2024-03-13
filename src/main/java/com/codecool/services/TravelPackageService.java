@@ -8,6 +8,7 @@ import com.codecool.repositories.ReservationRepository;
 import com.codecool.repositories.TravelPackageRepository;
 import com.codecool.repositories.RoomRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.cglib.core.Local;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -86,5 +87,22 @@ public class TravelPackageService {
 
         PageRequest pageRequest = PageRequest.of(currentPage, itemsPerPage);
         return travelPackageRepository.findAllByTravelPackagesSearch(filteredTravelPackages, pageRequest);
+    }
+
+    public TravelPackage getTravelPackageByRoomId (Long roomId, LocalDate checkIn, LocalDate checkOut) {
+        Room room = roomRepository.findById(roomId).orElseThrow(() -> new EntityNotFoundException("room not found"));
+        TravelPackage travelPackage = room.getTravel_packages()
+                .stream()
+                .filter(tp -> tp.getCheckIn().equals(checkIn) && tp.getCheckOut().equals(checkOut))
+                .findAny()
+                .orElseThrow(() -> new EntityNotFoundException("travelPackage not found"));
+        return travelPackage;
+    }
+
+    public boolean verifyPeriodOfTime (Long roomId, LocalDate checkIn, LocalDate checkOut) {
+        Room room = roomRepository.findById(roomId).orElseThrow(() -> new EntityNotFoundException("room not found"));
+        return room.getTravel_packages()
+                .stream()
+                .anyMatch(tp -> tp.getCheckIn().equals(checkIn) && tp.getCheckOut().equals(checkOut));
     }
 }
