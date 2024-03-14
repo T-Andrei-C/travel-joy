@@ -17,7 +17,7 @@ Clone the repository to your local machine.
 ### Server side
 
 #### .env file
-Copy the .env.example as .env and fill up the environment variable for your personal mongodb connecttion url.
+Copy the .env.example as .env and fill up the environment variable for your personal SQL database connecttion, Stripe services and Gmail messaging.
 
 Run the TouristsParadiseApplication
 
