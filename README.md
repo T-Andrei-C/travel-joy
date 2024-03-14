@@ -41,7 +41,8 @@ And the create-react-app react-scripts package will start the app on your browse
 - In addition, we also plan to incorporate a rating system for our services. This feature will allow customers to provide feedback and rate their experience with our offerings, enhancing transparency and helping future customers make informed decisions
 
 ## Demo 
+https://github.com/CodecoolGlobal/epg-3-java-T-Andrei-C/assets/116349352/5feb162e-0ab0-46da-8743-de3381385fc2
 
-https://github.com/CodecoolGlobal/epg-3-java-T-Andrei-C/assets/115529065/cdc2dd99-4d6a-4d72-85da-e981f892818e
+
 
 
