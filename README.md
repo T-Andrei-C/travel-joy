@@ -15,6 +15,10 @@ Travel Joy is a web application designed to promote tourism in Romania. The appl
 Clone the repository to your local machine.
 
 ### Server side
+
+#### .env file
+Copy the .env.example as .env and fill up the environment variable for your personal mongodb connecttion url.
+
 Run the TouristsParadiseApplication
 
 ### Client side
