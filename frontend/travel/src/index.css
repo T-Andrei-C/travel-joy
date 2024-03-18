@@ -1,2 +1,12 @@
 @import "./styles/home.css";
 @import "styles/pagination.css";
+
+::-webkit-scrollbar{
+    width: 15px;
+}
+
+::-webkit-scrollbar-thumb{
+    background: #198754;
+    border: 2px solid white;
+    border-radius: 9999px;
+}
