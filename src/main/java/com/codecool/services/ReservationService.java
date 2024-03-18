@@ -5,14 +5,18 @@ import com.codecool.configurations.ReservationFilter;
 import com.codecool.mapper.ReservationMapper;
 import com.codecool.model.Reservation;
 import com.codecool.model.Room;
+import com.codecool.model.user.User;
 import com.codecool.repositories.ReservationRepository;
 import com.codecool.repositories.RoomRepository;
 import com.codecool.repositories.TravelPackageRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.cglib.core.Local;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -72,6 +76,11 @@ public class ReservationService {
                 .getReservation();
 
         return travelPackageReservation.getTravelPackage().getReservation().getBought();
+    }
+
+    public List<Reservation> getReservationsByUserId(Principal connectedUser){
+        User user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
+        return reservationRepository.getReservationsByUserAndBought(user,true);
     }
 }
 

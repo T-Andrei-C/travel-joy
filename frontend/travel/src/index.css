@@ -1,5 +1,6 @@
 @import "./styles/home.css";
 @import "styles/pagination.css";
+@import "./styles/navBarDropDown.css";
 
 ::-webkit-scrollbar{
     width: 15px;

@@ -6,6 +6,7 @@ import com.codecool.services.ReservationService;
 import org.springframework.cglib.core.Local;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -41,5 +42,10 @@ public class ReservationController {
     @GetMapping("/checkTravelPackage/{roomId}/{checkIn}/{checkOut}")
     public boolean checkTravelPackageReservation (@PathVariable Long roomId, @PathVariable LocalDate checkIn, @PathVariable LocalDate checkOut){
         return reservationService.checkTravelPackageReservation(roomId, checkIn, checkOut);
+    }
+
+    @GetMapping("/myOrders")
+    public List<Reservation> getReservationsByUserId(Principal connectedUser){
+        return reservationService.getReservationsByUserId(connectedUser);
     }
 }

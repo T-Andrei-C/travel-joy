@@ -42,10 +42,14 @@ const RootLayout = () => {
                                 <NavLink to="/aboutus" className="nav-link">About us</NavLink>
                             </li>
                             {isAuthenticated() ?
-                                <div className="d-inline-flex">
-                                    <li className="nav-item">
-                                        <NavLink to="/myaccount" className="nav-link"><MdAccountCircle
-                                            style={{fontSize: "1.8em"}}/></NavLink>
+                                <div className="d-inline-flex" data-bs-theme="light">
+                                    <li className="nav-item dropdown">
+                                        <a className="nav-link" role="button" data-bs-toggle="dropdown" ><MdAccountCircle
+                                            style={{fontSize: "1.8em"}}/></a>
+                                        <ul className="dropdown-menu dropdown-menu-end mt-2" aria-labelledby="dropdownMenuButtonLight">
+                                            <li><NavLink to="/myAccount" className="dropdown-item">My Account</NavLink></li>
+                                            <li><NavLink to="/myOrders" className="dropdown-item">Orders</NavLink></li>
+                                        </ul>
                                     </li>
                                     <li className="nav-item ms-lg-0 ms-md-0 ms-sm-2 ms-2">
                                         <button data-bs-toggle="modal"
