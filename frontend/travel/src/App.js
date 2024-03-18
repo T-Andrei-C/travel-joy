@@ -15,6 +15,7 @@ import MyAccount from "./pages/MyAccount";
 import ForgotPassword from "./pages/ForgotPassword";
 import Payment from "./pages/checkout/Payment";
 import Error from "./pages/Error";
+import MyOrders from "./pages/MyOrders";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -31,6 +32,7 @@ const router = createBrowserRouter(
             <Route path="/signup" element={<SignUp/>} />
             <Route path="/contact" element={<Contact/>} />
             <Route path="/myaccount" element={<MyAccount/>}/>
+            <Route path="/myorders" element={<MyOrders/>}/>
             <Route path="/forgotpassword/:uuid" element={<ForgotPassword/>}/>
             <Route path="/error" element={<Error/>}/>
             <Route path="/checkout/:city/:housingName/:travelType/:room/:checkIn/:checkOut/:price" element={<Payment/>}/>

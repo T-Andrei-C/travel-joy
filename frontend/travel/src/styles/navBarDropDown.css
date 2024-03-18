@@ -1,0 +1,11 @@
+.dropdown-menu.dropdown-menu-end.mt-2 li :hover{
+    background: #eeebeb;
+}
+.dropdown-menu.dropdown-menu-end.mt-2 li a.active{
+    background: #198754;
+}
+.dropdown-menu.dropdown-menu-end.mt-2 li{
+   color: black;
+}
+
+

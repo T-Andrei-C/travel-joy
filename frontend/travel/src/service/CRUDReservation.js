@@ -31,3 +31,15 @@ export const checkTravelPackageReservation = async (roomId, checkIn, checkOut) =
     const request = await  fetch(`${API_URL}reservations/checkTravelPackage/${roomId}/${checkIn}/${checkOut}`);
     return await request.json();
 }
+
+export const getReservationsByUserId = async (token) => {
+    const request = await fetch(`${API_URL}reservations/myOrders`,{
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": token
+        }
+    });
+    return await request.json();
+
+}
