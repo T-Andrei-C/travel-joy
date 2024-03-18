@@ -11,7 +11,7 @@ const AboutUs = () => {
         <div>
             <div className="card text-bg-dark border border-0 rounded-0">
                 <img
-                    src="https://cdn.discordapp.com/attachments/1151791153004413009/1171739249431810098/adrian-ciocalau-_ncI1_aXwK0-unsplash.jpg?ex=65e833b6&is=65d5beb6&hm=6fbc4a86a452813970200d65012d31230a856aca7b766b6045efc5b06ad818e5&"
+                    src="https://cdn.discordapp.com/attachments/1151791153004413009/1171739249431810098/adrian-ciocalau-_ncI1_aXwK0-unsplash.jpg?ex=6603e336&is=65f16e36&hm=b343a32bd973a3be13adf2fa9813844df07b846435edabd767f16f254d34a539&"
                     className="card-img rounded-0 h-25" alt="..."/>
                 <div
                     className="card-img-overlay d-flex flex-column justify-content-center align-items-center text-center">
