@@ -6,5 +6,5 @@ import lombok.Getter;
 @Getter
 @Builder
 public class Key {
-    public String key;
+    private String key;
 }

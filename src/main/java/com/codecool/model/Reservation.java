@@ -1,7 +1,9 @@
 package com.codecool.model;
 
 import com.codecool.model.user.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,9 +17,6 @@ import java.time.LocalDate;
 @Entity
 @ToString
 @Table(name = "reservations")
-//@JsonIdentityInfo(
-//        generator = ObjectIdGenerators.PropertyGenerator.class,
-//        property = "id")
 public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,7 +37,7 @@ public class Reservation {
     @JsonIgnore
     private User user;
 
-    @JsonIgnore
+    @JsonManagedReference
     @ManyToOne
     private Room room;
 

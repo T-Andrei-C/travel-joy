@@ -6,13 +6,14 @@ export const getPublicKey = async () => {
 }
 
 export const chargePayment = async (paymentData) => {
+    const amount = {amount : paymentData}
     const request = await fetch(`${API_URL}payment`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
             "Accept": "application/json"
         },
-        body: JSON.stringify(paymentData)
+        body: JSON.stringify(amount)
     });
     return await request.json();
 }
