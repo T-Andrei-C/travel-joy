@@ -13,11 +13,7 @@ const ReviewOrder = ({checkIn, checkOut, city, room, travelPackage, housingName}
                     <div className="text-start">
                         <h5>{housingName}, {city}</h5>
                         <h6>{room === null ? travelPackage?.room.type.toLowerCase().replace(/^\w/, (c) => c.toUpperCase()) : room?.type.toLowerCase().replace(/^\w/, (c) => c.toUpperCase())} Room</h6>
-                        <div className="d-flex justify-content-start">
-                            <h6>{checkIn}</h6>
-                            <h6 className="ps-1 pe-1"><HiArrowNarrowRight/></h6>
-                            <h6>{checkOut}</h6>
-                        </div>
+
                     </div>
                 </div>
                 <div className="col-6">

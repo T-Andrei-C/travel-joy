@@ -80,10 +80,11 @@ const Payment = () => {
         })
     }, []);
 
+    console.log(currentRoom);
     useEffect(() => {
         if (personalInfo.name.trim().length !== 0 && personalInfo.name.trim().includes(" ") && personalInfo.email !== "" && personalInfo.phoneNumber !== ""
             && personalInfo.city !== "" && personalInfo.country !== "" && personalInfo.county !== ""){
-            chargePayment(personalInfo).then((clientSecret) => {
+            chargePayment(personalInfo.amount).then((clientSecret) => {
                 setClientSecret(clientSecret.key);
             })
         } else {

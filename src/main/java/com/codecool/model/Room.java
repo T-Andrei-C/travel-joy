@@ -48,7 +48,7 @@ public class Room {
     )
     private Set<RoomFacility> room_facilities;
 
-    @JsonIgnore
+    @JsonBackReference
     @OneToMany(mappedBy = "room")
     private List<Reservation> reservations;
 

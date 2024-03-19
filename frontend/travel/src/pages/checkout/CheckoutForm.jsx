@@ -86,7 +86,7 @@ export default function CheckoutForm({reservationData, travelType, roomId, check
     return (
         <form id="payment-form" onSubmit={handleSubmit}>
             <PaymentElement className="m-5" id="payment-element"/>
-            <button disabled={isProcessing || !stripe || !elements} id="submit">
+            <button disabled={isProcessing || !stripe || !elements} id="submit" className="btn btn-outline-light bg-success">
             <span id="button-text">
               {isProcessing ? "Processing ... " : "Pay now"}
             </span>

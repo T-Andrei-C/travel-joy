@@ -14,9 +14,6 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name = "accommodations")
-//@JsonIdentityInfo(
-//        generator = ObjectIdGenerators.PropertyGenerator.class,
-//        property = "id")
 public class Accommodation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +22,7 @@ public class Accommodation {
     private String name;
     private Integer capacity;
     private String description;
+    private Double rating;
 
     @OneToOne
     private Image image_url;

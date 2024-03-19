@@ -1,6 +1,6 @@
 package com.codecool.services;
 
-import com.codecool.model.Reservation;
+import com.codecool.model.payment.Amount;
 import com.stripe.Stripe;
 import com.stripe.model.PaymentIntent;
 import com.stripe.param.PaymentIntentCreateParams;
@@ -12,7 +12,7 @@ public class StripeService {
     @Value("${stripe.keys.secret}")
     private String API_SECRET_KEY;
 
-    public String createCharge(Reservation payment) {
+    public String createCharge(Amount payment) {
         Stripe.apiKey = API_SECRET_KEY;
 
         try {
