@@ -18,18 +18,17 @@ const MyOrders = () => {
             setMyOrders(orders);
         })
     }, []);
-    //console.log(myOrders);
     return (
-        <div>
-            {myOrders?.map(order => (
-            <MyOrderCard checkIn={order?.check_in} checkOut={order?.check_out}
-                         accommodationName={order?.room?.accommodation?.name}
-                         accommodationCity={order?.room?.accommodation?.city.name}
-                         image={order?.room?.accommodation?.image_url.image_url} price={order?.amount}
-                         typeRoom={order?.room?.type} token={token} accommodationId={order?.room?.accommodation?.id}
-                         reservationId={order?.id}/>
-            ))}
-        </div>
+            <div className="row m-0 p-0">
+                {myOrders?.map(order => (
+                    <MyOrderCard checkIn={order?.check_in} checkOut={order?.check_out}
+                                 accommodationName={order?.room?.accommodation?.name}
+                                 accommodationCity={order?.room?.accommodation?.city.name}
+                                 image={order?.room?.accommodation?.image_url.image_url} price={order?.amount}
+                                 typeRoom={order?.room?.type} token={token} accommodationId={order?.room?.accommodation?.id}
+                                 reservationId={order?.id}/>
+                ))}
+            </div>
     )
 }
 
