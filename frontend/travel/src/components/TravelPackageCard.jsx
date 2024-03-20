@@ -4,6 +4,7 @@ import {BiSolidCalendar} from "react-icons/bi";
 import {HiArrowNarrowRight} from "react-icons/hi";
 import {FaLocationDot} from "react-icons/fa6";
 import {useNavigate} from "react-router-dom";
+import Rating from "react-rating-stars-component";
 
 const TravelPackageCard = ({travelPackage}) => {
     const navigate = useNavigate();
@@ -16,13 +17,25 @@ const TravelPackageCard = ({travelPackage}) => {
                 </div>
                 <div className="col-lg-7 col-md-6 card-body">
                     <div className="col-12 d-flex justify-content-between p-0">
-                        <h3 className="card-title text-success">{travelPackage.room.accommodation.name}</h3>
-                        <h5 className="card-title text-black fw-light">{travelPackage.price} RON</h5>
+                        <h3 className="card-title col-5 text-success">{travelPackage.room.accommodation.name}</h3>
+                        <div className="col-7 d-flex justify-content-end">
+                            <Rating
+                                count={5}
+                                size={20}
+                                value={travelPackage.room.accommodation.rating}
+                                edit={false}
+                                isHalf={true}
+                                id="Rating"
+                            />
+                        </div>
                     </div>
-                    <div className="ps-1 col-12 d-flex" style={{marginBottom: "-0.5em"}}>
-                        <h6 className="card-title text-success pe-1">{<FaLocationDot/>}</h6>
-                        <h6 className="card-title text-success"
-                            style={{paddingTop: "0.1em"}}>{travelPackage.room.accommodation.city.name}</h6>
+                    <div className="ps-1 col-12 d-flex justify-content-between" style={{marginBottom: "-0.5em"}}>
+                        <div className="d-flex justify-content-center">
+                            <h6 className="card-title text-success pe-1">{<FaLocationDot/>}</h6>
+                            <h6 className="card-title text-success"
+                                style={{paddingTop: "0.1em"}}>{travelPackage.room.accommodation.city.name}</h6>
+                        </div>
+                        <h5 className="card-title text-black fw-light">{travelPackage.price} RON</h5>
                     </div>
                     <hr className="border-success"/>
                     <div className="row d-flex justify-content-center align-items-center">
