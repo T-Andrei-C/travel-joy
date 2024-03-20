@@ -1,6 +1,5 @@
 import {useEffect, useState} from "react";
 import {useAuthHeader, useIsAuthenticated} from "react-auth-kit";
-import {getAuthUser} from "../service/CRUDUsers";
 import {useNavigate} from "react-router-dom";
 import {getReservationsByUserId} from "../service/CRUDReservation";
 import MyOrderCard from "../components/MyOrderCard";
@@ -19,8 +18,7 @@ const MyOrders = () => {
             setMyOrders(orders);
         })
     }, []);
-    console.log(myOrders);
-    console.log(myOrders?.check_in)
+    //console.log(myOrders);
     return (
         <div>
             {myOrders?.map(order => (
@@ -28,7 +26,8 @@ const MyOrders = () => {
                          accommodationName={order?.room?.accommodation?.name}
                          accommodationCity={order?.room?.accommodation?.city.name}
                          image={order?.room?.accommodation?.image_url.image_url} price={order?.amount}
-                         typeRoom={order?.room?.type}/>
+                         typeRoom={order?.room?.type} token={token} accommodationId={order?.room?.accommodation?.id}
+                         reservationId={order?.id}/>
             ))}
         </div>
     )

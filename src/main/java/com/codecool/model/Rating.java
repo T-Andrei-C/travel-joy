@@ -14,8 +14,7 @@ public class Rating {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private Long accommodationId;
     private Double ratingValue;
-    private Long userId;
+    @OneToOne
+    private Reservation reservation;
 }

@@ -2,6 +2,7 @@ import {FaLocationDot} from "react-icons/fa6";
 import {BsFillHouseCheckFill, BsSlash} from "react-icons/bs";
 import {useNavigate} from "react-router-dom";
 import InfoPopup from "./InfoPopup";
+import Rating from "react-rating-stars-component";
 
 const HotelCard = ({accommodation, city, checkIn, checkOut, numberOfPersons}) => {
 
@@ -21,14 +22,26 @@ const HotelCard = ({accommodation, city, checkIn, checkOut, numberOfPersons}) =>
                          alt={accommodation.name}/>
                 </div>
                 <div className="col-lg-7 col-md-6">
-                    <div className="card-body">
-                        <div className="col-12 d-flex justify-content-between p-0">
-                            <h3 className="card-title text-success ps-1">{accommodation.name}</h3>
+                    <div className="card-body row">
+                        <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                            <div className="col-12 d-flex justify-content-between p-0">
+                                <h3 className="card-title text-success ps-1">{accommodation.name}</h3>
+                            </div>
+                            <div className="ps-1 col-12 d-flex">
+                                <h6 className="card-title text-success pe-1">{<FaLocationDot/>}</h6>
+                                <h6 className="card-title text-success"
+                                    style={{paddingTop: "0.1em"}}>{accommodation.city.name}</h6>
+                            </div>
                         </div>
-                        <div className="ps-1 col-12 d-flex" style={{marginBottom: "-0.5em"}}>
-                            <h6 className="card-title text-success pe-1">{<FaLocationDot/>}</h6>
-                            <h6 className="card-title text-success"
-                                style={{paddingTop: "0.1em"}}>{accommodation.city.name}</h6>
+                        <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 d-flex justify-content-end">
+                            <Rating
+                                count={5}
+                                size={20}
+                                value={accommodation.rating}
+                                edit={false}
+                                isHalf={true}
+                                id="Rating"
+                            />
                         </div>
 
                         <hr className="border-success"/>
