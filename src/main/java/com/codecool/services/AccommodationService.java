@@ -5,6 +5,7 @@ import com.codecool.model.Accommodation;
 import com.codecool.model.Room;
 import com.codecool.repositories.AccommodationRepository;
 import com.codecool.repositories.RoomRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -15,17 +16,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@RequiredArgsConstructor
 @Service
 public class AccommodationService {
-    private AccommodationRepository accommodationRepository;
-    private RoomRepository roomRepository;
-    private ReservationFilter reservationFilter;
-
-    public AccommodationService(AccommodationRepository accommodationRepository, RoomRepository roomRepository, ReservationFilter reservationFilter) {
-        this.accommodationRepository = accommodationRepository;
-        this.roomRepository = roomRepository;
-        this.reservationFilter = reservationFilter;
-    }
+    private final AccommodationRepository accommodationRepository;
+    private final RoomRepository roomRepository;
+    private final ReservationFilter reservationFilter;
 
     public Page<Accommodation> getAccommodationPerPage(int currentPage, int itemsPerPage) {
         PageRequest pageRequest = PageRequest.of(currentPage, itemsPerPage);
@@ -38,6 +34,7 @@ public class AccommodationService {
     }
 
     public void addAccommodation(Accommodation accommodation) {
+        //todo var locale and streams
         if (accommodationRepository.findAll().stream().noneMatch(c -> c.getName().equals(accommodation.getName()) && c.getCity().getId().equals(accommodation.getCity().getId()))) {
             if (accommodation.getCapacity() >= accommodation.getRooms().size()) {
                 accommodationRepository.save(accommodation);
@@ -63,8 +60,9 @@ public class AccommodationService {
         List<Accommodation> filteredAccommodations = new ArrayList<>();
         List<Accommodation> filteredAccommodationsByCity = accommodationRepository.findAllByCityName(cityName);
 
-        for (var accommodation : filteredAccommodationsByCity) {
-            for (var room : accommodation.getRooms()) {
+        //todo change for into streams
+        for (Accommodation accommodation : filteredAccommodationsByCity) {
+            for (Room room : accommodation.getRooms()) {
                 if (room.getType().getCapacity() >= numberOfPersons) {
                     if (reservationFilter.checkReservation(room, checkIn, checkOut)) {
                         filteredAccommodations.add(accommodation);

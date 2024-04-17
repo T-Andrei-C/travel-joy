@@ -6,21 +6,17 @@ import com.codecool.model.Reservation;
 import com.codecool.repositories.AccommodationRepository;
 import com.codecool.repositories.RatingRepository;
 import com.codecool.repositories.ReservationRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @Service
 public class RatingService {
     private final RatingRepository ratingRepository;
     private final AccommodationRepository accommodationRepository;
     private final ReservationRepository reservationRepository;
-
-    public RatingService(RatingRepository ratingRepository, AccommodationRepository accommodationRepository, ReservationRepository reservationRepository) {
-        this.ratingRepository = ratingRepository;
-        this.accommodationRepository = accommodationRepository;
-        this.reservationRepository = reservationRepository;
-    }
 
     public void addRating(Long reservationId, Double ratingValue) {
         Reservation reservation = reservationRepository.findById(reservationId).orElse(null);
@@ -35,6 +31,7 @@ public class RatingService {
             existingRating.setRatingValue(ratingValue);
             ratingRepository.save(existingRating);
         }
+
         List<Rating> allAccommodationRating = ratingRepository.findAllByReservation_Room_Accommodation(reservation.getRoom().getAccommodation());
         Double averageRating = allAccommodationRating.stream().mapToDouble(Rating::getRatingValue).average().getAsDouble();
         Accommodation currentAccommodation = reservation.getRoom().getAccommodation();
@@ -52,9 +49,12 @@ public class RatingService {
     }
 
     public boolean isRated(Long reservationId) {
-        Rating rating = ratingRepository.findRatingByReservation_Id(reservationId).orElse(null);
-        return rating == null;
+        return ratingRepository.findRatingByReservation_Id(reservationId).isPresent();
     }
 
-
+    public Integer numberOfAccommodationRatings (Long id) {
+//        System.out.println(ratingRepository.findAllByReservation_Room_Accommodation_id(id).size());
+        return ratingRepository.findAllByReservation_Room_Accommodation_id(id).size();
+//        return 0;
+    }
 }

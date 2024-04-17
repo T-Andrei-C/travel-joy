@@ -3,16 +3,28 @@ import {BsFillHouseCheckFill, BsSlash} from "react-icons/bs";
 import {useNavigate} from "react-router-dom";
 import InfoPopup from "./InfoPopup";
 import Rating from "react-rating-stars-component";
+import HotelRating from "./HotelRating";
+import {numberOfAccommodationRatings} from "../service/CRUDRating";
+import {useEffect, useState} from "react";
 
 const HotelCard = ({accommodation, city, checkIn, checkOut, numberOfPersons}) => {
 
     const navigate = useNavigate();
+    const [ratingsSize, setRatingsSize] = useState(0);
 
     const checkSearchData = () => {
         if (city && checkIn && checkOut && numberOfPersons) {
             navigate(`/accommodations/details/${accommodation.name}/${city}/${checkIn}/${checkOut}/${numberOfPersons}`);
         }
     }
+
+    useEffect(() => {
+        numberOfAccommodationRatings(accommodation.id).then(ratingsSize => {
+            setRatingsSize(ratingsSize);
+        })
+    }, []);
+
+    console.log(ratingsSize);
 
     return (
         <div className="card col-12 col-md-12 col-lg-12 col-xl-9 border-success m-3 p-lg-0">
@@ -34,14 +46,7 @@ const HotelCard = ({accommodation, city, checkIn, checkOut, numberOfPersons}) =>
                             </div>
                         </div>
                         <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 d-flex justify-content-end">
-                            <Rating
-                                count={5}
-                                size={20}
-                                value={accommodation.rating}
-                                edit={false}
-                                isHalf={true}
-                                id="Rating"
-                            />
+                            <HotelRating value={accommodation.rating} numberOfRatings={ratingsSize}/>
                         </div>
 
                         <hr className="border-success"/>

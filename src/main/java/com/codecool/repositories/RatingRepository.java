@@ -12,5 +12,5 @@ import java.util.Optional;
 public interface RatingRepository extends JpaRepository<Rating,Long> {
     List<Rating> findAllByReservation_Room_Accommodation(Accommodation accommodation);
     Optional<Rating> findRatingByReservation_Id  (Long reservationId);
-
+    List<Rating> findAllByReservation_Room_Accommodation_id(Long id);
 }

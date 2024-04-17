@@ -3,6 +3,7 @@ package com.codecool.controller;
 import com.codecool.DTO.ReservationDTO;
 import com.codecool.model.Reservation;
 import com.codecool.services.ReservationService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.cglib.core.Local;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,14 +11,11 @@ import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/travel/api/reservations")
 public class ReservationController {
-    private ReservationService reservationService;
-
-    public ReservationController(ReservationService reservationService) {
-        this.reservationService = reservationService;
-    }
+    private final ReservationService reservationService;
 
     @GetMapping
     public List<Reservation> getAllReservation(){

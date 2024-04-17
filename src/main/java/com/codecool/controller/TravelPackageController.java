@@ -1,24 +1,19 @@
 package com.codecool.controller;
 
-import com.codecool.model.Accommodation;
 import com.codecool.model.TravelPackage;
 import com.codecool.services.TravelPackageService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.security.access.method.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/travel/api/packages")
 public class TravelPackageController {
 
-    private TravelPackageService travelPackageService;
-
-    public TravelPackageController(TravelPackageService travelPackageService) {
-        this.travelPackageService = travelPackageService;
-    }
+    private final TravelPackageService travelPackageService;
 
     @GetMapping("/{itemsPerPage}/{numberOfPage}")
     public Page<TravelPackage> getAccommodationPerPage(@PathVariable int itemsPerPage, @PathVariable int numberOfPage){

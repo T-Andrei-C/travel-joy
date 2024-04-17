@@ -41,11 +41,11 @@ const Home = () => {
         }
     }
 
-    setInterval(() => showImage(index), 2000);
+    setInterval(() => showImage(index), 4000);
 
     return (
         <div className="" id="blur">
-            <div id="carouselExampleSlidesOnly" className="carousel-fade slide"
+            <div id="carouselExampleSlidesOnly" className="carousel-fade"
                  data-bs-interval="false">
                 <img
                     src="https://cdn.discordapp.com/attachments/1151791153004413009/1171746366070997054/sokol-eugeniu-LD5-9Qr6uqc-unsplash.jpg?ex=65e83a57&is=65d5c557&hm=ff6bd6168e40f46054a3ea89f209108121e69abbf3255fc0af1cc7643d1e5c67&"

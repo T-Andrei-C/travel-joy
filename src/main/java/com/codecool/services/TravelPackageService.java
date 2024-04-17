@@ -8,6 +8,7 @@ import com.codecool.repositories.ReservationRepository;
 import com.codecool.repositories.TravelPackageRepository;
 import com.codecool.repositories.RoomRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.cglib.core.Local;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,19 +19,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+@RequiredArgsConstructor
 @Service
 public class TravelPackageService {
     private final TravelPackageRepository travelPackageRepository;
     private final RoomRepository roomRepository;
     private final ReservationRepository reservationRepository;
     private final ReservationFilter reservationFilter;
-
-    public TravelPackageService(TravelPackageRepository travelPackageRepository, RoomRepository roomRepository, ReservationFilter reservationFilter, ReservationRepository reservationRepository) {
-        this.travelPackageRepository = travelPackageRepository;
-        this.roomRepository = roomRepository;
-        this.reservationRepository = reservationRepository;
-        this.reservationFilter = reservationFilter;
-    }
 
     public Page<TravelPackage> getAllTravelPackagesPerPage(int currentPage, int itemsPerPage) {
         List<TravelPackage> allTravelPackage = travelPackageRepository.findAll();
@@ -50,6 +45,8 @@ public class TravelPackageService {
 
     public void addTravelPackage(TravelPackage travelPackage) {
         Room room = roomRepository.findById(travelPackage.getRoom().getId()).orElse(null);
+
+        //todo var locale and streams
         if (room != null) {
             if (reservationFilter.checkReservation(room, travelPackage.getCheckIn(), travelPackage.getCheckOut())) {
                 Reservation reservation = Reservation.builder()
@@ -74,7 +71,9 @@ public class TravelPackageService {
         List<TravelPackage> filteredTravelPackages = new ArrayList<>();
         List<TravelPackage> filteredTravelPackagesByCity = travelPackageRepository.findAllByRoomAccommodationCityName(cityName);
 
-        for (var travelPackage : filteredTravelPackagesByCity) {
+
+        //todo var locale and streams
+        for (TravelPackage travelPackage : filteredTravelPackagesByCity) {
             if (!travelPackage.getReservation().getBought()) {
                 if (travelPackage.getRoom().getType().getCapacity() >= numberOfPersons) {
                     if (reservationFilter.checkTravelPackages(travelPackage, checkIn, checkOut)) {

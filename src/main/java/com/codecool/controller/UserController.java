@@ -6,20 +6,18 @@ import com.codecool.model.user.ForgotPassword;
 import com.codecool.model.user.UpdateUserName;
 import com.codecool.model.user.User;
 import com.codecool.services.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/travel/api/users")
 public class UserController {
-    private final UserService userService;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
+    private final UserService userService;
 
     @PatchMapping
     public ResponseEntity<String> changePassword(@RequestBody ChangePassword request, Principal connectedUser) {

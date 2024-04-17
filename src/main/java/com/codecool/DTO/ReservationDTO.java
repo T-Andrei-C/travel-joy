@@ -3,7 +3,6 @@ package com.codecool.DTO;
 import java.time.LocalDate;
 
 public record ReservationDTO(
-//        Long id,
         LocalDate check_in,
         LocalDate check_out,
         String email,

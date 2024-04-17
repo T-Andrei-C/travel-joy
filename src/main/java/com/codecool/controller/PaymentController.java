@@ -3,19 +3,18 @@ package com.codecool.controller;
 import com.codecool.model.payment.Amount;
 import com.codecool.model.payment.Key;
 import com.codecool.services.StripeService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/travel/api/payment")
 public class PaymentController {
-    private StripeService stripeService;
+    private final StripeService stripeService;
 
     @Value("${stripe.keys.public}")
     private String API_PUBLIC_KEY;
-    public PaymentController(StripeService stripeService) {
-        this.stripeService = stripeService;
-    }
 
     @GetMapping
     public Key getPublicKey (){

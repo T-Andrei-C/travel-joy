@@ -2,17 +2,15 @@ package com.codecool.services;
 
 import com.codecool.model.RoomFacility;
 import com.codecool.repositories.RoomFacilityRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityNotFoundException;
 
+@RequiredArgsConstructor
 @Service
 public class RoomFacilityService {
-    private RoomFacilityRepository roomFacilityRepository;
-
-    public RoomFacilityService(RoomFacilityRepository roomFacilityRepository) {
-        this.roomFacilityRepository = roomFacilityRepository;
-    }
+    private final RoomFacilityRepository roomFacilityRepository;
 
     public void addFacility(RoomFacility roomFacility) {
         if (roomFacilityRepository.findAll().stream().noneMatch(rf -> rf.getName().equals(roomFacility.getName()))) {

@@ -2,16 +2,15 @@ package com.codecool.controller;
 
 import com.codecool.model.RoomFacility;
 import com.codecool.services.RoomFacilityService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/travel/api/room/facilities")
 public class RoomFacilityController {
-    private RoomFacilityService roomFacilityService;
 
-    public RoomFacilityController(RoomFacilityService roomFacilityService) {
-        this.roomFacilityService = roomFacilityService;
-    }
+    private final RoomFacilityService roomFacilityService;
 
     @PostMapping
     public void addFacility(@RequestBody RoomFacility roomFacility){

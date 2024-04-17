@@ -2,18 +2,16 @@ package com.codecool.controller;
 
 import com.codecool.model.Country;
 import com.codecool.services.CountryService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/travel/api/countries")
 public class CountryController {
-    private CountryService countryService;
-
-    public CountryController(CountryService countryService) {
-        this.countryService = countryService;
-    }
+    private final CountryService countryService;
 
     @GetMapping
     public List<Country> getAllCountries(){

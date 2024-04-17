@@ -2,20 +2,18 @@ package com.codecool.controller;
 
 import com.codecool.model.Accommodation;
 import com.codecool.services.AccommodationService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/travel/api/accommodations")
 public class AccommodationController {
-    private AccommodationService accommodationService;
-
-    public AccommodationController(AccommodationService accommodationService) {
-        this.accommodationService = accommodationService;
-    }
+    private final AccommodationService accommodationService;
 
     @GetMapping("/{itemsPerPage}/{numberOfPage}")
     public Page<Accommodation> getAccommodationPerPage(@PathVariable int itemsPerPage, @PathVariable int numberOfPage){

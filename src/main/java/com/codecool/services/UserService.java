@@ -7,23 +7,19 @@ import com.codecool.model.user.UpdateUserName;
 import com.codecool.model.user.User;
 import com.codecool.repositories.MailExpirationRepository;
 import com.codecool.repositories.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 
+@RequiredArgsConstructor
 @Service
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final MailExpirationRepository mailExpirationRepository;
-
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, MailExpirationRepository mailExpirationRepository) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.mailExpirationRepository = mailExpirationRepository;
-    }
 
     public void changePassword(ChangePassword changePassword, Principal connectedUser) {
         User user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();

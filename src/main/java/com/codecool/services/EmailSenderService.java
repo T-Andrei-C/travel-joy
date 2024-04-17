@@ -6,6 +6,7 @@ import com.codecool.model.user.User;
 import com.codecool.repositories.MailExpirationRepository;
 import com.codecool.repositories.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -14,20 +15,15 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@RequiredArgsConstructor
 @Service
 public class EmailSenderService {
     private final JavaMailSender javaMailSender;
-    private UserRepository userRepository;
-    private MailExpirationRepository mailExpirationRepository;
+    private final UserRepository userRepository;
+    private final MailExpirationRepository mailExpirationRepository;
 
     @Value("${spring.mail.username}")
     private String sender;
-
-    public EmailSenderService(JavaMailSender javaMailSender, UserRepository userRepository, MailExpirationRepository mailExpirationRepository) {
-        this.javaMailSender = javaMailSender;
-        this.userRepository = userRepository;;
-        this.mailExpirationRepository = mailExpirationRepository;
-    }
 
     public void sendEmailForForgotPassword (Email email) {
         User user = userRepository.findByEmail(email.getRecipient()).orElseThrow(() -> new EntityNotFoundException("User does not exists"));

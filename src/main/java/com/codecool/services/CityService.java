@@ -2,18 +2,16 @@ package com.codecool.services;
 
 import com.codecool.model.City;
 import com.codecool.repositories.CityRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 
+@RequiredArgsConstructor
 @Service
 public class CityService {
-    private CityRepository cityRepository;
-
-    public CityService(CityRepository cityRepository) {
-        this.cityRepository = cityRepository;
-    }
+    private final CityRepository cityRepository;
 
     public List<City> getAllCities(){
         return cityRepository.findAll();

@@ -10,6 +10,7 @@ import com.codecool.repositories.ReservationRepository;
 import com.codecool.repositories.RoomRepository;
 import com.codecool.repositories.TravelPackageRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.cglib.core.Local;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
@@ -19,21 +20,14 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@RequiredArgsConstructor
 @Service
 public class ReservationService {
-    private ReservationRepository reservationRepository;
-    private ReservationMapper reservationMapper;
-    private TravelPackageRepository travelPackageRepository;
-    private ReservationFilter reservationFilter;
-    private RoomRepository roomRepository;
-
-    public ReservationService(ReservationRepository reservationRepository, ReservationMapper reservationMapper, TravelPackageRepository travelPackageRepository, ReservationFilter reservationFilter, RoomRepository roomRepository) {
-        this.reservationRepository = reservationRepository;
-        this.reservationMapper = reservationMapper;
-        this.travelPackageRepository = travelPackageRepository;
-        this.reservationFilter = reservationFilter;
-        this.roomRepository = roomRepository;
-    }
+    private final ReservationRepository reservationRepository;
+    private final ReservationMapper reservationMapper;
+//    private final TravelPackageRepository travelPackageRepository;
+    private final ReservationFilter reservationFilter;
+    private final RoomRepository roomRepository;
 
     public List<Reservation> getAllReservation() {
         return reservationRepository.findAll();

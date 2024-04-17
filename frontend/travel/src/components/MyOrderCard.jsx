@@ -32,7 +32,6 @@ const MyOrderCard = ({
     }, []);
 
     const onChangeRating = async (e) => {
-        console.log(e);
         await addRating(reservationId, e, token());
     }
 
@@ -69,7 +68,6 @@ const MyOrderCard = ({
                     </div>
                     <h6><FaBed className="text-success"/> {typeRoom}</h6>
                 </div>
-
             </div>
         </div>
     );

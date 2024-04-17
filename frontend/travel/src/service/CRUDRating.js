@@ -35,3 +35,9 @@ export const isRated = async (token, reservationId) => {
         });
     return await request.json();
 }
+
+export const numberOfAccommodationRatings = async (id) => {
+    const request =  await fetch (`${API_URL}rating/accommodation/${id}`);
+    return await request.json();
+}
+

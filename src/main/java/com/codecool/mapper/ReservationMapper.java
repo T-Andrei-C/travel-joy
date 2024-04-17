@@ -41,7 +41,7 @@ public class ReservationMapper {
             throw new EntityExistsException("Reservation already booked!");
         }
 
-        if(!reservationFilter.checkReservation(room, reservationDTO.check_in(), reservationDTO.check_out()) && travelPackage == null ){
+        if (!reservationFilter.checkReservation(room, reservationDTO.check_in(), reservationDTO.check_out()) && travelPackage == null) {
             throw new EntityExistsException("Reservation already booked!");
         }
 

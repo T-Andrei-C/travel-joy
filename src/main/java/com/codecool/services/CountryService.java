@@ -2,18 +2,16 @@ package com.codecool.services;
 
 import com.codecool.model.Country;
 import com.codecool.repositories.CountryRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 
+@RequiredArgsConstructor
 @Service
 public class CountryService {
-    private CountryRepository countryRepository;
-
-    public CountryService(CountryRepository countryRepository) {
-        this.countryRepository = countryRepository;
-    }
+    private final CountryRepository countryRepository;
 
     public List<Country> getAllCountries() {
         return countryRepository.findAll();

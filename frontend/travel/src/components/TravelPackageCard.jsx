@@ -4,10 +4,20 @@ import {BiSolidCalendar} from "react-icons/bi";
 import {HiArrowNarrowRight} from "react-icons/hi";
 import {FaLocationDot} from "react-icons/fa6";
 import {useNavigate} from "react-router-dom";
-import Rating from "react-rating-stars-component";
+import HotelRating from "./HotelRating";
+import {useEffect, useState} from "react";
+import {numberOfAccommodationRatings} from "../service/CRUDRating";
 
 const TravelPackageCard = ({travelPackage}) => {
     const navigate = useNavigate();
+    const [ratingsSize, setRatingsSize] = useState(0);
+
+    useEffect(() => {
+        numberOfAccommodationRatings(travelPackage.room.accommodation.id).then(ratingsSize => {
+            setRatingsSize(ratingsSize);
+        })
+    }, []);
+
     return (
         <div className="card col-12 col-md-12 col-lg-12 col-xl-9 border-success m-3 p-lg-0">
             <div className="row g-0 d-flex align-items-md-center justify-content-md-center">
@@ -19,14 +29,7 @@ const TravelPackageCard = ({travelPackage}) => {
                     <div className="col-12 d-flex justify-content-between p-0">
                         <h3 className="card-title col-5 text-success">{travelPackage.room.accommodation.name}</h3>
                         <div className="col-7 d-flex justify-content-end">
-                            <Rating
-                                count={5}
-                                size={20}
-                                value={travelPackage.room.accommodation.rating}
-                                edit={false}
-                                isHalf={true}
-                                id="Rating"
-                            />
+                            <HotelRating value={travelPackage.room.accommodation.rating} numberOfRatings={ratingsSize}/>
                         </div>
                     </div>
                     <div className="ps-1 col-12 d-flex justify-content-between" style={{marginBottom: "-0.5em"}}>

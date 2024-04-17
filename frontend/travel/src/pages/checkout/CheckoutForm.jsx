@@ -29,7 +29,6 @@ export default function CheckoutForm({reservationData, travelType, roomId, check
 
         if (travelType === "travelPackage") {
             checkTravelPackageReservation(roomId, checkIn, checkOut).then(async res => {
-                console.log(res);
                 if (!res) {
                     const {error, paymentIntent} = await stripe.confirmPayment({
                         elements,
