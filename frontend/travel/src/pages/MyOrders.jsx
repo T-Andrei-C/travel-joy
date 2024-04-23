@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {useAuthHeader, useIsAuthenticated} from "react-auth-kit";
-import {useNavigate} from "react-router-dom";
+import {Outlet, useNavigate} from "react-router-dom";
 import {getReservationsByUserId} from "../service/CRUDReservation";
 import MyOrderCard from "../components/MyOrderCard";
 
@@ -40,7 +40,7 @@ const MyOrders = () => {
                                  accommodationCity={order?.room?.accommodation?.city.name}
                                  image={order?.room?.accommodation?.image_url.image_url} price={order?.amount}
                                  typeRoom={order?.room?.type} token={token} accommodationId={order?.room?.accommodation?.id}
-                                 reservationId={order?.id}/>
+                                 reservationId={order?.id} navigate={navigate}/>
                 ))}
             </div>
         </div>

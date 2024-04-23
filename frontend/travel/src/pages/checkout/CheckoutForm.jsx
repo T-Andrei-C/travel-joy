@@ -17,7 +17,6 @@ export default function CheckoutForm({reservationData, travelType, roomId, check
     const [isProcessing, setIsProcessing] = useState(false);
     const navigate = useNavigate();
 
-
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -27,57 +26,27 @@ export default function CheckoutForm({reservationData, travelType, roomId, check
 
         setIsProcessing(true);
 
-        if (travelType === "travelPackage") {
-            checkTravelPackageReservation(roomId, checkIn, checkOut).then(async res => {
-                if (!res) {
-                    const {error, paymentIntent} = await stripe.confirmPayment({
-                        elements,
-                        confirmParams: {
-                            return_url: `${window.location.origin}/completion`,
-                        },
-                        redirect: "if_required",
-                    });
+        checkRoomReservation(roomId, checkIn, checkOut).then(async res => {
+            if (res) {
+                const {error, paymentIntent} = await stripe.confirmPayment({
+                    elements,
+                    confirmParams: {
+                        return_url: `${window.location.origin}/completion`,
+                    },
+                    redirect: "if_required",
+                });
 
-                    if (!error && paymentIntent.status === "succeeded") {
-                        reservationData.bought = true;
-                        await updateTravelPackageReservation(reservationData);
-                        navigate("/");
-                    } else {
-                        navigate("/error");
-                    }
+                if (!error && paymentIntent.status === "succeeded") {
+                    reservationData.bought = true;
+                    await addReservation(reservationData);
+                    navigate("/");
                 } else {
                     navigate("/error");
                 }
-            })
-        } else {
-            checkRoomReservation(roomId, checkIn, checkOut).then(async res => {
-                if (res) {
-                    const {error, paymentIntent} = await stripe.confirmPayment({
-                        elements,
-                        confirmParams: {
-                            return_url: `${window.location.origin}/completion`,
-                        },
-                        redirect: "if_required",
-                    });
-
-                    if (!error && paymentIntent.status === "succeeded") {
-                        reservationData.bought = true;
-                        await addReservation(reservationData);
-                        navigate("/");
-                    } else {
-                        navigate("/error");
-                    }
-                } else {
-                    navigate("/error");
-                }
-            })
-        }
-
-        // if (error.type === "card_error" || error.type === "validation_error") {
-        //     setMessage(error.message);
-        // } else {
-        //     setMessage("An unexpected error occured.");
-        // }
+            } else {
+                navigate("/error");
+            }
+        })
 
         setIsProcessing(false);
     };
@@ -85,7 +54,8 @@ export default function CheckoutForm({reservationData, travelType, roomId, check
     return (
         <form id="payment-form" onSubmit={handleSubmit}>
             <PaymentElement className="m-5" id="payment-element"/>
-            <button disabled={isProcessing || !stripe || !elements} id="submit" className="btn btn-outline-light bg-success">
+            <button disabled={isProcessing || !stripe || !elements} id="submit"
+                    className="btn btn-outline-light bg-success">
             <span id="button-text">
               {isProcessing ? "Processing ... " : "Pay now"}
             </span>

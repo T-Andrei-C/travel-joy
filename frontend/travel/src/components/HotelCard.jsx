@@ -24,8 +24,6 @@ const HotelCard = ({accommodation, city, checkIn, checkOut, numberOfPersons}) =>
         })
     }, []);
 
-    console.log(ratingsSize);
-
     return (
         <div className="card col-12 col-md-12 col-lg-12 col-xl-9 border-success m-3 p-lg-0">
             <div className="row g-0 d-flex align-items-md-center justify-content-md-center">

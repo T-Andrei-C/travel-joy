@@ -1,40 +1,29 @@
 import {useEffect, useState} from "react";
-import {
-    getTravelPackagesByCity,
-    getTravelPackagesPerPage,
-    getTravelPackagesSearch
-} from "../service/CRUDTravelPackages";
 import TravelPackageCard from "../components/TravelPackageCard";
 import {useParams} from "react-router-dom";
 import TravelSearch from "../components/TravelSearch";
 import Pagination from "../components/Pagination";
+import {getAllRoomOffers, getRoomOffersByCityName, getRoomOffersByTravelSearch} from "../service/CRUDTravelPackages";
 
 const Package = () => {
     const [travelPackages, setTravelPackages] = useState([]);
-    const [travelPackagesByCity, setTravelPackagesByCity] = useState([]);
-    const [travelPackagesSearch, setTravelPackagesSearch] = useState([]);
-
     const {destination, checkIn, checkOut, numberOfPersons, itemsPerPage, numberOfPage} = useParams();
 
     useEffect(() => {
-        getTravelPackagesPerPage(itemsPerPage, numberOfPage)
-            .then((travelPackages) => {
-                setTravelPackages(travelPackages);
+        if (destination !== undefined && checkIn !== undefined && checkOut !== undefined && numberOfPersons !== undefined) {
+            getRoomOffersByTravelSearch(destination, itemsPerPage, numberOfPage, checkIn, checkOut, numberOfPersons).then(roomOffers => {
+                setTravelPackages(roomOffers);
+            });
+        } else if (destination !== undefined) {
+            getRoomOffersByCityName(destination, itemsPerPage, numberOfPage).then(roomOffers => {
+                setTravelPackages(roomOffers);
             })
-        if (destination !== undefined) {
-            getTravelPackagesByCity(destination, itemsPerPage, numberOfPage)
-                .then((packagesByCity) => {
-                    setTravelPackagesByCity(packagesByCity);
-                })
-        }
-        if (checkIn !== undefined) {
-            getTravelPackagesSearch(destination, checkIn, checkOut, numberOfPersons, itemsPerPage, numberOfPage)
-                .then((travelPackages) => {
-                    setTravelPackagesSearch(travelPackages);
-                })
+        } else {
+            getAllRoomOffers(itemsPerPage, numberOfPage).then(roomOffers => {
+                setTravelPackages(roomOffers);
+            })
         }
     }, [destination, checkIn, checkOut, numberOfPersons, numberOfPage])
-    console.log(travelPackages);
 
     return (
         // travelPackages.length === 0 && travelPackagesByCity.length === 0 && travelPackagesSearch.length === 0 ?
@@ -51,28 +40,21 @@ const Package = () => {
             <div className="container h-100">
                 <div className="row h-100 justify-content-center align-items-center mx-1">
                     {
-                        destination !== undefined && checkIn !== undefined ?
-                            travelPackagesSearch.content?.map((p) => (
-                                <TravelPackageCard key={p.id} travelPackage={p}/>
-                            )) : destination !== undefined ?
-                                travelPackagesByCity.content?.map((p) => (
-                                    <TravelPackageCard key={p.id} travelPackage={p}/>
-                                )) :
-                                travelPackages.content?.map((p) => (
-                                    <TravelPackageCard key={p.id} travelPackage={p}/>
-                                ))
+                        travelPackages.content?.map(p => (
+                            <TravelPackageCard key={p.id} travelPackage={p}/>
+                        ))
                     }
                 </div>
             </div>
             {
                 destination !== undefined && checkIn !== undefined ?
-                    <Pagination key="1" travelBundles={travelPackagesSearch}
-                                link={`packages/${destination}/${checkIn}/${checkOut}/${numberOfPersons}/${travelPackagesSearch.size}`}
-                                numberOfPage={travelPackagesSearch.number}/>
+                    <Pagination key="1" travelBundles={travelPackages}
+                                link={`packages/${destination}/${checkIn}/${checkOut}/${numberOfPersons}/${travelPackages.size}`}
+                                numberOfPage={travelPackages.number}/>
                     : destination !== undefined ?
-                        <Pagination key="2" travelBundles={travelPackagesByCity}
-                                    link={`packages/${destination}/${travelPackagesByCity.size}`}
-                                    numberOfPage={travelPackagesByCity.number}/>
+                        <Pagination key="2" travelBundles={travelPackages}
+                                    link={`packages/${destination}/${travelPackages.size}`}
+                                    numberOfPage={travelPackages.number}/>
                         :
                         <Pagination key="3" travelBundles={travelPackages} link={`packages/${travelPackages.size}`}
                                     numberOfPage={travelPackages.number}/>

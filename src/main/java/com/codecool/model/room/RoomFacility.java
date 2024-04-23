@@ -1,4 +1,4 @@
-package com.codecool.model;
+package com.codecool.model.room;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;

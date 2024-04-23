@@ -1,5 +1,6 @@
 package com.codecool.model;
 
+import com.codecool.model.room.Room;
 import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import lombok.*;

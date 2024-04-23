@@ -1,7 +1,7 @@
 package com.codecool.configurations;
 
-import com.codecool.model.Room;
-import com.codecool.model.TravelPackage;
+import com.codecool.model.room.Room;
+import com.codecool.model.room.RoomOffer;
 import org.springframework.context.annotation.Configuration;
 
 import java.time.LocalDate;
@@ -16,8 +16,16 @@ public class ReservationFilter {
                         checkOut.isAfter(rez.getCheck_out())));
     }
 
-    public boolean checkTravelPackages(TravelPackage travelPackage, LocalDate checkIn, LocalDate checkOut){
-        return (travelPackage.getCheckIn().isAfter(checkIn) || travelPackage.getCheckIn().equals(checkIn)) &&
-                (travelPackage.getCheckOut().isBefore(checkOut) || travelPackage.getCheckOut().equals(checkOut));
+    public boolean checkRoomOffer(Room room, LocalDate checkIn, LocalDate checkOut) {
+        return room.getRoom_offers()
+                .stream()
+                .allMatch(ofr -> (checkOut.equals(ofr.getDate_from()) || checkOut.isBefore(ofr.getDate_from()) &&
+                        checkIn.isBefore(ofr.getDate_from())) || ((checkIn.isAfter(ofr.getDate_to()) || checkIn.equals(ofr.getDate_to())) &&
+                        checkOut.isAfter(ofr.getDate_to())));
+    }
+
+    public boolean checkRoomOffer(RoomOffer roomOffer, LocalDate checkIn, LocalDate checkOut){
+        return (roomOffer.getDate_from().isAfter(checkIn) || roomOffer.getDate_from().equals(checkIn)) &&
+                (roomOffer.getDate_to().isBefore(checkOut) || roomOffer.getDate_to().equals(checkOut));
     }
 }

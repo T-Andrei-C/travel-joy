@@ -16,7 +16,9 @@ import ForgotPassword from "./pages/ForgotPassword";
 import Payment from "./pages/checkout/Payment";
 import Error from "./pages/Error";
 import MyOrders from "./pages/MyOrders";
-import Test from "./components/Test";
+import RatingReservation from "./components/RatingReservation";
+import AdminPanel from "./pages/AdminPanel";
+import ViewHotels from "./components/admin/ViewHotels";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -34,12 +36,15 @@ const router = createBrowserRouter(
             <Route path="/contact" element={<Contact/>} />
             <Route path="/myaccount" element={<MyAccount/>}/>
             <Route path="/myorders" element={<MyOrders/>}/>
+            <Route path="/myorders/rating/:reservationId" element={<MyOrders/>}/>
             <Route path="/forgotpassword/:uuid" element={<ForgotPassword/>}/>
             <Route path="/error" element={<Error/>}/>
-            <Route path="/checkout/:city/:housingName/:travelType/:room/:checkIn/:checkOut/:price" element={<Payment/>}/>
+            <Route path="/checkout/:city/:housingName/:room/:checkIn/:checkOut/:price" element={<Payment/>}/>
             <Route path="/accommodations/details/:accommodationName/:destination/:checkIn/:checkOut/:numberOfPersons" element={<ViewDetails/>}/>
             <Route path="/:random" element={<Error/>}/>
-            <Route path="/test" element={<Test/>}/>
+            <Route path="/admin" element={<AdminPanel/>}>
+                <Route path="/admin/hotels" element={<ViewHotels/>}/>
+            </Route>
         </Route>
     )
 )

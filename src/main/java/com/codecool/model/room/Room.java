@@ -1,6 +1,7 @@
-package com.codecool.model;
+package com.codecool.model.room;
 
-import com.codecool.model.enums.RoomType;
+import com.codecool.model.*;
+import com.codecool.model.room.enums.RoomType;
 import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 
@@ -24,6 +25,14 @@ public class Room {
     private RoomType type;
     private Long price;
 
+    @JsonManagedReference
+    @ManyToOne
+    private Accommodation accommodation;
+
+    @JsonBackReference
+    @OneToMany(mappedBy = "room")
+    private List<Reservation> reservations;
+
     @OneToMany
     @JoinTable(
             name = "room_images",
@@ -31,10 +40,6 @@ public class Room {
             inverseJoinColumns = @JoinColumn(name = "image_id")
     )
     private List<Image> images_url;
-
-    @JsonManagedReference
-    @ManyToOne
-    private Accommodation accommodation;
 
     @ManyToMany
     @JoinTable(
@@ -44,11 +49,7 @@ public class Room {
     )
     private Set<RoomFacility> room_facilities;
 
-    @JsonBackReference
-    @OneToMany(mappedBy = "room")
-    private List<Reservation> reservations;
-
     @JsonIgnore
     @OneToMany(mappedBy = "room")
-    private List<TravelPackage> travel_packages;
+    private List<RoomOffer> room_offers;
 }

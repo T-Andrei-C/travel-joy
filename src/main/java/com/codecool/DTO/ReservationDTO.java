@@ -14,7 +14,6 @@ public record ReservationDTO(
         Integer amount,
         Boolean bought,
         Long userId,
-        Long roomId,
-        String travelType
+        Long roomId
 ) {
 }

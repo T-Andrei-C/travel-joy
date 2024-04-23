@@ -8,7 +8,6 @@ import jakarta.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Entity
 @Table(name = "cities")
 public class City {
@@ -22,5 +21,4 @@ public class City {
     @ManyToOne
     @JoinColumn(name = "country_id")
     private Country country;
-
 }

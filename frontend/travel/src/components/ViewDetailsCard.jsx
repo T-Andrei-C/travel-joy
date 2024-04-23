@@ -19,6 +19,8 @@ const ViewDetailsCard = ({room, checkIn, checkOut, navigate, destination, accomm
         }
     }, []);
 
+    console.log(room)
+
     return (
         <>
             <div id="carouselExampleIndicators" className="col-xl-7 col-lg-7 col-md-8 col-sm-11 col-12 carousel slide carousel-fade mt-5">
@@ -82,7 +84,7 @@ const ViewDetailsCard = ({room, checkIn, checkOut, navigate, destination, accomm
                         <p className="col-8 fw-bold text-end fs-5">{totalPrice(checkIn, checkOut) * room.price} RON</p>
                     </div>
                 </div>
-                <a onClick={() => navigate(`/checkout/${destination}/${accommodationName}/accommodation/${room.id}/${checkIn}/${checkOut}/${totalPrice(checkIn, checkOut) * room.price}`)} className="btn btn-success col-12 mt-auto p-2 ">
+                <a onClick={() => navigate(`/checkout/${destination}/${accommodationName}/${room.id}/${checkIn}/${checkOut}/${totalPrice(checkIn, checkOut) * room.price}`)} className="btn btn-success col-12 mt-auto p-2 ">
                     Buy Now
                 </a>
             </div>

@@ -6,64 +6,58 @@ import "react-multi-date-picker/styles/colors/green.css"
 import {BiSolidCalendar} from "react-icons/bi";
 import {
     PiArrowElbowLeftUpBold,
-    PiArrowElbowLeftUpThin,
     PiArrowElbowRightDownBold,
-    PiArrowElbowRightDownThin
 } from "react-icons/pi";
 
 const TravelSearch = ({goingTo, checkIn, checkOut, numberOfPersons, type}) => {
-    const [valueCheckIn, setValueCheckIn] = useState(checkIn);
-    const [valueCheckOut, setValueCheckOut] = useState(checkOut);
+    const [buttonDisabled, setButtonDisabled] = useState(true)
     const navigate = useNavigate();
     const {itemsPerPage, numberOfPage} = useParams();
 
-    const [values, setValues] = useState(null)
-
+    const [values, setValues] = useState([])
 
     useEffect(() => {
         const checkInDate = new Date(checkIn);
         const checkOutDate = new Date(checkOut);
+
         if ((checkOutDate.getTime() - checkInDate.getTime()) < 0) {
             navigate(`/${type}/${itemsPerPage}/0`);
             window.location.reload();
         }
+
     }, []);
 
-    const getDate = (extraDays, extraYear) => {
-        const date = new Date;
-        date.setFullYear(date.getFullYear() + extraYear);
-        date.setDate(date.getDate() + extraDays)
-
-        const year = date.getFullYear();
-        const month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
-        const day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
-
-        return `${year}-${month}-${day}`
+    const getCheckIn = () => {
+        if (values[0] !== undefined){
+            const month = values[0].month.number < 10 ? `0${values[0].month.number}` : values[0].month.number;
+            const day = values[0].day < 10 ? `0${values[0].day}` : values[0].day;
+            return `${values[0].year}-${month}-${day}`;
+        } else {
+            return checkIn === undefined ? "yyyy-mm-dd" : checkIn;
+        }
     }
 
-    const getSearchDate = (inputDate, extraDays) => {
-        const date = new Date(inputDate);
-        date.setDate(date.getDate() + extraDays)
-
-        const year = date.getFullYear();
-        const month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
-        const day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
-
-
-        return `${year}-${month}-${day}`;
+    const getCheckOut = () => {
+        if (values[1] !== undefined){
+            const month = values[1].month.number < 10 ? `0${values[1].month.number}` : values[1].month.number;
+            const day = values[1].day < 10 ? `0${values[1].day}` : values[1].day;
+            setButtonDisabled(false);
+            return `${values[1].year}-${month}-${day}`;
+        } else {
+            setButtonDisabled(true);
+            return checkOut === undefined ? "yyyy-mm-dd" : checkOut;
+        }
     }
-
 
     const onSubmit = (e) => {
         e.preventDefault();
         const formData = new FormData(e.target);
+
         const inputSearch = {
             goingTo: formData.get("goingTo"),
-            checkIn: formData.get("checkIn"),
-            checkOut: formData.get("checkOut"),
             numberOfPersons: formData.get("numberOfPersons")
         };
-        navigate(`/${type}/${inputSearch.goingTo}/${inputSearch.checkIn}/${inputSearch.checkOut}/${inputSearch.numberOfPersons}/${itemsPerPage}/0`)
+        navigate(`/${type}/${inputSearch.goingTo}/${getCheckIn()}/${getCheckOut()}/${inputSearch.numberOfPersons}/${itemsPerPage}/0`)
     }
 
     return (
@@ -81,18 +75,20 @@ const TravelSearch = ({goingTo, checkIn, checkOut, numberOfPersons, type}) => {
                         value={values}
                         onChange={setValues}
                         range
-                        required={true}
+                        minDate={new DateObject()}
+                        maxDate={new DateObject().add(1, "year")}
+                        format={"YYYY-MM-DD"}
                         className="green"
                         render={(value, openCalendar) => {
                             return (
                                 <button type="button" className="border-0 bg-transparent fw-bold" style={{width: "8em"}} onClick={openCalendar}>
                                     <div>
-                                        {values == null ? "yyyy/mm/dd" : value[0]}
-                                        {<PiArrowElbowRightDownBold className="text-success"/>}</div>
-                                    {/*<hr className="m-0 mt-1"/>*/}
+                                        {getCheckIn()}
+                                        {<PiArrowElbowRightDownBold className="text-success"/>}
+                                    </div>
                                     <div>
                                         {<PiArrowElbowLeftUpBold className="mb-2 text-success"/>}
-                                        {values == null ? "yyyy/mm/dd" : value[1]}
+                                        {getCheckOut()}
                                     </div>
                                 </button>
                             )
@@ -117,7 +113,7 @@ const TravelSearch = ({goingTo, checkIn, checkOut, numberOfPersons, type}) => {
                     <option value="5">5</option>
                 </select>
                 <button className="btn btn-outline-success ps-5 pe-5 col-9 lg rounded-end-3" style={{borderRadius: "0"}}
-                        type="submit" id="button-addon2">Search
+                        type="submit" id="button-addon2" disabled={buttonDisabled}>Search
                 </button>
             </div>
         </form>

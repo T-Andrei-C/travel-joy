@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation,Long> {
-    List<Reservation> getReservationsByUserAndBought(User user, boolean bought);
+    List<Reservation> getReservationsByUser(User user);
 }

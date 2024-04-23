@@ -11,6 +11,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface RoomRepository extends JpaRepository<Room, Long> {
-    List<Room> findAllByAccommodation_NameAndAccommodation_City_Name(String accommodationName, String cityName);
+public interface RoomOfferRepository extends JpaRepository<RoomOffer, Long> {
+
+    List<RoomOffer> findAllByRoomAccommodationCityName(String cityName);
+
+    @Query("SELECT r FROM RoomOffer r WHERE r IN :roomOffers")
+    Page<RoomOffer> findAllByRoomOffers(List<RoomOffer> roomOffers, Pageable pageable);
 }

@@ -1,10 +1,11 @@
-import {totalPrice} from "../../service/PaymentService";
+import {calculateDiscountPrice, totalPrice} from "../../service/PaymentService";
 import {HiArrowNarrowRight} from "react-icons/hi";
 
-const ReviewOrder = ({checkIn, checkOut, city, room, travelPackage, housingName}) => {
-    const amount = room === null ? travelPackage?.price  : totalPrice(checkIn, checkOut) * room?.price;
+const ReviewOrder = ({checkIn, checkOut, city, room, travelPackage, housingName, discount}) => {
+    const amount = calculateDiscountPrice(checkIn, checkOut, discount, room?.price);
+
     return (
-        <div className="card-body p-lg-3 p-xl-3 p-md-3 text-center">
+        <div className="card-body p-lg-3 p-xl-3cd frontn p-md-3 text-center">
             <h3 className="mb-4">Review</h3>
             <div className="row ">
                 <div className="col-6">

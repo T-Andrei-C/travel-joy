@@ -1,7 +1,7 @@
 package com.codecool.model;
 
+import com.codecool.model.room.Room;
 import com.codecool.model.user.User;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -30,7 +30,6 @@ public class Reservation {
     private String county;
     private String city;
     private Integer amount;
-    private Boolean bought;
 
     @ManyToOne
     @JsonIgnore
@@ -39,8 +38,4 @@ public class Reservation {
     @JsonManagedReference
     @ManyToOne
     private Room room;
-
-    @JsonIgnore
-    @OneToOne(mappedBy = "reservation")
-    private TravelPackage travelPackage;
 }

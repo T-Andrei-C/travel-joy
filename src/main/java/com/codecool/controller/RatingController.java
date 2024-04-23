@@ -6,6 +6,8 @@ import com.codecool.services.RatingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/travel/api/rating")
@@ -23,8 +25,18 @@ public class RatingController {
     }
 
     @GetMapping("/isRated/{reservationId}")
-    public boolean isRated(@PathVariable Long reservationId){
-        return ratingService.isRated(reservationId);
+    public boolean isRated(@PathVariable Long reservationId, Principal connectedUser){
+        return ratingService.isRated(reservationId, connectedUser);
+    }
+
+    @GetMapping("/canRate/{reservationId}")
+    public boolean canRate(@PathVariable Long reservationId){
+        return ratingService.canRate(reservationId);
+    }
+
+    @GetMapping("/isRatingPresent/{reservationId}")
+    public boolean isRatingPresent(@PathVariable Long reservationId){
+        return ratingService.isRatingPresent(reservationId);
     }
 
     @GetMapping("/accommodation/{id}")

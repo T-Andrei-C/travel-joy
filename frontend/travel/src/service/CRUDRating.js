@@ -36,6 +36,16 @@ export const isRated = async (token, reservationId) => {
     return await request.json();
 }
 
+export const isRatingPresent = async (reservationId) => {
+    const request =  await fetch (`${API_URL}rating/isRatingPresent/${reservationId}`);
+    return await request.json();
+}
+
+export const canRate = async (reservationId) => {
+    const request =  await fetch (`${API_URL}rating/canRate/${reservationId}`);
+    return await request.json();
+}
+
 export const numberOfAccommodationRatings = async (id) => {
     const request =  await fetch (`${API_URL}rating/accommodation/${id}`);
     return await request.json();

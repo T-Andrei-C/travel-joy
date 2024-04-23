@@ -1,6 +1,6 @@
 package com.codecool.controller;
 
-import com.codecool.model.RoomFacility;
+import com.codecool.model.room.RoomFacility;
 import com.codecool.services.RoomFacilityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

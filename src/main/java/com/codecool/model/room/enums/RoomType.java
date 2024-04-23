@@ -1,4 +1,4 @@
-package com.codecool.model.enums;
+package com.codecool.model.room.enums;
 
 import lombok.Getter;
 

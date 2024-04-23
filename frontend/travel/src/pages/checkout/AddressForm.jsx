@@ -1,11 +1,13 @@
 import FormInput from "../../components/FormInput";
-import {totalPrice} from "../../service/PaymentService";
+import {calculateDiscountPrice, totalPrice} from "../../service/PaymentService";
+import {useEffect, useState} from "react";
+import {getRoomDiscountByCheckInAndCheckOut} from "../../service/CRUDRooms";
 
-const AddressForm = ({data, dataCallback, user, room, travelPackage}) => {
+const AddressForm = ({data, dataCallback, user, room, travelPackage, discount}) => {
     const onChange = (e) => {
         e.preventDefault();
         const formData = new FormData(e.target.form);
-        const amount = room === null ? travelPackage.price * 100 : totalPrice(data.check_in, data.check_out) * room.price * 100;
+        const amount = calculateDiscountPrice(data.check_in, data.check_out, discount, room.price) * 100;
         const userData = {
             name: formData.get("firstname") + " " + formData.get("lastname"),
             email: formData.get("email"),

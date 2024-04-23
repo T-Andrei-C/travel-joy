@@ -13,7 +13,11 @@ const RootLayout = () => {
 
 
     const logOut = () => {
-        document.cookie = "_auth_state=logout";
+        document.cookie = "_auth_state= ";
+        document.cookie = "_auth_storage= ";
+        document.cookie = "_auth_storage= ";
+        document.cookie = "_auth= ";
+        // document.cookie = "";
         navigate("/");
         window.location.reload();
     }

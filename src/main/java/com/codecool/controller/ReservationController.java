@@ -27,19 +27,9 @@ public class ReservationController {
         reservationService.addReservation(reservationDTO);
     }
 
-    @PatchMapping
-    public void modifyTravelPackageReservation(@RequestBody ReservationDTO reservationDTO){
-        reservationService.modifyTravelPackageReservation(reservationDTO);
-    }
-
     @GetMapping("/checkRoom/{roomId}/{checkIn}/{checkOut}")
     public boolean checkRoomReservation (@PathVariable Long roomId, @PathVariable LocalDate checkIn, @PathVariable LocalDate checkOut){
         return reservationService.checkRoomReservation(roomId, checkIn, checkOut);
-    }
-
-    @GetMapping("/checkTravelPackage/{roomId}/{checkIn}/{checkOut}")
-    public boolean checkTravelPackageReservation (@PathVariable Long roomId, @PathVariable LocalDate checkIn, @PathVariable LocalDate checkOut){
-        return reservationService.checkTravelPackageReservation(roomId, checkIn, checkOut);
     }
 
     @GetMapping("/myOrders")

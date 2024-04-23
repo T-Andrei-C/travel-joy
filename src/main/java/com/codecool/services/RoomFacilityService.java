@@ -1,6 +1,6 @@
 package com.codecool.services;
 
-import com.codecool.model.RoomFacility;
+import com.codecool.model.room.RoomFacility;
 import com.codecool.repositories.RoomFacilityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

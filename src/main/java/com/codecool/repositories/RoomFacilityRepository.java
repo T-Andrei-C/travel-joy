@@ -1,6 +1,6 @@
 package com.codecool.repositories;
 
-import com.codecool.model.RoomFacility;
+import com.codecool.model.room.RoomFacility;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

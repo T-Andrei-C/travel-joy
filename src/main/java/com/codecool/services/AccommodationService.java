@@ -2,7 +2,7 @@ package com.codecool.services;
 
 import com.codecool.configurations.ReservationFilter;
 import com.codecool.model.Accommodation;
-import com.codecool.model.Room;
+import com.codecool.model.room.Room;
 import com.codecool.repositories.AccommodationRepository;
 import com.codecool.repositories.RoomRepository;
 import lombok.RequiredArgsConstructor;
@@ -64,7 +64,7 @@ public class AccommodationService {
         for (Accommodation accommodation : filteredAccommodationsByCity) {
             for (Room room : accommodation.getRooms()) {
                 if (room.getType().getCapacity() >= numberOfPersons) {
-                    if (reservationFilter.checkReservation(room, checkIn, checkOut)) {
+                    if (reservationFilter.checkReservation(room, checkIn, checkOut) && reservationFilter.checkRoomOffer(room, checkIn, checkOut)) {
                         filteredAccommodations.add(accommodation);
                         break;
                     }

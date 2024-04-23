@@ -7,10 +7,13 @@ import {useNavigate} from "react-router-dom";
 import HotelRating from "./HotelRating";
 import {useEffect, useState} from "react";
 import {numberOfAccommodationRatings} from "../service/CRUDRating";
+import {calculateDiscountPrice, totalPrice} from "../service/PaymentService";
 
 const TravelPackageCard = ({travelPackage}) => {
-    const navigate = useNavigate();
     const [ratingsSize, setRatingsSize] = useState(0);
+    const navigate = useNavigate();
+    const originalPrice = totalPrice(travelPackage.date_from, travelPackage.date_to) * travelPackage.room.price;
+    const discountPrice = calculateDiscountPrice(travelPackage.date_from, travelPackage.date_to, travelPackage.discount.value, travelPackage.room.price);
 
     useEffect(() => {
         numberOfAccommodationRatings(travelPackage.room.accommodation.id).then(ratingsSize => {
@@ -38,25 +41,28 @@ const TravelPackageCard = ({travelPackage}) => {
                             <h6 className="card-title text-success"
                                 style={{paddingTop: "0.1em"}}>{travelPackage.room.accommodation.city.name}</h6>
                         </div>
-                        <h5 className="card-title text-black fw-light">{travelPackage.price} RON</h5>
+                        <div>
+                            <p className="card-title m-0 text-black-50 text-decoration-line-through fw-light d-flex justify-content-end" style={{fontSize: "0.8em"}}>{originalPrice} RON</p>
+                            <h5 className="card-title text-black fw-light d-flex justify-content-end">{discountPrice} RON</h5>
+                        </div>
                     </div>
                     <hr className="border-success"/>
                     <div className="row d-flex justify-content-center align-items-center">
-                        <div className="col-xl-8 col-md-7 col-12 px-auto">
+                    <div className="col-xl-8 col-md-7 col-12 px-auto">
                             <div className="ps-1 col-12 d-flex" style={{marginTop: "-0.5em"}}>
                                 <p><BiSolidCalendar/></p>
                                 <div className="p-0 col-12 d-flex">
-                                    <p className="ps-1 pt-1" style={{fontSize: "13px"}}>{travelPackage.checkIn}</p>
+                                    <p className="ps-1 pt-1" style={{fontSize: "13px"}}>{travelPackage.date_from}</p>
                                     <p className="ps-1" style={{fontSize: "13px", paddingTop: "0.2em"}}>{
                                         <HiArrowNarrowRight/>}</p>
-                                    <p className="ps-1 pt-1" style={{fontSize: "13px"}}>{travelPackage.checkOut}</p>
+                                    <p className="ps-1 pt-1" style={{fontSize: "13px"}}>{travelPackage.date_to}</p>
                                 </div>
                                 <p className="ps-1 pt-1" style={{fontSize: "13px"}}></p>
                             </div>
                             <div className="ps-1 col-12 d-flex" style={{marginTop: "-0.5em"}}>
                                 <p><GiForkKnifeSpoon/></p>
                                 <p className="ps-1 pt-1"
-                                   style={{fontSize: "13px"}}> {travelPackage.travelPackageType}</p>
+                                   style={{fontSize: "13px"}}> {travelPackage.roomOfferType}</p>
                             </div>
                             <div className="ps-1 col-12 d-flex" style={{marginTop: "-0.5em"}}>
                                 <p><FaBed/></p>
@@ -64,7 +70,7 @@ const TravelPackageCard = ({travelPackage}) => {
                             </div>
                         </div>
                         <div className="my-auto col-xl-4 col-md-5 col-12 mt-lg-5 mt-md-5 mt-0">
-                            <a onClick={() => navigate(`/checkout/${travelPackage.room.accommodation.city.name}/${travelPackage.room.accommodation.name}/travelPackage/${travelPackage.room.id}/${travelPackage.checkIn}/${travelPackage.checkOut}/${travelPackage.price}`)}
+                            <a onClick={() => navigate(`/checkout/${travelPackage.room.accommodation.city.name}/${travelPackage.room.accommodation.name}/${travelPackage.room.id}/${travelPackage.date_from}/${travelPackage.date_to}/${discountPrice}`)}
                                className="btn btn-success float-md-end mb-3 col-12">
                                 Buy Now
                             </a>
