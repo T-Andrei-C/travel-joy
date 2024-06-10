@@ -1,5 +1,5 @@
 import {FaMagnifyingGlass} from "react-icons/fa6";
-import {getCity} from "../service/CRUDCity";
+import {getCities} from "../service/CRUDCity";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {ITEMS_PER_PAGE} from "../service/API";
@@ -11,7 +11,7 @@ const HomeInput = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        getCity()
+        getCities()
             .then((cities) => {
                 setCity(cities);
             })

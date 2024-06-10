@@ -1,12 +1,12 @@
 package com.codecool.controller;
 
 import com.codecool.model.AccommodationFacility;
+import com.codecool.model.Response;
 import com.codecool.services.AccommodationFacilityService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -15,7 +15,27 @@ public class AccommodationFacilityController {
     private final AccommodationFacilityService accommodationFacilityService;
 
     @PostMapping
-    public void addAccommodationFacility(@RequestBody AccommodationFacility accommodationFacility){
-        accommodationFacilityService.addAccommodationFacility(accommodationFacility);
+    public Response addAccommodationFacility(@RequestBody AccommodationFacility accommodationFacility){
+        return accommodationFacilityService.addAccommodationFacility(accommodationFacility);
+    }
+
+    @GetMapping("{id}")
+    public List<AccommodationFacility> getAllNonMatchingAccommodationFacilities(@PathVariable Long id){
+        return accommodationFacilityService.getAllNonMatchingAccommodationFacilities(id);
+    }
+
+    @GetMapping
+    public List<AccommodationFacility> getAllAccommodationFacilities(){
+        return accommodationFacilityService.getAllAccommodationFacilities();
+    }
+
+    @PatchMapping("{id}")
+    public Response updateAccommodationFacility(@PathVariable Long id, @RequestBody AccommodationFacility updatedFacility){
+        return accommodationFacilityService.updateAccommodationFacility(id, updatedFacility);
+    }
+
+    @DeleteMapping("{id}")
+    public Response deleteAccommodationFacility(@PathVariable Long id){
+        return accommodationFacilityService.deleteAccommodationFacility(id);
     }
 }

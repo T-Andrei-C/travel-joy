@@ -1,16 +1,18 @@
 package com.codecool.controller;
 
+import com.codecool.DTO.RoomOfferDTO;
+import com.codecool.model.Response;
+import com.codecool.model.room.Room;
 import com.codecool.model.room.RoomOffer;
 import com.codecool.services.RoomOfferService;
 import com.codecool.services.RoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -36,5 +38,32 @@ public class RoomOfferController {
                                                        @PathVariable int itemsPerPage,
                                                        @PathVariable int numberOfPage) {
         return roomOfferService.getAllRoomOffersByTravelSearch(cityName, checkIn, checkOut, numberOfPersons, numberOfPage, itemsPerPage);
+    }
+
+    @GetMapping("/room/{roomId}")
+    public List<RoomOffer> getAllRoomOffersByRoomId (@PathVariable Long roomId){
+        return roomOfferService.getAllRoomOffersByRoomId(roomId);
+    }
+
+    @GetMapping("/offer/{id}")
+    public RoomOffer getRoomOfferById(@PathVariable Long id){
+        return roomOfferService.getRoomOfferById(id);
+    }
+
+    @GetMapping("/offer/available/{id}")
+    public Boolean checkIfRoomOfferAvailable(@PathVariable Long id){
+        return roomOfferService.checkIfRoomOfferAvailable(id);
+    }
+
+    @PatchMapping("/offer/{id}")
+    public Response updateRoomOffer (@PathVariable Long id, @RequestBody RoomOfferDTO updatedRoomOffer){
+        Response response = roomOfferService.updateRoomOffer(updatedRoomOffer, id);
+        return response;
+    }
+
+    @PostMapping("/room/{roomId}/addOffer")
+    public Response addRoomOffer (@PathVariable Long roomId, @RequestBody RoomOfferDTO roomOfferDTO){
+        Response response = roomOfferService.addRoomOffer(roomOfferDTO, roomId);
+        return response;
     }
 }

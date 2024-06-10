@@ -17,4 +17,6 @@ public interface RoomOfferRepository extends JpaRepository<RoomOffer, Long> {
 
     @Query("SELECT r FROM RoomOffer r WHERE r IN :roomOffers")
     Page<RoomOffer> findAllByRoomOffers(List<RoomOffer> roomOffers, Pageable pageable);
+
+    List<RoomOffer> findAllByRoomId(Long roomId);
 }

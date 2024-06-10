@@ -1,6 +1,8 @@
 package com.codecool.controller;
 
 import com.codecool.model.City;
+import com.codecool.model.Discount;
+import com.codecool.model.Response;
 import com.codecool.services.CityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -19,10 +21,18 @@ public class CityController {
         return cityService.getAllCities();
     }
 
-    @PostMapping
-    public void addCity(@RequestBody City city){
-        cityService.addCity(city);
+    @PatchMapping("{id}")
+    public Response updateCity(@PathVariable Long id, @RequestBody City updatedCity){
+        return cityService.updateCity(id, updatedCity);
     }
 
+    @DeleteMapping("{id}")
+    public Response deleteCity(@PathVariable Long id){
+        return cityService.deleteCity(id);
+    }
 
+    @PostMapping
+    public Response addCity(@RequestBody City city){
+        return cityService.addCity(city);
+    }
 }

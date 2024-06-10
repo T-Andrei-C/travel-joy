@@ -13,7 +13,7 @@ const ReviewOrder = ({checkIn, checkOut, city, room, travelPackage, housingName,
                     <hr/>
                     <div className="text-start">
                         <h5>{housingName}, {city}</h5>
-                        <h6>{room === null ? travelPackage?.room.type.toLowerCase().replace(/^\w/, (c) => c.toUpperCase()) : room?.type.toLowerCase().replace(/^\w/, (c) => c.toUpperCase())} Room</h6>
+                        {/*<h6>{room === null ? travelPackage?.room.type.name.toLowerCase().replace(/^\w/, (c) => c.toUpperCase()) : room?.type.toLowerCase().replace(/^\w/, (c) => c.toUpperCase())} Room</h6>*/}
 
                     </div>
                 </div>

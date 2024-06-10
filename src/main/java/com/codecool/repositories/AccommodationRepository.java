@@ -16,4 +16,5 @@ public interface AccommodationRepository extends JpaRepository<Accommodation, Lo
     Page<Accommodation> findAllByCityName(String cityName, Pageable pageable);
     @Query("SELECT a FROM Accommodation a WHERE a IN :accommodations")
     Page<Accommodation> findAllByAccommodations(List<Accommodation> accommodations, Pageable pageable);
+    List<Accommodation> findByNameAndCityName(String name, String cityName);
 }

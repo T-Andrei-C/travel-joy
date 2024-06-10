@@ -1,7 +1,9 @@
 package com.codecool.services;
 
+import com.codecool.DTO.AccommodationDTO;
 import com.codecool.configurations.ReservationFilter;
 import com.codecool.model.Accommodation;
+import com.codecool.model.Response;
 import com.codecool.model.room.Room;
 import com.codecool.repositories.AccommodationRepository;
 import com.codecool.repositories.RoomRepository;
@@ -23,6 +25,14 @@ public class AccommodationService {
     private final RoomRepository roomRepository;
     private final ReservationFilter reservationFilter;
 
+    public List<Accommodation> getAllAccommodations() {
+        return accommodationRepository.findAll();
+    }
+
+    public Accommodation getAccommodationById(Long id) {
+        return accommodationRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Accommodation not found"));
+    }
+
     public Page<Accommodation> getAccommodationPerPage(int currentPage, int itemsPerPage) {
         PageRequest pageRequest = PageRequest.of(currentPage, itemsPerPage);
         return accommodationRepository.findAll(pageRequest);
@@ -33,24 +43,20 @@ public class AccommodationService {
         return accommodationRepository.findAllByCityName(cityName, pageRequest);
     }
 
-    public void addAccommodation(Accommodation accommodation) {
-        //todo var locale and streams
-        if (accommodationRepository.findAll().stream().noneMatch(c -> c.getName().equals(accommodation.getName()) && c.getCity().getId().equals(accommodation.getCity().getId()))) {
-            if (accommodation.getCapacity() >= accommodation.getRooms().size()) {
-                accommodationRepository.save(accommodation);
-                try {
-                    for (Room room : accommodation.getRooms()) {
-                        room.setAccommodation(accommodation);
-                        roomRepository.save(room);
-                    }
-                } catch (Exception e) {
-                    accommodationRepository.deleteById(accommodation.getId());
-                }
-            } else {
-                throw new EntityNotFoundException("Accommodation has more rooms than its capacity");
-            }
+    public Response addAccommodation(AccommodationDTO accommodationDTO) {
+        if (accommodationRepository.findAll().stream().noneMatch(c -> c.getName().equals(accommodationDTO.name()) && c.getCity().getId().equals(accommodationDTO.city().getId()))) {
+            Accommodation accommodation = Accommodation.builder()
+                    .name(accommodationDTO.name())
+                    .description(accommodationDTO.description())
+                    .capacity(accommodationDTO.capacity())
+                    .city(accommodationDTO.city())
+                    .accommodation_facilities(accommodationDTO.accommodation_facilities())
+                    .rating(0d)
+                    .build();
+            accommodationRepository.save(accommodation);
+            return Response.builder().content("Accommodation added successfully").type("success").build();
         } else {
-            throw new EntityNotFoundException("The hotel already exists in this city");
+            return Response.builder().content("Accommodation with this name already exists in this city").type("warning").build();
         }
     }
 
@@ -74,5 +80,26 @@ public class AccommodationService {
 
         PageRequest pageRequest = PageRequest.of(currentPage, itemsPerPage);
         return accommodationRepository.findAllByAccommodations(filteredAccommodations, pageRequest);
+    }
+
+    public Response updateAccommodation (AccommodationDTO updatedAccommodation, Long id) {
+        Accommodation currentAccommodation = accommodationRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Accommodation not found"));
+        List<Accommodation> accommodations = accommodationRepository.findByNameAndCityName(updatedAccommodation.name(), updatedAccommodation.city().getName());
+        accommodations.remove(currentAccommodation);
+        if (!accommodations.isEmpty()){
+            return Response.builder().content("Accommodation with this name in this location already exists").type("warning").build();
+        } else {
+            if (updatedAccommodation.capacity() < currentAccommodation.getRooms().size()){
+                return Response.builder().content("Accommodation capacity can't be lower than the number of rooms").type("danger").build();
+            } else {
+                currentAccommodation.setAccommodation_facilities(updatedAccommodation.accommodation_facilities());
+                currentAccommodation.setCapacity(updatedAccommodation.capacity());
+                currentAccommodation.setDescription(updatedAccommodation.description());
+                currentAccommodation.setName(updatedAccommodation.name());
+                currentAccommodation.setCity(updatedAccommodation.city());
+                accommodationRepository.save(currentAccommodation);
+                return Response.builder().content("Accommodation updated successfully").type("success").build();
+            }
+        }
     }
 }

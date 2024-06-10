@@ -1,8 +1,12 @@
 package com.codecool.services;
 
+import com.codecool.DTO.RoomDTO;
 import com.codecool.configurations.ReservationFilter;
+import com.codecool.model.Accommodation;
+import com.codecool.model.Response;
 import com.codecool.model.room.Room;
 import com.codecool.model.room.RoomOffer;
+import com.codecool.repositories.AccommodationRepository;
 import com.codecool.repositories.RoomRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +21,7 @@ import java.util.stream.Collectors;
 public class RoomService {
     private final RoomRepository roomRepository;
     private final ReservationFilter reservationFilter;
+    private final AccommodationRepository accommodationRepository;
 
     public List<Room> getAllAvailableRooms(String accommodationName, String cityName, Integer capacity, LocalDate checkIn, LocalDate checkOut) {
         List<Room> rooms = roomRepository.findAllByAccommodation_NameAndAccommodation_City_Name(accommodationName, cityName);
@@ -27,11 +32,11 @@ public class RoomService {
                 .collect(Collectors.toList());
     }
 
-    public Room getRoomById(Long roomId, String accommodationName, String cityName, LocalDate checkIn, LocalDate checkOut) {
+    public Room getRoomBySearch(Long roomId, String accommodationName, String cityName, LocalDate checkIn, LocalDate checkOut) {
         Room room = roomRepository.findById(roomId).orElseThrow(() -> new EntityNotFoundException("room not found"));
 
         boolean checkRoomOfferAvailability = reservationFilter.checkRoomOffer(room, checkIn, checkOut) ||
-                room.getRoom_offers().stream().anyMatch(roomOffer -> roomOffer.getDate_from().equals(checkIn) && roomOffer.getDate_to().equals(checkOut) && roomOffer.getAvailable());;
+                room.getRoom_offers().stream().anyMatch(roomOffer -> roomOffer.getDate_from().equals(checkIn) && roomOffer.getDate_to().equals(checkOut) && roomOffer.getAvailable());
 
         if (room.getAccommodation().getName().equals(accommodationName) &&
                 room.getAccommodation().getCity().getName().equals(cityName) &&
@@ -51,5 +56,38 @@ public class RoomService {
                 .findFirst()
                 .orElse(null);
         return roomOffer != null ? roomOffer.getDiscount().getValue() : 0;
+    }
+
+    public List<Room> getRoomByAccommodationId(Long accommodationId) {
+        return roomRepository.findAllByAccommodation_Id(accommodationId);
+    }
+
+    public Room getRoomById(Long id) {
+        return roomRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("room not found"));
+    }
+
+    public Response updateRoom (RoomDTO updatedRoom, Long roomId) {
+        Room currentRoom = roomRepository.findById(roomId).orElseThrow(() -> new EntityNotFoundException("room not found"));
+        currentRoom.setRoom_facilities(updatedRoom.room_facilities());
+        currentRoom.setPrice(updatedRoom.price());
+        currentRoom.setType(updatedRoom.type());
+        roomRepository.save(currentRoom);
+        return Response.builder().content("Room updated successfully").type("success").build();
+    }
+
+    public Response addRoom (RoomDTO roomDTO, Long accommodationId) {
+        Accommodation accommodation = accommodationRepository.findById(accommodationId).orElseThrow(() -> new EntityNotFoundException("Accommodation not found"));
+        if (accommodation.getRooms().size() != accommodation.getCapacity()){
+            Room room = Room.builder()
+                    .type(roomDTO.type())
+                    .price(roomDTO.price())
+                    .room_facilities(roomDTO.room_facilities())
+                    .accommodation(accommodation)
+                    .build();
+            roomRepository.save(room);
+            return Response.builder().content("Room added successfully").type("success").build();
+        } else {
+            return Response.builder().content("Accommodation capacity is full").type("warning").build();
+        }
     }
 }

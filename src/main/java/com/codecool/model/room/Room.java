@@ -1,7 +1,6 @@
 package com.codecool.model.room;
 
 import com.codecool.model.*;
-import com.codecool.model.room.enums.RoomType;
 import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 
@@ -22,7 +21,9 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
     private RoomType type;
+
     private Long price;
 
     @JsonManagedReference

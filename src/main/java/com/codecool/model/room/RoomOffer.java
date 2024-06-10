@@ -1,7 +1,7 @@
 package com.codecool.model.room;
 
 import com.codecool.model.Discount;
-import com.codecool.model.room.enums.RoomOfferType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,11 +25,14 @@ public class RoomOffer {
     @ManyToOne
     private Discount discount;
 
-    private RoomOfferType roomOfferType;
+    @ManyToOne
+    private RoomOfferType type;
+
     private LocalDate date_from;
     private LocalDate date_to;
     private Boolean available;
 
     @ManyToOne
+//    @JsonIgnore
     private Room room;
 }

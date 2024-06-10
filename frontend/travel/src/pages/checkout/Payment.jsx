@@ -10,7 +10,7 @@ import {getAuthUser} from "../../service/CRUDUsers";
 import {useNavigate, useParams} from "react-router-dom";
 import {useAuthHeader, useIsAuthenticated} from "react-auth-kit";
 import {getTravelPackageByRoomId, verifyPeriodOfTime} from "../../service/CRUDTravelPackages";
-import {getRoomById, getRoomDiscountByCheckInAndCheckOut} from "../../service/CRUDRooms";
+import {getRoomBySearch, getRoomDiscountByCheckInAndCheckOut} from "../../service/CRUDRooms";
 
 const Payment = () => {
 
@@ -61,7 +61,7 @@ const Payment = () => {
             navigate("/error");
         }
 
-        getRoomById(room, housingName, city, checkIn, checkOut).then(room => {
+        getRoomBySearch(room, housingName, city, checkIn, checkOut).then(room => {
             if (room.message !== "room not found"){
                 setCurrentRoom(room);
             } else {

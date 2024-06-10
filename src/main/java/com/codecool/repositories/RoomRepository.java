@@ -13,4 +13,5 @@ import java.util.List;
 @Repository
 public interface RoomRepository extends JpaRepository<Room, Long> {
     List<Room> findAllByAccommodation_NameAndAccommodation_City_Name(String accommodationName, String cityName);
+    List<Room> findAllByAccommodation_Id(Long accommodationId);
 }

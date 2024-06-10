@@ -1,99 +1,88 @@
 import {NavLink, Outlet} from "react-router-dom";
+import {FaHotel} from "react-icons/fa";
+import {BiSolidBed, BiSolidDiscount} from "react-icons/bi";
+import {MdLocalOffer} from "react-icons/md";
+import {FaTreeCity} from "react-icons/fa6";
+import {BsFillHouseCheckFill} from "react-icons/bs";
+import {useEffect, useState} from "react";
+import Travel_Joy from "../components/img/Travel_Joy.svg";
+import Travel_Joy_Tiny from "../components/img/TravelJoyTinyLogo.png";
 
 const AdminPanel = () => {
+    const [url, setUrl] = useState("");
+    // const link = window.location.pathname;
+
+    useEffect(() => {
+        setUrl(window.location.pathname);
+    }, [url])
+
     return (
-        // <nav className="container-fluid text-white col-12" data-bs-theme="dark">
-        //     <div className="row flex-nowrap ">
-        //         <div className="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-success position-fixed">
-        //             <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 min-vh-100">
-        //                 <ul className="navbar-nav fs-6 flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
-        //                     <li className="nav-item">
-        //                         {/*<a href="#submenu1" data-bs-toggle="collapse" className="nav-link px-0 align-middle">*/}
-        //                         {/*    <i className="fs-4 bi-speedometer2"></i> <span className="ms-1 d-none d-sm-inline">Dashboard</span> </a>*/}
-        //                     </li>
-        //                     <li className="nav-item">
-        //                         <NavLink to="hotels" className="nav-link px-0 align-middle">Hotels</NavLink>
-        //                     </li>
-        //                     <li className="nav-item">
-        //                         <NavLink to="lalala" className="nav-link px-0 align-middle">Rooms</NavLink>
-        //                     </li>
-        //                     <li className="nav-item">
-        //
-        //                     </li>
-        //                 </ul>
-        //             </div>
-        //         </div>
-        //         <div className="col py-3 position-relative bg-danger">
-        //             <Outlet/>
-        //         </div>
-        //     </div>
-        // </nav>
-        <div>
-            <div className="offcanvas offcanvas-start w-25" tabindex="-1" id="offcanvas" data-bs-keyboard="false"
-                 data-bs-backdrop="false">
-                <div className="offcanvas-header">
-                    <h6 className="offcanvas-title d-none d-sm-block" id="offcanvas">Menu</h6>
-                    <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas"
-                            aria-label="Close"></button>
-                </div>
-                <div className="offcanvas-body px-0">
-                    <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-start" id="menu">
-                        <li className="nav-item">
-                            <a href="#" className="nav-link text-truncate">
-                                <i className="fs-5 bi-house"></i><span className="ms-1 d-none d-sm-inline">Home</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#submenu1" data-bs-toggle="collapse" className="nav-link text-truncate">
-                                <i className="fs-5 bi-speedometer2"></i><span
-                                className="ms-1 d-none d-sm-inline">Dashboard</span> </a>
-                        </li>
-                        <li>
-                            <a href="#" className="nav-link text-truncate">
-                                <i className="fs-5 bi-table"></i><span className="ms-1 d-none d-sm-inline">Orders</span></a>
-                        </li>
-                        <li className="dropdown">
-                            <a href="#" className="nav-link dropdown-toggle  text-truncate" id="dropdown"
-                               data-bs-toggle="dropdown" aria-expanded="false">
-                                <i className="fs-5 bi-bootstrap"></i><span
-                                className="ms-1 d-none d-sm-inline">Bootstrap</span>
-                            </a>
-                            <ul className="dropdown-menu text-small shadow" aria-labelledby="dropdown">
-                                <li><a className="dropdown-item" href="#">New project...</a></li>
-                                <li><a className="dropdown-item" href="#">Settings</a></li>
-                                <li><a className="dropdown-item" href="#">Profile</a></li>
-                                <li>
-                                    <hr className="dropdown-divider"/>
-                                </li>
-                                <li><a className="dropdown-item" href="#">Sign out</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="#" className="nav-link text-truncate">
-                                <i className="fs-5 bi-grid"></i><span
-                                className="ms-1 d-none d-sm-inline">Products</span></a>
-                        </li>
-                        <li>
-                            <a href="#" className="nav-link text-truncate">
-                                <i className="fs-5 bi-people"></i><span
-                                className="ms-1 d-none d-sm-inline">Customers</span> </a>
-                        </li>
+        <nav className="col-12 d-flex justify-content-between">
+            <div className="col-xl-1 col-2">
+                <div className="bg-success position-fixed col-xl-1 col-2 min-vh-100 text-white">
+                    <ul className="navbar-nav fs-5">
+                        <button className={`btn btn-success rounded-0 ${url.includes("hotels") && "active"}`}>
+                            <NavLink to="/" className="nav-item nav-link d-flex justify-content-center">
+                                <img height={35} className="mt-3 mb-3 d-md-block d-none" src={Travel_Joy} alt="logo"/>
+                                <img height={25} className="mt-3 mb-3 d-xl-none d-md-none d-lg-none d-block"
+                                     src={Travel_Joy_Tiny} alt="logo"/>
+                            </NavLink>
+                        </button>
+                        <button className={`btn btn-success rounded-0 ${url.includes("hotels") && "active"}`}>
+                            <NavLink to="hotels" className="nav-item nav-link text-center">
+                                <p className="m-0"><FaHotel/></p>
+                                <p className="m-0 d-md-block d-none">Hotels</p>
+                            </NavLink>
+                        </button>
+                        <button className="btn btn-success rounded-0">
+                            <NavLink to="hotel/facilities" className="nav-item nav-link text-center">
+                                <p className="m-0 fs-5"><BsFillHouseCheckFill/></p>
+                                <p className="m-0 d-md-block d-none">Hotel Facilities</p>
+                            </NavLink>
+                        </button>
+                        <button className="btn btn-success rounded-0">
+                            <NavLink to="room/facilities" className="nav-item nav-link text-center">
+                                <p className="m-0 fs-5"><BsFillHouseCheckFill/></p>
+                                <p className="m-0 d-md-block d-none">Room Facilities</p>
+                            </NavLink>
+                        </button>
+                        <button className="btn btn-success rounded-0">
+                            <NavLink to="roomOfferTypes" className="nav-item nav-link text-center">
+                                <p className="m-0 fs-4"><BiSolidBed/></p>
+                                <p className="m-0 d-md-block d-none">Room Offer Types</p>
+                            </NavLink>
+                        </button>
+                        <button className="btn btn-success rounded-0">
+                            <NavLink to="roomTypes" className="nav-item nav-link text-center">
+                                <p className="m-0 fs-5"><MdLocalOffer/></p>
+                                <p className="m-0 d-md-block d-none">Room Types</p>
+                            </NavLink>
+                        </button>
+                        {/*<button className="btn btn-success rounded-0">*/}
+                        {/*    <NavLink to="hotels" className="nav-item nav-link text-center">*/}
+                        {/*        <p className="m-0"><MdLocalOffer/></p>*/}
+                        {/*        <p className="m-0">Countries</p>*/}
+                        {/*    </NavLink>*/}
+                        {/*</button>*/}
+                        <button className="btn btn-success rounded-0">
+                            <NavLink to="cities" className="nav-item nav-link text-center">
+                                <p className="m-0 fs-5"><FaTreeCity/></p>
+                                <p className="m-0 d-md-block d-none">Cities</p>
+                            </NavLink>
+                        </button>
+                        <button className="btn btn-success rounded-0">
+                            <NavLink to="discounts" className="nav-item nav-link text-center">
+                                <p className="m-0 fs-4"><BiSolidDiscount/></p>
+                                <p className="m-0 d-md-block d-none">Discounts</p>
+                            </NavLink>
+                        </button>
                     </ul>
                 </div>
             </div>
-            <div className="container-fluid">
-                <div className="row">
-                    <div className="col min-vh-100 py-3">
-                        <button className="btn float-end" data-bs-toggle="offcanvas" data-bs-target="#offcanvas"
-                                role="button">
-                            <i className="bi bi-arrow-right-square-fill fs-3" data-bs-toggle="offcanvas"
-                               data-bs-target="#offcanvas"></i>
-                        </button>
-                        Content..
-                    </div>
-                </div>
+            <div className="col-xl-11 col-10 p-3">
+                <Outlet/>
             </div>
-        </div>
+        </nav>
     )
 }
 
