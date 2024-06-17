@@ -34,12 +34,8 @@ public class Room {
     @OneToMany(mappedBy = "room")
     private List<Reservation> reservations;
 
-    @OneToMany
-    @JoinTable(
-            name = "room_images",
-            joinColumns = @JoinColumn(name = "room_id"),
-            inverseJoinColumns = @JoinColumn(name = "image_id")
-    )
+    @JsonIgnore
+    @OneToMany(mappedBy = "room")
     private List<Image> images_url;
 
     @ManyToMany

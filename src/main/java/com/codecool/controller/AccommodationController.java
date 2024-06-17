@@ -6,7 +6,9 @@ import com.codecool.model.Response;
 import com.codecool.services.AccommodationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -48,12 +50,28 @@ public class AccommodationController {
     }
 
     @PostMapping
-    public Response addAccommodation(@RequestBody AccommodationDTO accommodationDTO) {
+    public Accommodation addAccommodation(@RequestBody AccommodationDTO accommodationDTO) {
         return accommodationService.addAccommodation(accommodationDTO);
     }
 
     @PatchMapping("accommodation/{id}")
     public Response updateAccommodation(@PathVariable Long id, @RequestBody AccommodationDTO updatedAccommodation){
         return accommodationService.updateAccommodation(updatedAccommodation, id);
+    }
+
+    @PostMapping(
+            value = "accommodation/{id}/uploadImage",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE
+    )
+    public Response uploadAccommodationImage(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
+        return accommodationService.uploadAccommodationImage(id, file);
+    }
+
+    @GetMapping(
+            value = "accommodation/{id}/image",
+            produces = MediaType.IMAGE_JPEG_VALUE
+    )
+    public byte[] getAccommodationImage(@PathVariable Long id) {
+        return accommodationService.getAccommodationImage(id);
     }
 }

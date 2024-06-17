@@ -6,7 +6,9 @@ import com.codecool.model.room.Room;
 import com.codecool.services.RoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -48,7 +50,23 @@ public class RoomController {
     }
 
     @PostMapping("accommodation/{accommodationId}/addRoom")
-    public Response addRoom(@PathVariable Long accommodationId, @RequestBody RoomDTO roomDTO) {
+    public Room addRoom(@PathVariable Long accommodationId, @RequestBody RoomDTO roomDTO) {
         return roomService.addRoom(roomDTO, accommodationId);
+    }
+
+    @PostMapping(
+            value = "room/{id}/uploadImage/{fileIndex}",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE
+    )
+    public Response uploadRoomImage(@PathVariable Long id, @PathVariable int fileIndex, @RequestParam("file")MultipartFile file){
+        return roomService.uploadRoomImage(id, file, fileIndex);
+    }
+
+    @GetMapping(
+            value = "room/{id}/image/{fileIndex}",
+            produces = MediaType.IMAGE_JPEG_VALUE
+    )
+    public byte[] getRoomImage(@PathVariable Long id, @PathVariable int fileIndex) {
+        return roomService.getRoomImage(id, fileIndex);
     }
 }

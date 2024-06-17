@@ -1,5 +1,6 @@
 package com.codecool.model;
 
+import com.codecool.model.room.Room;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,5 +15,8 @@ public class Image {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String image_url;
+    private String value;
+
+    @ManyToOne
+    private Room room;
 }

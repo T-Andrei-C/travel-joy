@@ -46,3 +46,13 @@ export const addAccommodation = async (accommodation) => {
     })
     return await request.json();
 }
+
+export const addAccommodationImage = async (accommodationId, imageFile) => {
+    const request = await fetch(`${API_URL}accommodations/accommodation/${accommodationId}/uploadImage`, {
+        method: "POST",
+        body: imageFile
+    })
+    return await request.json();
+}
+
+export const getAccommodationImage = (accommodationId) => `${API_URL}accommodations/accommodation/${accommodationId}/image`

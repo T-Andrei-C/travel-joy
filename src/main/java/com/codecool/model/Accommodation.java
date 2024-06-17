@@ -24,8 +24,7 @@ public class Accommodation {
     private String description;
     private Double rating;
 
-    @OneToOne
-    private Image image_url;
+    private String image_value;
 
     @ManyToOne
     private City city;

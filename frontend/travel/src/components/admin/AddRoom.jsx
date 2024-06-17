@@ -2,9 +2,10 @@ import FormInput from "../FormInput";
 import {FaEdit, FaPlus} from "react-icons/fa";
 import Alert from "../Alert";
 import {useEffect, useState} from "react";
-import {addRoom, getAllRoomTypes, updateRoom} from "../../service/CRUDRooms";
+import {addRoom, addRoomImage, getAllRoomTypes, updateRoom} from "../../service/CRUDRooms";
 import {getAllRoomFacilities} from "../../service/CRUDRoomFacilities";
 import {useParams} from "react-router-dom";
+import {retrieveRoomImageFiles, verifyFile} from "../../service/ImageService";
 
 const AddRoom = () => {
 
@@ -30,7 +31,7 @@ const AddRoom = () => {
         const formData = new FormData(e.target);
         const roomPrice = formData.get("price");
 
-        if (roomPrice < 100){
+        if (roomPrice < 100) {
             setAlertContent("Room price can't be lower than 100");
             setAlertColor("danger");
             setShowAlert(true);
@@ -40,12 +41,21 @@ const AddRoom = () => {
                 price: roomPrice,
                 room_facilities: chosenFacilities
             }
+            const images = retrieveRoomImageFiles(formData);
 
-            addRoom(room, id).then(response => {
-                setAlertContent(response.content);
-                setAlertColor(response.type);
-                setShowAlert(true);
+            addRoom(room, id).then(room => {
+                images.map((image, index) => {
+                    const imageFormData = new FormData();
+                    imageFormData.append("file", images[index].file);
+
+                    addRoomImage(room.id, images[index].index, imageFormData).then(response => {
+                        setAlertContent(response.content);
+                        setAlertColor(response.type);
+                        setShowAlert(true);
+                    })
+                })
             })
+
         }
     }
 
@@ -77,6 +87,16 @@ const AddRoom = () => {
                 <div className="col-6 ps-2">
                     <FormInput content="PRICE" type="number" name="price"/>
                 </div>
+            </div>
+            <div className="row row-cols-xl-3 row-cols-lg-3 row-cols-md-2 row-cols-1 mb-4 mx-auto">
+                {
+                    Array.from(Array(6).keys()).map((i) => (
+                        <div className="my-2">
+                            <input className="btn btn-success col-12" type="file" name={`file-${i}`} accept=".png, .jpeg"
+                                   onChange={(e) => verifyFile(e, setAlertContent, setAlertColor, setShowAlert)}/>
+                        </div>
+                    ))
+                }
             </div>
             <div className="d-flex justify-content-center">
                 <div className="mt-xl-0 mt-lg-0 mt-md-0 mt-3 col-12 col-xl-8 col-lg-8 col-md-8">

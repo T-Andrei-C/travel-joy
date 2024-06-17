@@ -1,12 +1,18 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {getAllAccommodationById, updateAccommodation} from "../../service/CRUDAccommodations";
+import {
+    addAccommodationImage,
+    getAccommodationImage,
+    getAllAccommodationById,
+    updateAccommodation
+} from "../../service/CRUDAccommodations";
 import FormInput from "../FormInput";
 import {getCities} from "../../service/CRUDCity";
 import {FaEdit, FaPlus} from "react-icons/fa";
-import {getRoomsByAccommodationId} from "../../service/CRUDRooms";
+import {getRoomImage, getRoomsByAccommodationId} from "../../service/CRUDRooms";
 import {getAllNonMatchingAccommodationFacilities} from "../../service/CRUDAccommodationFacilities";
 import Alert from "../Alert";
+import {verifyFile} from "../../service/ImageService";
 
 const EditHotel = () => {
     const [accommodation, setAccommodation] = useState(null);
@@ -58,7 +64,7 @@ const EditHotel = () => {
         e.preventDefault();
         const formData = new FormData(e.target);
         const capacity = formData.get("capacity");
-        if (capacity < rooms.length){
+        if (capacity < rooms.length) {
             setAlertContent("Capacity can't be lower than the current number of rooms");
             setAlertColor("danger");
             setShowAlert(true);
@@ -72,6 +78,15 @@ const EditHotel = () => {
                 setAlertContent(response.content);
                 setAlertColor(response.type);
                 setShowAlert(true);
+                if (formData.get("file").type === "image/png" || formData.get("file").type === "image/jpeg") {
+                    const imageFormData = new FormData();
+                    imageFormData.append("file", formData.get("file"));
+                    addAccommodationImage(accommodation.id, imageFormData).then((response) => {
+                        setAlertContent(response.content);
+                        setAlertColor(response.type);
+                        setShowAlert(true);
+                    })
+                }
             })
         }
     }
@@ -103,6 +118,15 @@ const EditHotel = () => {
                     </select>
                 </div>
             </div>
+            <div className="d-flex justify-content-center mb-4 mx-auto">
+                <div className="col-xl-4 col-lg-5 col-md-6 col-sm-8 col-12">
+                    <img src={getAccommodationImage(accommodation?.id)} className="img-fluid col-12 mb-2"
+                         alt=""
+                         onError={(e) => e.target.src = "https://artsmidnorthcoast.com/wp-content/uploads/2014/05/no-image-available-icon-6.png"}/>
+                    <input className="btn btn-success col-12" type="file" name="file" accept=".png, .jpeg"
+                           onChange={(e) => verifyFile(e, setAlertContent, setAlertColor, setShowAlert)}/>
+                </div>
+            </div>
             <textarea name="description" placeholder="Description..."
                       className="form-control form-control-lg border-success mb-4"
                       required={true} defaultValue={accommodation?.description}
@@ -112,7 +136,8 @@ const EditHotel = () => {
                     <div className="col-12 border-success border rounded p-3">
                         <div className="d-flex justify-content-center">
                             <h3 className="text-center me-3">Rooms</h3>
-                            <button type="button" onClick={() => navigate("room/add")} className="btn-success btn btn-sm m-1 h-25"><FaPlus/></button>
+                            <button type="button" onClick={() => navigate("room/add")}
+                                    className="btn-success btn btn-sm m-1 h-25"><FaPlus/></button>
                         </div>
                         {
                             rooms && rooms?.map(room => (
@@ -120,7 +145,8 @@ const EditHotel = () => {
                                     <div className="ps-2">
                                         <h5 className="text-white mt-2">{room.type.name} Room {room.id}</h5>
                                     </div>
-                                    <button type="button" onClick={() => navigate(`room/${room.id}`)} className="text-white fs-5 btn btn-sm mb-1"><FaEdit/></button>
+                                    <button type="button" onClick={() => navigate(`room/${room.id}`)}
+                                            className="text-white fs-5 btn btn-sm mb-1"><FaEdit/></button>
                                 </div>
                             ))
                         }

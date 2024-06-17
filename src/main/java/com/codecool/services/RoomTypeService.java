@@ -1,7 +1,6 @@
 package com.codecool.services;
 
 import com.codecool.model.Response;
-import com.codecool.model.room.RoomOfferType;
 import com.codecool.model.room.RoomType;
 import com.codecool.repositories.RoomTypeRepository;
 import jakarta.persistence.EntityNotFoundException;

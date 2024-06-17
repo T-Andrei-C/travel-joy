@@ -80,3 +80,13 @@ export const addRoomType = async (roomType) => {
     })
     return await request.json();
 }
+
+export const addRoomImage = async (roomId, fileIndex, imageFile) => {
+    const request = await fetch(`${API_URL}rooms/room/${roomId}/uploadImage/${fileIndex}`, {
+        method: "POST",
+        body: imageFile
+    })
+    return await request.json();
+}
+
+export const getRoomImage = (roomId, fileIndex) => `${API_URL}rooms/room/${roomId}/image/${fileIndex}`

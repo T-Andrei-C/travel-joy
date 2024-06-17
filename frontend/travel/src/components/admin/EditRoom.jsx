@@ -1,12 +1,13 @@
 import {useEffect, useState} from "react";
-import {getAllRoomTypes, getRoomById, updateRoom} from "../../service/CRUDRooms";
+import {addRoomImage, getAllRoomTypes, getRoomById, getRoomImage, updateRoom} from "../../service/CRUDRooms";
 import {useNavigate, useParams} from "react-router-dom";
 import FormInput from "../FormInput";
 import {FaEdit, FaPlus} from "react-icons/fa";
 import {getRoomOffersByRoomId} from "../../service/CRUDTravelPackages";
 import {getAllNonMatchingRoomFacilities} from "../../service/CRUDRoomFacilities";
 import Alert from "../Alert";
-import {MdPeopleAlt} from "react-icons/md";
+import {retrieveRoomImageFiles, verifyFile} from "../../service/ImageService";
+import RomaniaMap from "../img/RomaniaMap.svg";
 
 const EditRoom = () => {
 
@@ -60,7 +61,7 @@ const EditRoom = () => {
         const formData = new FormData(e.target);
         const roomPrice = formData.get("price");
 
-        if (roomPrice < 100){
+        if (roomPrice < 100) {
             setAlertContent("Room price can't be lower than 100");
             setAlertColor("danger");
             setShowAlert(true);
@@ -68,10 +69,22 @@ const EditRoom = () => {
             room.type = {id: formData.get("type")};
             room.price = roomPrice;
 
+            const images = retrieveRoomImageFiles(formData);
+
             updateRoom(roomId, room).then(response => {
                 setAlertContent(response.content);
                 setAlertColor(response.type);
                 setShowAlert(true);
+                images.map((image, index) => {
+                    const imageFormData = new FormData();
+                    imageFormData.append("file", images[index].file);
+
+                    addRoomImage(room.id, images[index].index, imageFormData).then(response => {
+                        setAlertContent(response.content);
+                        setAlertColor(response.type);
+                        setShowAlert(true);
+                    })
+                })
             })
         }
     }
@@ -89,7 +102,8 @@ const EditRoom = () => {
                     <select className="bg-success text-white col-12 h-100 rounded p-2" name="type">
                         {
                             roomTypes && roomTypes.map(type => (
-                                <option selected={room?.type.id === type.id} value={type.id}>{type.name} - {type.capacity}</option>
+                                <option selected={room?.type.id === type.id}
+                                        value={type.id}>{type.name} - {type.capacity}</option>
                             ))
                         }
                     </select>
@@ -98,12 +112,25 @@ const EditRoom = () => {
                     <FormInput defaultValue={room?.price} content="PRICE" type="number" name="price"/>
                 </div>
             </div>
+            <div className="row row-cols-xl-3 row-cols-lg-3 row-cols-md-2 row-cols-1 mb-4 mx-auto">
+            {
+                Array.from(Array(6).keys()).map((i) => (
+                        <div className="border border-success">
+                            <img src={getRoomImage(roomId, i)} className="img-fluid col-12 mt-2" alt={`room-${roomId}-image`} onError={(e) => e.target.src = "https://artsmidnorthcoast.com/wp-content/uploads/2014/05/no-image-available-icon-6.png"}/>
+                            <input className="btn btn-success col-12 mt-2 mb-2" type="file" name={`file-${i}`} accept=".png, .jpeg"
+                                   onChange={(e) => verifyFile(e, setAlertContent, setAlertColor, setShowAlert)}/>
+                        </div>
+                    )
+                )
+            }
+            </div>
             <div className="col-12 row p-0 m-0 row-cols-xl-2 row-cols-lg-2 row-cols-md-2 row-cols-1">
                 <div className="mb-xl-0 mb-lg-0 mb-md-0 mb-2">
                     <div className="col-12 border-success border rounded p-3">
                         <div className="d-flex justify-content-center">
                             <h3 className="text-center me-3">Room Offers</h3>
-                            <button type="button" onClick={() => navigate(`offer/add`)} className="btn-success btn btn-sm m-1 h-25"><FaPlus/></button>
+                            <button type="button" onClick={() => navigate(`offer/add`)}
+                                    className="btn-success btn btn-sm m-1 h-25"><FaPlus/></button>
                         </div>
                         {
                             roomOffers && roomOffers.map(roomOffer => (

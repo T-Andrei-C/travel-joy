@@ -6,7 +6,8 @@ import {useEffect, useState} from "react";
 import {getCities} from "../../service/CRUDCity";
 import {getAllAccommodationFacilities} from "../../service/CRUDAccommodationFacilities";
 import {onSubmit} from "../../service/AuthenticateService";
-import {addAccommodation} from "../../service/CRUDAccommodations";
+import {addAccommodation, addAccommodationImage} from "../../service/CRUDAccommodations";
+import {verifyFile} from "../../service/ImageService";
 
 const AddHotel = () => {
 
@@ -48,23 +49,31 @@ const AddHotel = () => {
             city: {id: formData.get("city")},
             accommodation_facilities: chosenFacilities
         }
-        addAccommodation(accommodation).then(response => {
-            setAlertContent(response.content);
-            setAlertColor(response.type);
+
+        if (formData.get("file").type === "image/png" || formData.get("file").type === "image/jpeg") {
+            addAccommodation(accommodation).then(accommodation => {
+                const imageFormData = new FormData();
+                imageFormData.append("file", formData.get("file"));
+                addAccommodationImage(accommodation.id, imageFormData).then(response => {
+                    setAlertContent(response.content);
+                    setAlertColor(response.type);
+                    setShowAlert(true);
+                })
+            })
+        } else {
+            setAlertContent("photo missing for the accommodation");
+            setAlertColor("danger");
             setShowAlert(true);
-        })
+        }
     }
 
     return (
         <form onSubmit={onSubmit}>
             <div className="col-12 d-flex justify-content-between">
-                <div className="col-4 pe-2">
+                <div className="col-6 pe-2">
                     <FormInput content="NAME" type="text" name="name"/>
                 </div>
-                <div className="ps-2 col-4 pe-2">
-                    <FormInput content="CAPACITY" type="number" name="capacity"/>
-                </div>
-                <div className="ps-2 col-4 pb-4">
+                <div className="ps-2 col-6 pb-4">
                     <select className="bg-success text-white col-12 h-100 rounded p-2" name="city">
                         <option selected hidden>Select a city</option>
                         {
@@ -73,6 +82,15 @@ const AddHotel = () => {
                             ))
                         }
                     </select>
+                </div>
+            </div>
+            <div className="col-12 d-flex justify-content-between">
+                <div className="col-6 pe-2">
+                    <FormInput content="CAPACITY" type="number" name="capacity"/>
+                </div>
+                <div className="col-6 ps-2">
+                <input className="btn btn-success col-12" style={{padding: "0.85em"}} type="file" name="file" accept=".png, .jpeg"
+                       onChange={(e) => verifyFile(e, setAlertContent, setAlertColor, setShowAlert)}/>
                 </div>
             </div>
             <textarea name="description" placeholder="Description..."

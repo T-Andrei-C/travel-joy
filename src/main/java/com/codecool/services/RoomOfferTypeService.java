@@ -1,5 +1,6 @@
 package com.codecool.services;
 
+import com.codecool.configurations.aws.S3Service;
 import com.codecool.model.Response;
 import com.codecool.model.room.RoomFacility;
 import com.codecool.model.room.RoomOffer;
@@ -16,12 +17,14 @@ import java.util.List;
 public class RoomOfferTypeService {
 
     private final RoomOfferTypeRepository roomOfferTypeRepository;
+    private final S3Service s3Service;
 
     public List<RoomOfferType> getAllRoomOfferTypes() {
         return roomOfferTypeRepository.findAll();
     }
 
     public Response updateRoomOfferType(Long id, RoomOfferType updatedRoomOfferType){
+//        s3Service.putObject("travel-joy", "images/accommodations/accommodation-1/test", "hello world".getBytes());
         RoomOfferType roomOfferType = roomOfferTypeRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("room offer type not found"));
         if (roomOfferTypeRepository.findAll().stream().noneMatch(type -> type.getName().equals(updatedRoomOfferType.getName()))){
             roomOfferType.setName(updatedRoomOfferType.getName());

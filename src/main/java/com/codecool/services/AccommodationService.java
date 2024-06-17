@@ -2,18 +2,24 @@ package com.codecool.services;
 
 import com.codecool.DTO.AccommodationDTO;
 import com.codecool.configurations.ReservationFilter;
+import com.codecool.configurations.aws.S3Service;
 import com.codecool.model.Accommodation;
+import com.codecool.model.Image;
 import com.codecool.model.Response;
 import com.codecool.model.room.Room;
 import com.codecool.repositories.AccommodationRepository;
+import com.codecool.repositories.ImageRepository;
 import com.codecool.repositories.RoomRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +27,14 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class AccommodationService {
+    private final ImageRepository imageRepository;
+    @Value("${bucket.name}")
+    private String bucketName;
+
     private final AccommodationRepository accommodationRepository;
     private final RoomRepository roomRepository;
     private final ReservationFilter reservationFilter;
+    private final S3Service s3Service;
 
     public List<Accommodation> getAllAccommodations() {
         return accommodationRepository.findAll();
@@ -43,7 +54,7 @@ public class AccommodationService {
         return accommodationRepository.findAllByCityName(cityName, pageRequest);
     }
 
-    public Response addAccommodation(AccommodationDTO accommodationDTO) {
+    public Accommodation addAccommodation(AccommodationDTO accommodationDTO) {
         if (accommodationRepository.findAll().stream().noneMatch(c -> c.getName().equals(accommodationDTO.name()) && c.getCity().getId().equals(accommodationDTO.city().getId()))) {
             Accommodation accommodation = Accommodation.builder()
                     .name(accommodationDTO.name())
@@ -53,10 +64,12 @@ public class AccommodationService {
                     .accommodation_facilities(accommodationDTO.accommodation_facilities())
                     .rating(0d)
                     .build();
-            accommodationRepository.save(accommodation);
-            return Response.builder().content("Accommodation added successfully").type("success").build();
+
+//            return Response.builder().content("Accommodation added successfully").type("success").build();
+            return accommodationRepository.save(accommodation);
         } else {
-            return Response.builder().content("Accommodation with this name already exists in this city").type("warning").build();
+            return null;
+//            return Response.builder().content("Accommodation with this name already exists in this city").type("warning").build();
         }
     }
 
@@ -101,5 +114,25 @@ public class AccommodationService {
                 return Response.builder().content("Accommodation updated successfully").type("success").build();
             }
         }
+    }
+
+    public Response uploadAccommodationImage(Long id, MultipartFile file) {
+        Accommodation accommodation = accommodationRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Accommodation not found"));
+        String imageValue = "image-" + id;
+        try {
+            s3Service.putObject(bucketName, "images/accommodations/accommodation-" + id + "/" + imageValue, file.getBytes());
+            if (accommodation.getImage_value() == null){
+                accommodation.setImage_value(imageValue);
+                accommodationRepository.save(accommodation);
+            }
+            return Response.builder().content("Accommodation image added successfully").type("success").build();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public byte[] getAccommodationImage(Long id) {
+        Accommodation accommodation = accommodationRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Accommodation not found"));
+        return s3Service.getObject(bucketName, "images/accommodations/accommodation-" + id + "/" + accommodation.getImage_value());
     }
 }
