@@ -34,7 +34,6 @@ public class Room {
     @OneToMany(mappedBy = "room")
     private List<Reservation> reservations;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "room")
     private List<Image> images_url;
 

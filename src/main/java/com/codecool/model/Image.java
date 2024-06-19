@@ -1,6 +1,7 @@
 package com.codecool.model;
 
 import com.codecool.model.room.Room;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,6 +18,7 @@ public class Image {
 
     private String value;
 
+    @JsonIgnore
     @ManyToOne
     private Room room;
 }

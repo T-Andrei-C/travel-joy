@@ -6,6 +6,7 @@ import Rating from "react-rating-stars-component";
 import HotelRating from "./HotelRating";
 import {numberOfAccommodationRatings} from "../service/CRUDRating";
 import {useEffect, useState} from "react";
+import {getAccommodationImage} from "../service/CRUDAccommodations";
 
 const HotelCard = ({accommodation, city, checkIn, checkOut, numberOfPersons}) => {
 
@@ -27,8 +28,9 @@ const HotelCard = ({accommodation, city, checkIn, checkOut, numberOfPersons}) =>
     return (
         <div className="card col-12 col-md-12 col-lg-12 col-xl-9 border-success m-3 p-lg-0">
             <div className="row g-0 d-flex align-items-md-center justify-content-md-center">
-                <div className="col-lg-5 col-md-6 text-center ">
-                    <img src={accommodation.image_url?.image_url} className="img-fluid rounded"
+                <div className="col-lg-5 col-md-6 text-center">
+                    <img src={getAccommodationImage(accommodation?.id)} className="img-fluid rounded"
+                         onError={(e) => e.target.src = "https://artsmidnorthcoast.com/wp-content/uploads/2014/05/no-image-available-icon-6.png"}
                          alt={accommodation.name}/>
                 </div>
                 <div className="col-lg-7 col-md-6">

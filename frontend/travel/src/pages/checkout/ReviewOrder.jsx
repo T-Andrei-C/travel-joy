@@ -1,7 +1,6 @@
-import {calculateDiscountPrice, totalPrice} from "../../service/PaymentService";
-import {HiArrowNarrowRight} from "react-icons/hi";
+import {calculateDiscountPrice} from "../../service/PaymentService";
 
-const ReviewOrder = ({checkIn, checkOut, city, room, travelPackage, housingName, discount}) => {
+const ReviewOrder = ({checkIn, checkOut, city, room, housingName, discount}) => {
     const amount = calculateDiscountPrice(checkIn, checkOut, discount, room?.price);
 
     return (
@@ -13,8 +12,7 @@ const ReviewOrder = ({checkIn, checkOut, city, room, travelPackage, housingName,
                     <hr/>
                     <div className="text-start">
                         <h5>{housingName}, {city}</h5>
-                        {/*<h6>{room === null ? travelPackage?.room.type.name.toLowerCase().replace(/^\w/, (c) => c.toUpperCase()) : room?.type.toLowerCase().replace(/^\w/, (c) => c.toUpperCase())} Room</h6>*/}
-
+                        <h6>{room?.type.name} Room</h6>
                     </div>
                 </div>
                 <div className="col-6">

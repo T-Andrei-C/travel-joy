@@ -7,12 +7,13 @@ import {useNavigate} from "react-router-dom";
 import HotelRating from "./HotelRating";
 import {useEffect, useState} from "react";
 import {numberOfAccommodationRatings} from "../service/CRUDRating";
-import {calculateDiscountPrice, totalPrice} from "../service/PaymentService";
+import {calculateDiscountPrice, totalDays} from "../service/PaymentService";
+import {getAccommodationImage} from "../service/CRUDAccommodations";
 
 const TravelPackageCard = ({travelPackage}) => {
     const [ratingsSize, setRatingsSize] = useState(0);
     const navigate = useNavigate();
-    const originalPrice = totalPrice(travelPackage.date_from, travelPackage.date_to) * travelPackage.room?.price;
+    const originalPrice = totalDays(travelPackage.date_from, travelPackage.date_to) * travelPackage.room?.price;
     const discountPrice = calculateDiscountPrice(travelPackage.date_from, travelPackage.date_to, travelPackage.discount.value, travelPackage.room?.price);
 
     useEffect(() => {
@@ -21,13 +22,12 @@ const TravelPackageCard = ({travelPackage}) => {
         })
     }, []);
 
-    console.log(travelPackage)
-
     return (
         <div className="card col-12 col-md-12 col-lg-12 col-xl-9 border-success m-3 p-lg-0">
             <div className="row g-0 d-flex align-items-md-center justify-content-md-center">
                 <div className="col-lg-5 col-md-6 text-center">
-                    <img src={travelPackage.room?.accommodation.image_url.image_url} className="card-img"
+                    <img src={getAccommodationImage(travelPackage.room?.accommodation.id)} className="card-img"
+                         onError={(e) => e.target.src = "https://artsmidnorthcoast.com/wp-content/uploads/2014/05/no-image-available-icon-6.png"}
                          alt={travelPackage.room?.accommodation.name}/>
                 </div>
                 <div className="col-lg-7 col-md-6 card-body">
