@@ -1,7 +1,6 @@
 package com.codecool.model.room;
 
 import com.codecool.model.Discount;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,6 +32,5 @@ public class RoomOffer {
     private Boolean available;
 
     @ManyToOne
-//    @JsonIgnore
     private Room room;
 }

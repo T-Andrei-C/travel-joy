@@ -57,6 +57,13 @@ export const addRoomOffer = async (roomOffer, roomId) => {
     return await request.json();
 }
 
+export const deleteRoomOffer = async (offerId) => {
+    const request = await fetch(`${API_URL}roomOffers/offer/${offerId}`, {
+        method: "DELETE"
+    })
+    return await request.json();
+}
+
 export const updateRoomOfferType = async (id, updatedRoomOfferType) => {
     const request = await fetch(`${API_URL}roomOfferTypes/${id}`, {
         method: "PATCH",

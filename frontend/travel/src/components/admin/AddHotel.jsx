@@ -65,7 +65,7 @@ const AddHotel = () => {
                     })
                     setTimeout(() => {
                         navigate("/admin/hotels");
-                    }, [5000])
+                    }, [2000])
                 } else {
                     setAlert([...alert, accommodationResponse]);
                 }

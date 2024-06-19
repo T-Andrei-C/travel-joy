@@ -5,14 +5,15 @@ import {
     addRoomOffer,
     getAllRoomOfferTypes,
 } from "../../service/CRUDTravelPackages";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 
 const AddRoomOffer = () => {
 
     const [roomOfferTypes, setRoomOfferTypes] = useState(null);
     const [discounts, setDiscounts] = useState(null);
     const [alert, setAlert] = useState([]);
-    const {roomId} = useParams();
+    const {id, roomId} = useParams();
+    const navigate = useNavigate();
 
     useEffect(() => {
         getAllDiscounts().then(discounts => {
@@ -69,6 +70,11 @@ const AddRoomOffer = () => {
 
             addRoomOffer(roomOffer, roomId).then((response) => {
                 setAlert([...alert, response])
+                if (response.type === "success"){
+                    setTimeout(() => {
+                        navigate(`/admin/hotels/${id}/room/${roomId}`)
+                    }, [2000])
+                }
             })
         }
     }

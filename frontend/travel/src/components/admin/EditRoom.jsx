@@ -3,11 +3,13 @@ import {addRoomImage, getAllRoomTypes, getRoomById, getRoomImage, updateRoom} fr
 import {useNavigate, useParams} from "react-router-dom";
 import FormInput from "../FormInput";
 import {FaEdit, FaPlus} from "react-icons/fa";
-import {getRoomOffersByRoomId} from "../../service/CRUDTravelPackages";
+import {deleteRoomOffer, getRoomOffersByRoomId} from "../../service/CRUDTravelPackages";
 import {getAllNonMatchingRoomFacilities} from "../../service/CRUDRoomFacilities";
 import Alert from "../Alert";
 import {retrieveRoomImageFiles, verifyFile} from "../../service/ImageService";
 import RomaniaMap from "../img/RomaniaMap.svg";
+import {FaDeleteLeft} from "react-icons/fa6";
+import {MdDelete} from "react-icons/md";
 
 const EditRoom = () => {
 
@@ -52,6 +54,15 @@ const EditRoom = () => {
         nonMatchingFacilities.push(facility);
 
         setChangedAccommodation(`removed facility ${e.target.value}`);
+    }
+
+    const removeRoomOffer = (offerId, i) => {
+        deleteRoomOffer(offerId).then().then(response => {
+            setAlert([...alert, response]);
+        })
+        const offers = roomOffers;
+        offers.splice(i, 1);
+        setRoomOffers(offers);
     }
 
     const onSubmit = (e) => {
@@ -128,17 +139,17 @@ const EditRoom = () => {
                                     className="btn-success btn btn-sm m-1 h-25"><FaPlus/></button>
                         </div>
                         {
-                            roomOffers && roomOffers.map(roomOffer => (
+                            roomOffers && roomOffers?.map((roomOffer, i) => (
                                 <div
                                     className={`bg-success ${!roomOffer.available && "bg-success-subtle"} rounded p-1 d-flex justify-content-between mt-1`}>
                                     <div className="ps-2">
                                         <h5 className="text-white mt-2">Room
-                                            Offer {roomOffer.id} {roomOffer.date_from} -> {roomOffer.date_to}</h5>
+                                            Offer {roomOffer.id} | {roomOffer.date_from} -> {roomOffer.date_to} | {roomOffer.discount.value}% off</h5>
                                     </div>
                                     <button disabled={!roomOffer.available} type="button"
-                                            onClick={() => navigate(`offer/${roomOffer.id}`)}
-                                            className="text-white fs-5 btn border-0 btn-sm mb-1">
-                                        <FaEdit/> {!roomOffer.available && "BOUGHT"}</button>
+                                            onClick={() => removeRoomOffer(roomOffer.id, i)}
+                                            className="text-white btn border-0 btn-sm mb-1">
+                                        <MdDelete className="fs-3 pt-1"/> {!roomOffer.available && "BOUGHT"}</button>
                                 </div>
                             ))
                         }

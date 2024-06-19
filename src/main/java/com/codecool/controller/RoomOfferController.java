@@ -55,15 +55,19 @@ public class RoomOfferController {
         return roomOfferService.checkIfRoomOfferAvailable(id);
     }
 
-    @PatchMapping("/offer/{id}")
-    public Response updateRoomOffer (@PathVariable Long id, @RequestBody RoomOfferDTO updatedRoomOffer){
-        Response response = roomOfferService.updateRoomOffer(updatedRoomOffer, id);
-        return response;
+//    @PatchMapping("/offer/{id}")
+//    public Response updateRoomOffer (@PathVariable Long id, @RequestBody RoomOfferDTO updatedRoomOffer){
+//        Response response = roomOfferService.updateRoomOffer(updatedRoomOffer, id);
+//        return response;
+//    }
+
+    @DeleteMapping("/offer/{id}")
+    public Response deleteRoomOffer(@PathVariable Long id){
+        return roomOfferService.deleteRoomOffer(id);
     }
 
     @PostMapping("/room/{roomId}/addOffer")
     public Response addRoomOffer (@PathVariable Long roomId, @RequestBody RoomOfferDTO roomOfferDTO){
-        Response response = roomOfferService.addRoomOffer(roomOfferDTO, roomId);
-        return response;
+        return roomOfferService.addRoomOffer(roomOfferDTO, roomId);
     }
 }

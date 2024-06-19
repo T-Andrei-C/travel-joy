@@ -65,25 +65,35 @@ public class RoomOfferService {
         return roomOfferRepository.findById(id).get().getAvailable();
     }
 
-    public Response updateRoomOffer(RoomOfferDTO updatedRoomOffer, Long id) {
-        RoomOffer currentRoomOffer = roomOfferRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("room offer not found"));
-        currentRoomOffer.getRoom().getRoom_offers().remove(currentRoomOffer);
-        if (checkRoomOfferDates(currentRoomOffer.getRoom(), updatedRoomOffer)) {
-            if (currentRoomOffer.getAvailable()) {
-                currentRoomOffer.setDate_from(updatedRoomOffer.dateFrom());
-                currentRoomOffer.setDate_to(updatedRoomOffer.dateTo());
-                currentRoomOffer.setDiscount(updatedRoomOffer.discount());
-                currentRoomOffer.setType(updatedRoomOffer.type());
-                currentRoomOffer.setAvailable(true);
-                roomOfferRepository.save(currentRoomOffer);
-            } else {
-                return Response.builder().content("room offer has been bought and cannot be modified").type("warning").build();
-            }
+    public Response deleteRoomOffer(Long id){
+        RoomOffer roomOffer = roomOfferRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("room offer not found"));
+        if (roomOffer.getAvailable()){
+            roomOfferRepository.delete(roomOffer);
+            return Response.builder().content("Room offer has been deleted successfully").type("success").build();
         } else {
-            return Response.builder().content("room offer date from and date to overlap an exiting room offer or reservation").type("danger").build();
+            return Response.builder().content("Room offer has been bought and can't be deleted").type("danger").build();
         }
-        return Response.builder().content("room offer has been updated successfully").type("success").build();
     }
+
+//    public Response updateRoomOffer(RoomOfferDTO updatedRoomOffer, Long id) {
+//        RoomOffer currentRoomOffer = roomOfferRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("room offer not found"));
+//        currentRoomOffer.getRoom().getRoom_offers().remove(currentRoomOffer);
+//        if (checkRoomOfferDates(currentRoomOffer.getRoom(), updatedRoomOffer)) {
+//            if (currentRoomOffer.getAvailable()) {
+//                currentRoomOffer.setDate_from(updatedRoomOffer.dateFrom());
+//                currentRoomOffer.setDate_to(updatedRoomOffer.dateTo());
+//                currentRoomOffer.setDiscount(updatedRoomOffer.discount());
+//                currentRoomOffer.setType(updatedRoomOffer.type());
+//                currentRoomOffer.setAvailable(true);
+//                roomOfferRepository.save(currentRoomOffer);
+//            } else {
+//                return Response.builder().content("room offer has been bought and cannot be modified").type("warning").build();
+//            }
+//        } else {
+//            return Response.builder().content("room offer date from and date to overlap an exiting room offer or reservation").type("danger").build();
+//        }
+//        return Response.builder().content("room offer has been updated successfully").type("success").build();
+//    }
 
     public Response addRoomOffer (RoomOfferDTO roomOfferDTO, Long roomId){
         Room room = roomRepository.findById(roomId).orElseThrow(() -> new EntityNotFoundException("room not found"));

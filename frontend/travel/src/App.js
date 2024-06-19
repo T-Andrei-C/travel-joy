@@ -70,7 +70,7 @@ const router = createBrowserRouter(
                 <Route path="/admin/hotels/:id/room/add" element={<AddRoom/>}/>
                 <Route path="/admin/roomTypes" element={<ViewRoomTypes/>}/>
                 <Route path="/admin/room/facilities" element={<ViewRoomFacilities/>}/>
-                <Route path="/admin/hotels/:id/room/:roomId/offer/:offerId" element={<EditRoomOffer/>}/>
+                {/*<Route path="/admin/hotels/:id/room/:roomId/offer/:offerId" element={<EditRoomOffer/>}/>*/}
                 <Route path="/admin/hotels/:id/room/:roomId/offer/add" element={<AddRoomOffer/>}/>
                 <Route path="/admin/roomOfferTypes" element={<ViewRoomOfferTypes/>}/>
                 <Route path="/admin/discounts" element={<ViewDiscounts/>}/>
