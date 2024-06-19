@@ -3,9 +3,7 @@ import {useEffect, useState} from "react";
 import {getAllDiscounts} from "../../service/CRUDDiscounts";
 import {
     addRoomOffer,
-    checkIfRoomOfferAvailable,
     getAllRoomOfferTypes,
-    updateRoomOffer
 } from "../../service/CRUDTravelPackages";
 import {useParams} from "react-router-dom";
 
@@ -13,9 +11,7 @@ const AddRoomOffer = () => {
 
     const [roomOfferTypes, setRoomOfferTypes] = useState(null);
     const [discounts, setDiscounts] = useState(null);
-    const [showAlert, setShowAlert] = useState(false);
-    const [alertColor, setAlertColor] = useState("");
-    const [alertContent, setAlertContent] = useState("");
+    const [alert, setAlert] = useState([]);
     const {roomId} = useParams();
 
     useEffect(() => {
@@ -45,9 +41,10 @@ const AddRoomOffer = () => {
         const date_from = new Date(formData.get("date_from"));
         const date_to = new Date(formData.get("date_to"));
         if (date_from > date_to) {
-            setAlertContent("Date from can't be bigger than date to");
-            setAlertColor("danger");
-            setShowAlert(true);
+            setAlert([...alert, {
+                content: "Date from can't be bigger than date to",
+                type: "warning"
+            }])
         } else {
             const roomOffer = {
                 type: {id: formData.get("type")},
@@ -56,10 +53,22 @@ const AddRoomOffer = () => {
                 dateTo: formData.get("date_to"),
             }
 
+            if (roomOffer.type.id === "Select a package"){
+                setAlert([...alert, {
+                    content: "please select a package",
+                    type: "warning"
+                }])
+                return;
+            } else if (roomOffer.discount.id === "Select a discount"){
+                setAlert([...alert, {
+                    content: "please select a discount",
+                    type: "warning"
+                }])
+                return;
+            }
+
             addRoomOffer(roomOffer, roomId).then((response) => {
-                setAlertContent(response.content);
-                setAlertColor(response.type);
-                setShowAlert(true);
+                setAlert([...alert, response])
             })
         }
     }
@@ -111,9 +120,7 @@ const AddRoomOffer = () => {
             <div className="d-flex justify-content-center mt-3">
                 <button className="btn btn-success" type="submit">Add offer</button>
             </div>
-            {
-                showAlert && <Alert color={alertColor} content={alertContent} callBack={setShowAlert}/>
-            }
+            <Alert alertData={alert} alertCallBack={setAlert}/>
         </form>
     )
 }

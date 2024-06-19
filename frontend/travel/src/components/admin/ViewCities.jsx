@@ -1,10 +1,4 @@
 import {useEffect, useState} from "react";
-import {
-    addRoomFacility,
-    deleteRoomFacility,
-    getAllRoomFacilities,
-    updateRoomFacility
-} from "../../service/CRUDRoomFacilities";
 import AddElementSwitch from "./AddElementSwitch";
 import UpdateDeleteViewElement from "./UpdateDeleteViewElement";
 import Alert from "../Alert";
@@ -14,9 +8,7 @@ const ViewCities = () => {
     const [cities, setCities] = useState(null);
     const [isDeleted, setIsDeleted] = useState(false);
     const [isAdded, setIsAdded] = useState(false);
-    const [showAlert, setShowAlert] = useState(false);
-    const [alertColor, setAlertColor] = useState("");
-    const [alertContent, setAlertContent] = useState("");
+    const [alert, setAlert] = useState([]);
 
     useEffect(() => {
         getCities().then(cities => {
@@ -34,9 +26,7 @@ const ViewCities = () => {
         }
 
         updateCity(city.id, city).then(response => {
-            setAlertContent(response.content);
-            setAlertColor(response.type);
-            setShowAlert(true);
+            setAlert([...alert, response])
         })
     }
 
@@ -47,9 +37,7 @@ const ViewCities = () => {
                 setIsDeleted(true);
             }
 
-            setAlertContent(response.content);
-            setAlertColor(response.type);
-            setShowAlert(true);
+            setAlert([...alert, response])
         })
         setIsDeleted(false);
     }
@@ -64,9 +52,7 @@ const ViewCities = () => {
             if (response.type === "success"){
                 setIsAdded(false);
             }
-            setAlertContent(response.content);
-            setAlertColor(response.type);
-            setShowAlert(true);
+            setAlert([...alert, response])
         })
     }
 
@@ -74,9 +60,7 @@ const ViewCities = () => {
         <>
             <AddElementSwitch onSubmit={insertCity} setIsAdded={setIsAdded} isAdded={isAdded}/>
             <UpdateDeleteViewElement elements={cities} deleteElement={removeCity} editElement={editCity}/>
-            {
-                showAlert && <Alert color={alertColor} content={alertContent} callBack={setShowAlert}/>
-            }
+            <Alert alertData={alert} alertCallBack={setAlert}/>
         </>
     )
 }

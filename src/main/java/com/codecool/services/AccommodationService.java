@@ -4,7 +4,6 @@ import com.codecool.DTO.AccommodationDTO;
 import com.codecool.configurations.ReservationFilter;
 import com.codecool.configurations.aws.S3Service;
 import com.codecool.model.Accommodation;
-import com.codecool.model.Image;
 import com.codecool.model.Response;
 import com.codecool.model.room.Room;
 import com.codecool.repositories.AccommodationRepository;
@@ -54,22 +53,23 @@ public class AccommodationService {
         return accommodationRepository.findAllByCityName(cityName, pageRequest);
     }
 
-    public Accommodation addAccommodation(AccommodationDTO accommodationDTO) {
+    public Response addAccommodation(AccommodationDTO accommodationDTO) {
         if (accommodationRepository.findAll().stream().noneMatch(c -> c.getName().equals(accommodationDTO.name()) && c.getCity().getId().equals(accommodationDTO.city().getId()))) {
-            Accommodation accommodation = Accommodation.builder()
-                    .name(accommodationDTO.name())
-                    .description(accommodationDTO.description())
-                    .capacity(accommodationDTO.capacity())
-                    .city(accommodationDTO.city())
-                    .accommodation_facilities(accommodationDTO.accommodation_facilities())
-                    .rating(0d)
-                    .build();
-
-//            return Response.builder().content("Accommodation added successfully").type("success").build();
-            return accommodationRepository.save(accommodation);
+            if (accommodationDTO.capacity() >= 1) {
+                Accommodation accommodation = Accommodation.builder()
+                        .name(accommodationDTO.name())
+                        .description(accommodationDTO.description())
+                        .capacity(accommodationDTO.capacity())
+                        .city(accommodationDTO.city())
+                        .accommodation_facilities(accommodationDTO.accommodation_facilities())
+                        .rating(0d)
+                        .build();
+                return Response.builder().content("Accommodation added successfully").type("success").object(accommodationRepository.save(accommodation)).build();
+            } else {
+                return Response.builder().content("Accommodation capacity can't be 0").type("warning").build();
+            }
         } else {
-            return null;
-//            return Response.builder().content("Accommodation with this name already exists in this city").type("warning").build();
+            return Response.builder().content("Accommodation with this name already exists in this city").type("warning").build();
         }
     }
 
@@ -95,14 +95,14 @@ public class AccommodationService {
         return accommodationRepository.findAllByAccommodations(filteredAccommodations, pageRequest);
     }
 
-    public Response updateAccommodation (AccommodationDTO updatedAccommodation, Long id) {
+    public Response updateAccommodation(AccommodationDTO updatedAccommodation, Long id) {
         Accommodation currentAccommodation = accommodationRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Accommodation not found"));
         List<Accommodation> accommodations = accommodationRepository.findByNameAndCityName(updatedAccommodation.name(), updatedAccommodation.city().getName());
         accommodations.remove(currentAccommodation);
-        if (!accommodations.isEmpty()){
+        if (!accommodations.isEmpty()) {
             return Response.builder().content("Accommodation with this name in this location already exists").type("warning").build();
         } else {
-            if (updatedAccommodation.capacity() < currentAccommodation.getRooms().size()){
+            if (updatedAccommodation.capacity() < currentAccommodation.getRooms().size()) {
                 return Response.builder().content("Accommodation capacity can't be lower than the number of rooms").type("danger").build();
             } else {
                 currentAccommodation.setAccommodation_facilities(updatedAccommodation.accommodation_facilities());
@@ -121,7 +121,7 @@ public class AccommodationService {
         String imageValue = "image-" + id;
         try {
             s3Service.putObject(bucketName, "images/accommodations/accommodation-" + id + "/" + imageValue, file.getBytes());
-            if (accommodation.getImage_value() == null){
+            if (accommodation.getImage_value() == null) {
                 accommodation.setImage_value(imageValue);
                 accommodationRepository.save(accommodation);
             }

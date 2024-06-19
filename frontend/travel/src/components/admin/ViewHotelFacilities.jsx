@@ -14,9 +14,7 @@ const ViewHotelFacilities = () => {
     const [facilities, setFacilities] = useState(null);
     const [isDeleted, setIsDeleted] = useState(false);
     const [isAdded, setIsAdded] = useState(false);
-    const [showAlert, setShowAlert] = useState(false);
-    const [alertColor, setAlertColor] = useState("");
-    const [alertContent, setAlertContent] = useState("");
+    const [alert, setAlert] = useState([]);
 
     useEffect(() => {
         getAllAccommodationFacilities().then(facilities => {
@@ -34,9 +32,7 @@ const ViewHotelFacilities = () => {
         }
 
         updateAccommodationFacility(facility.id, facility).then(response => {
-            setAlertContent(response.content);
-            setAlertColor(response.type);
-            setShowAlert(true);
+            setAlert([...alert, response])
         })
     }
 
@@ -47,9 +43,7 @@ const ViewHotelFacilities = () => {
                 setIsDeleted(true);
             }
 
-            setAlertContent(response.content);
-            setAlertColor(response.type);
-            setShowAlert(true);
+            setAlert([...alert, response])
         })
         setIsDeleted(false);
     }
@@ -64,9 +58,7 @@ const ViewHotelFacilities = () => {
             if (response.type === "success"){
                 setIsAdded(false);
             }
-            setAlertContent(response.content);
-            setAlertColor(response.type);
-            setShowAlert(true);
+            setAlert([...alert, response])
         })
     }
 
@@ -74,9 +66,7 @@ const ViewHotelFacilities = () => {
         <>
             <AddElementSwitch onSubmit={addFacility} setIsAdded={setIsAdded} isAdded={isAdded}/>
             <UpdateDeleteViewElement elements={facilities} deleteElement={deleteFacility} editElement={editFacility}/>
-            {
-                showAlert && <Alert color={alertColor} content={alertContent} callBack={setShowAlert}/>
-            }
+            <Alert alertData={alert} alertCallBack={setAlert}/>
         </>
     )
 }

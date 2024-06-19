@@ -22,9 +22,7 @@ const EditHotel = () => {
     const {id} = useParams();
     const [addFacility, setAddFacility] = useState(false);
     const [changedAccommodation, setChangedAccommodation] = useState(null);
-    const [showAlert, setShowAlert] = useState(false);
-    const [alertColor, setAlertColor] = useState("");
-    const [alertContent, setAlertContent] = useState("");
+    const [alert, setAlert] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -65,27 +63,25 @@ const EditHotel = () => {
         const formData = new FormData(e.target);
         const capacity = formData.get("capacity");
         if (capacity < rooms.length) {
-            setAlertContent("Capacity can't be lower than the current number of rooms");
-            setAlertColor("danger");
-            setShowAlert(true);
+            setAlert([...alert, {
+                content: "Capacity can't be lower than the current number of rooms",
+                type: "warning"
+            }]);
         } else {
             accommodation.capacity = capacity;
             accommodation.description = formData.get("description");
             accommodation.name = formData.get("name");
             accommodation.city = cities.find(city => city.id === parseInt(formData.get("city")));
 
-            updateAccommodation(id, accommodation).then(response => {
-                setAlertContent(response.content);
-                setAlertColor(response.type);
-                setShowAlert(true);
+            updateAccommodation(id, accommodation).then(accommodationResponse => {
                 if (formData.get("file").type === "image/png" || formData.get("file").type === "image/jpeg") {
                     const imageFormData = new FormData();
                     imageFormData.append("file", formData.get("file"));
                     addAccommodationImage(accommodation.id, imageFormData).then((response) => {
-                        setAlertContent(response.content);
-                        setAlertColor(response.type);
-                        setShowAlert(true);
+                        setAlert([...alert, response, accommodationResponse])
                     })
+                } else {
+                    setAlert([...alert, accommodationResponse])
                 }
             })
         }
@@ -124,7 +120,7 @@ const EditHotel = () => {
                          alt=""
                          onError={(e) => e.target.src = "https://artsmidnorthcoast.com/wp-content/uploads/2014/05/no-image-available-icon-6.png"}/>
                     <input className="btn btn-success col-12" type="file" name="file" accept=".png, .jpeg"
-                           onChange={(e) => verifyFile(e, setAlertContent, setAlertColor, setShowAlert)}/>
+                           onChange={(e) => verifyFile(e, setAlert)}/>
                 </div>
             </div>
             <textarea name="description" placeholder="Description..."
@@ -199,9 +195,7 @@ const EditHotel = () => {
             <div className="d-flex justify-content-center mt-3">
                 <button className="btn btn-success" type="submit">Save</button>
             </div>
-            {
-                showAlert && <Alert color={alertColor} content={alertContent} callBack={setShowAlert}/>
-            }
+            <Alert alertData={alert} alertCallBack={setAlert}/>
         </form>
     )
 }

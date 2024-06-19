@@ -50,7 +50,7 @@ public class AccommodationController {
     }
 
     @PostMapping
-    public Accommodation addAccommodation(@RequestBody AccommodationDTO accommodationDTO) {
+    public Response addAccommodation(@RequestBody AccommodationDTO accommodationDTO) {
         return accommodationService.addAccommodation(accommodationDTO);
     }
 

@@ -1,17 +1,19 @@
-export const verifyFile = (e, setAlertContent, setAlertColor, setShowAlert) => {
+export const verifyFile = (e, alertDataCallback) => {
     const file = e.target.files[0];
     if (file !== undefined){
         if (file.type !== "image/png" && file.type !== "image/jpeg") {
             e.target.value = "";
-            setAlertContent("file type has to be .png or .jpeg");
-            setAlertColor("warning");
-            setShowAlert(true);
+            alertDataCallback(current => [...current, {
+                content: "file type has to be .png or .jpeg",
+                type: "warning"
+            }])
         } else {
             if (file.size > 10485760){
                 e.target.value = "";
-                setAlertContent("file size is way too big");
-                setAlertColor("warning");
-                setShowAlert(true);
+                alertDataCallback(current => [...current, {
+                    content: "file size is way too big",
+                    type: "warning"
+                }])
             }
         }
     }

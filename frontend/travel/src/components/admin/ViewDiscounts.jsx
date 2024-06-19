@@ -10,9 +10,7 @@ const ViewDiscounts = () => {
     const [discounts, setDiscounts] = useState(null);
     const [isDeleted, setIsDeleted] = useState(false);
     const [isAdded, setIsAdded] = useState(false);
-    const [showAlert, setShowAlert] = useState(false);
-    const [alertColor, setAlertColor] = useState("");
-    const [alertContent, setAlertContent] = useState("");
+    const [alert, setAlert] = useState([]);
 
     useEffect(() => {
         getAllDiscounts().then(discounts => {
@@ -30,9 +28,7 @@ const ViewDiscounts = () => {
         }
 
         updateDiscount(discount.id, discount).then(response => {
-            setAlertContent(response.content);
-            setAlertColor(response.type);
-            setShowAlert(true);
+            setAlert([...alert, response])
         })
     }
 
@@ -43,9 +39,7 @@ const ViewDiscounts = () => {
                 setIsDeleted(true);
             }
 
-            setAlertContent(response.content);
-            setAlertColor(response.type);
-            setShowAlert(true);
+            setAlert([...alert, response])
         })
         setIsDeleted(false);
     }
@@ -60,9 +54,7 @@ const ViewDiscounts = () => {
             if (response.type === "success") {
                 setIsAdded(false);
             }
-            setAlertContent(response.content);
-            setAlertColor(response.type);
-            setShowAlert(true);
+            setAlert([...alert, response])
         })
     }
 
@@ -110,9 +102,7 @@ const ViewDiscounts = () => {
                     ))
                 }
             </div>
-            {
-                showAlert && <Alert color={alertColor} content={alertContent} callBack={setShowAlert}/>
-            }
+            <Alert alertData={alert} alertCallBack={setAlert}/>
         </>
     )
 }

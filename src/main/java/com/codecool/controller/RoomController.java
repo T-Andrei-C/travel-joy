@@ -50,7 +50,7 @@ public class RoomController {
     }
 
     @PostMapping("accommodation/{accommodationId}/addRoom")
-    public Room addRoom(@PathVariable Long accommodationId, @RequestBody RoomDTO roomDTO) {
+    public Response addRoom(@PathVariable Long accommodationId, @RequestBody RoomDTO roomDTO) {
         return roomService.addRoom(roomDTO, accommodationId);
     }
 

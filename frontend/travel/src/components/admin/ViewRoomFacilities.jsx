@@ -13,9 +13,7 @@ const ViewRoomFacilities = () => {
     const [facilities, setFacilities] = useState(null);
     const [isDeleted, setIsDeleted] = useState(false);
     const [isAdded, setIsAdded] = useState(false);
-    const [showAlert, setShowAlert] = useState(false);
-    const [alertColor, setAlertColor] = useState("");
-    const [alertContent, setAlertContent] = useState("");
+    const [alert, setAlert] = useState([]);
 
     useEffect(() => {
         getAllRoomFacilities().then(facilities => {
@@ -33,9 +31,7 @@ const ViewRoomFacilities = () => {
         }
 
         updateRoomFacility(facility.id, facility).then(response => {
-            setAlertContent(response.content);
-            setAlertColor(response.type);
-            setShowAlert(true);
+            setAlert([...alert, response])
         })
     }
 
@@ -46,9 +42,7 @@ const ViewRoomFacilities = () => {
                 setIsDeleted(true);
             }
 
-            setAlertContent(response.content);
-            setAlertColor(response.type);
-            setShowAlert(true);
+            setAlert([...alert, response])
         })
         setIsDeleted(false);
     }
@@ -63,9 +57,7 @@ const ViewRoomFacilities = () => {
             if (response.type === "success"){
                 setIsAdded(false);
             }
-            setAlertContent(response.content);
-            setAlertColor(response.type);
-            setShowAlert(true);
+            setAlert([...alert, response])
         })
     }
 
@@ -73,9 +65,7 @@ const ViewRoomFacilities = () => {
         <>
             <AddElementSwitch onSubmit={addFacility} setIsAdded={setIsAdded} isAdded={isAdded}/>
             <UpdateDeleteViewElement elements={facilities} deleteElement={deleteFacility} editElement={editFacility}/>
-            {
-                showAlert && <Alert color={alertColor} content={alertContent} callBack={setShowAlert}/>
-            }
+            <Alert alertData={alert} alertCallBack={setAlert}/>
         </>
     )
 

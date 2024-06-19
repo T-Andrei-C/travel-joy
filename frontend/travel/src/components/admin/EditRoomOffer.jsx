@@ -14,9 +14,7 @@ const EditRoomOffer = () => {
     const [roomOffer, setRoomOffer] = useState(null);
     const [roomOfferTypes, setRoomOfferTypes] = useState(null);
     const [discounts, setDiscounts] = useState(null);
-    const [showAlert, setShowAlert] = useState(false);
-    const [alertColor, setAlertColor] = useState("");
-    const [alertContent, setAlertContent] = useState("");
+    const [alert, setAlert] = useState([]);
     const {id, roomId, offerId} = useParams();
     const navigate = useNavigate();
 
@@ -55,9 +53,10 @@ const EditRoomOffer = () => {
         const date_from = new Date(formData.get("date_from"));
         const date_to = new Date(formData.get("date_to"));
          if (date_from > date_to){
-             setAlertContent("Date from can't be bigger than date to");
-             setAlertColor("danger");
-             setShowAlert(true);
+             setAlert([...alert, {
+                 content: "Date from can't be bigger than date to",
+                 type: "warning"
+             }])
          } else {
              checkIfRoomOfferAvailable(offerId).then(available => {
                  if (available){
@@ -70,14 +69,13 @@ const EditRoomOffer = () => {
                     }
 
                     updateRoomOffer(offerId, updatedRoomOffer).then((response) => {
-                        setAlertContent(response.content);
-                        setAlertColor(response.type);
-                        setShowAlert(true);
+                        setAlert([...alert, response])
                     })
                  } else {
-                     setAlertContent("Room offer has been bought and can't be modified");
-                     setAlertColor("warning");
-                     setShowAlert(true);
+                     setAlert([...alert, {
+                         content: "Room offer has been bought and can't be modified",
+                         type: "warning"
+                     }])
                  }
              })
          }
@@ -135,9 +133,7 @@ const EditRoomOffer = () => {
             <div className="d-flex justify-content-center mt-3">
                 <button className="btn btn-success" type="submit">Save</button>
             </div>
-            {
-                showAlert && <Alert color={alertColor} content={alertContent} callBack={setShowAlert}/>
-            }
+            <Alert alertData={alert} alertCallBack={setAlert}/>
         </form>
     )
 }

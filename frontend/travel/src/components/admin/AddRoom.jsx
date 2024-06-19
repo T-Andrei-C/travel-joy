@@ -4,7 +4,7 @@ import Alert from "../Alert";
 import {useEffect, useState} from "react";
 import {addRoom, addRoomImage, getAllRoomTypes, updateRoom} from "../../service/CRUDRooms";
 import {getAllRoomFacilities} from "../../service/CRUDRoomFacilities";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {retrieveRoomImageFiles, verifyFile} from "../../service/ImageService";
 
 const AddRoom = () => {
@@ -12,10 +12,9 @@ const AddRoom = () => {
     const [roomTypes, setRoomTypes] = useState(null);
     const [roomFacilities, setRoomFacilities] = useState(null);
     const [chosenFacilities, setChosenFacilities] = useState([]);
-    const [showAlert, setShowAlert] = useState(false);
-    const [alertColor, setAlertColor] = useState("");
-    const [alertContent, setAlertContent] = useState("");
+    const [alert, setAlert] = useState([]);
     const {id} = useParams();
+    const navigate = useNavigate();
 
     useEffect(() => {
         getAllRoomTypes().then(roomTypes => {
@@ -32,9 +31,10 @@ const AddRoom = () => {
         const roomPrice = formData.get("price");
 
         if (roomPrice < 100) {
-            setAlertContent("Room price can't be lower than 100");
-            setAlertColor("danger");
-            setShowAlert(true);
+            setAlert([...alert, {
+                content: "Room price can't be lower than 100",
+                type: "warning"
+            }]);
         } else {
             const room = {
                 type: {id: formData.get("type")},
@@ -43,19 +43,38 @@ const AddRoom = () => {
             }
             const images = retrieveRoomImageFiles(formData);
 
-            addRoom(room, id).then(room => {
+            if (room.type.id === "Select a room type"){
+                setAlert([...alert, {
+                    content: "please select a room type",
+                    type: "warning"
+                }]);
+                return;
+            }
+
+            if (images.length < 1){
+                setAlert([...alert, {
+                    content: "please add at least one image",
+                    type: "warning"
+                }]);
+                return;
+            }
+
+            addRoom(room, id).then(roomResponse => {
                 images.map((image, index) => {
                     const imageFormData = new FormData();
                     imageFormData.append("file", images[index].file);
-
-                    addRoomImage(room.id, images[index].index, imageFormData).then(response => {
-                        setAlertContent(response.content);
-                        setAlertColor(response.type);
-                        setShowAlert(true);
-                    })
+                    if (roomResponse.object !== null) {
+                        addRoomImage(roomResponse.object.id, images[index].index, imageFormData).then(response => {
+                            setAlert([...alert, response, roomResponse])
+                        })
+                        setTimeout(() => {
+                            navigate(`/admin/hotels/${id}`);
+                        }, [5000])
+                    } else {
+                        setAlert([...alert, roomResponse])
+                    }
                 })
             })
-
         }
     }
 
@@ -92,8 +111,9 @@ const AddRoom = () => {
                 {
                     Array.from(Array(6).keys()).map((i) => (
                         <div className="my-2">
-                            <input className="btn btn-success col-12" type="file" name={`file-${i}`} accept=".png, .jpeg"
-                                   onChange={(e) => verifyFile(e, setAlertContent, setAlertColor, setShowAlert)}/>
+                            <input className="btn btn-success col-12" type="file" name={`file-${i}`}
+                                   accept=".png, .jpeg"
+                                   onChange={(e) => verifyFile(e, setAlert)}/>
                         </div>
                     ))
                 }
@@ -139,9 +159,7 @@ const AddRoom = () => {
             <div className="d-flex justify-content-center mt-3">
                 <button className="btn btn-success" type="submit">Add room</button>
             </div>
-            {
-                showAlert && <Alert color={alertColor} content={alertContent} callBack={setShowAlert}/>
-            }
+            <Alert alertData={alert} alertCallBack={setAlert}/>
         </form>
     )
 }

@@ -1,9 +1,22 @@
-const Alert = ({content, color, callBack}) => {
+const Alert = ({alertData, alertCallBack}) => {
+    console.log(alertData)
+
+    const removeAlert = (i) => {
+        const alerts = [...alertData];
+        alerts.splice(i, 1);
+        alertCallBack(alerts);
+    }
+
     return (
-        <div className={`alert alert-${color} alert-dismissible fade show position-fixed bottom-0`}
-             style={{right: "1.5em", width: "40%"}} role="alert">
-            <strong>{content}</strong>
-            <button type="button" onClick={() => callBack(false)} className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <div className="position-fixed bottom-0 col-xl-4 col-lg-6 col-md-8 col-9">
+            {
+                alertData?.map((alert, i) => (
+                    <div className={`alert alert-${alert.type} alert-dismissible fade show`} key={i}>
+                        <strong>{alert.content}</strong>
+                        <button type="button" className="btn-close" onClick={() => removeAlert(i)}></button>
+                    </div>
+                ))
+            }
         </div>
     )
 }

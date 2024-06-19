@@ -20,9 +20,7 @@ const ViewRoomOfferTypes = () => {
     const [roomOfferTypes, setRoomOfferTypes] = useState(null);
     const [isDeleted, setIsDeleted] = useState(false);
     const [isAdded, setIsAdded] = useState(false);
-    const [showAlert, setShowAlert] = useState(false);
-    const [alertColor, setAlertColor] = useState("");
-    const [alertContent, setAlertContent] = useState("");
+    const [alert, setAlert] = useState([]);
 
     useEffect(() => {
         getAllRoomOfferTypes().then(roomOfferTypes => {
@@ -40,9 +38,7 @@ const ViewRoomOfferTypes = () => {
         }
 
         updateRoomOfferType(roomOfferType.id, roomOfferType).then(response => {
-            setAlertContent(response.content);
-            setAlertColor(response.type);
-            setShowAlert(true);
+            setAlert([...alert, response])
         })
     }
 
@@ -53,9 +49,7 @@ const ViewRoomOfferTypes = () => {
                 setIsDeleted(true);
             }
 
-            setAlertContent(response.content);
-            setAlertColor(response.type);
-            setShowAlert(true);
+            setAlert([...alert, response])
         })
         setIsDeleted(false);
     }
@@ -70,9 +64,7 @@ const ViewRoomOfferTypes = () => {
             if (response.type === "success"){
                 setIsAdded(false);
             }
-            setAlertContent(response.content);
-            setAlertColor(response.type);
-            setShowAlert(true);
+            setAlert([...alert, response])
         })
     }
 
@@ -80,9 +72,7 @@ const ViewRoomOfferTypes = () => {
         <>
             <AddElementSwitch onSubmit={addRoomOfferTypes} setIsAdded={setIsAdded} isAdded={isAdded}/>
             <UpdateDeleteViewElement elements={roomOfferTypes} deleteElement={deleteRoomOfferTypes} editElement={editRoomOfferTypes}/>
-            {
-                showAlert && <Alert color={alertColor} content={alertContent} callBack={setShowAlert}/>
-            }
+            <Alert alertData={alert} alertCallBack={setAlert}/>
         </>
     )
 }

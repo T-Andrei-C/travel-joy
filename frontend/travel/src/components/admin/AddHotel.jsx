@@ -1,22 +1,19 @@
 import FormInput from "../FormInput";
-import {FaEdit, FaPlus} from "react-icons/fa";
 import Alert from "../Alert";
-import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {getCities} from "../../service/CRUDCity";
 import {getAllAccommodationFacilities} from "../../service/CRUDAccommodationFacilities";
-import {onSubmit} from "../../service/AuthenticateService";
 import {addAccommodation, addAccommodationImage} from "../../service/CRUDAccommodations";
 import {verifyFile} from "../../service/ImageService";
+import {useNavigate} from "react-router-dom";
 
 const AddHotel = () => {
 
     const [cities, setCities] = useState(null);
     const [accommodationFacilities, setAccommodationFacilities] = useState(null);
     const [chosenFacilities, setChosenFacilities] = useState([]);
-    const [showAlert, setShowAlert] = useState(false);
-    const [alertColor, setAlertColor] = useState("");
-    const [alertContent, setAlertContent] = useState("");
+    const [alert, setAlert] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         getCities().then(cities => {
@@ -50,20 +47,34 @@ const AddHotel = () => {
             accommodation_facilities: chosenFacilities
         }
 
+        if (accommodation.city.id === "Select a city"){
+            setAlert([...alert, {
+                content: "please select a city",
+                type: "warning"
+            }]);
+            return;
+        }
+
         if (formData.get("file").type === "image/png" || formData.get("file").type === "image/jpeg") {
-            addAccommodation(accommodation).then(accommodation => {
+            addAccommodation(accommodation).then(accommodationResponse => {
                 const imageFormData = new FormData();
                 imageFormData.append("file", formData.get("file"));
-                addAccommodationImage(accommodation.id, imageFormData).then(response => {
-                    setAlertContent(response.content);
-                    setAlertColor(response.type);
-                    setShowAlert(true);
-                })
+                if (accommodationResponse.object !== null){
+                    addAccommodationImage(accommodationResponse.object.id, imageFormData).then(response => {
+                        setAlert([...alert, response, accommodationResponse]);
+                    })
+                    setTimeout(() => {
+                        navigate("/admin/hotels");
+                    }, [5000])
+                } else {
+                    setAlert([...alert, accommodationResponse]);
+                }
             })
         } else {
-            setAlertContent("photo missing for the accommodation");
-            setAlertColor("danger");
-            setShowAlert(true);
+            setAlert([...alert, {
+                content: "photo missing for the accommodation",
+                type: "danger"
+            }]);
         }
     }
 
@@ -90,7 +101,8 @@ const AddHotel = () => {
                 </div>
                 <div className="col-6 ps-2">
                 <input className="btn btn-success col-12" style={{padding: "0.85em"}} type="file" name="file" accept=".png, .jpeg"
-                       onChange={(e) => verifyFile(e, setAlertContent, setAlertColor, setShowAlert)}/>
+                       onChange={(e) => verifyFile(e, setAlert)}
+                    />
                 </div>
             </div>
             <textarea name="description" placeholder="Description..."
@@ -138,9 +150,7 @@ const AddHotel = () => {
             <div className="d-flex justify-content-center mt-3">
                 <button className="btn btn-success" type="submit">Add accommodation</button>
             </div>
-            {
-                showAlert && <Alert color={alertColor} content={alertContent} callBack={setShowAlert}/>
-            }
+            <Alert alertData={alert} alertCallBack={setAlert}/>
         </form>
     )
 }

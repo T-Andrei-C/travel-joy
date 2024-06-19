@@ -88,7 +88,7 @@ public class RoomService {
         return Response.builder().content("Room updated successfully").type("success").build();
     }
 
-    public Room addRoom(RoomDTO roomDTO, Long accommodationId) {
+    public Response addRoom(RoomDTO roomDTO, Long accommodationId) {
         Accommodation accommodation = accommodationRepository.findById(accommodationId).orElseThrow(() -> new EntityNotFoundException("Accommodation not found"));
         if (accommodation.getRooms().size() != accommodation.getCapacity()) {
             Room room = Room.builder()
@@ -97,24 +97,15 @@ public class RoomService {
                     .room_facilities(roomDTO.room_facilities())
                     .accommodation(accommodation)
                     .build();
-            return roomRepository.save(room);
-//            return Response.builder().content("Room added successfully").type("success").build();
+            return Response.builder().content("Room added successfully").type("success").object(roomRepository.save(room)).build();
         } else {
-            return null;
-//            return Response.builder().content("Accommodation capacity is full").type("warning").build();
+            return Response.builder().content("Accommodation capacity is full").type("warning").build();
         }
     }
 
     public Response uploadRoomImage(Long id, MultipartFile file, int fileIndex) {
         Room room = roomRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("room not found"));
         String imageValue = "image-" + fileIndex + "-room-" + id;
-//        try {
-//            if (file.getBytes().length > 1048576){
-//                return Response.builder().content("room image exceeds the limit of bytes").type("danger").build();
-//            }
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
         try {
             s3Service.putObject(
                     bucketName,

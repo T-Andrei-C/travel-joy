@@ -11,9 +11,7 @@ const ViewRoomTypes = () => {
     const [roomTypes, setRoomTypes] = useState(null);
     const [isDeleted, setIsDeleted] = useState(false);
     const [isAdded, setIsAdded] = useState(false);
-    const [showAlert, setShowAlert] = useState(false);
-    const [alertColor, setAlertColor] = useState("");
-    const [alertContent, setAlertContent] = useState("");
+    const [alert, setAlert] = useState([]);
 
     useEffect(() => {
         getAllRoomTypes().then(roomTypes => {
@@ -32,9 +30,7 @@ const ViewRoomTypes = () => {
         }
 
         updateRoomType(roomType.id, roomType).then(response => {
-            setAlertContent(response.content);
-            setAlertColor(response.type);
-            setShowAlert(true);
+            setAlert([...alert, response])
         })
     }
 
@@ -45,9 +41,7 @@ const ViewRoomTypes = () => {
                 setIsDeleted(true);
             }
 
-            setAlertContent(response.content);
-            setAlertColor(response.type);
-            setShowAlert(true);
+            setAlert([...alert, response])
         })
         setIsDeleted(false);
     }
@@ -63,9 +57,7 @@ const ViewRoomTypes = () => {
             if (response.type === "success") {
                 setIsAdded(false);
             }
-            setAlertContent(response.content);
-            setAlertColor(response.type);
-            setShowAlert(true);
+            setAlert([...alert, response])
         })
     }
 
@@ -123,9 +115,7 @@ const ViewRoomTypes = () => {
                     ))
                 }
             </div>
-            {
-                showAlert && <Alert color={alertColor} content={alertContent} callBack={setShowAlert}/>
-            }
+            <Alert alertData={alert} alertCallBack={setAlert}/>
         </>
     )
 }
