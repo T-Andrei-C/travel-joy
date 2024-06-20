@@ -1,7 +1,7 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {
-    addAccommodationImage,
+    addAccommodationImage, checkAccommodationCapacity,
     getAccommodationImage,
     getAllAccommodationById,
     updateAccommodation
@@ -9,10 +9,11 @@ import {
 import FormInput from "../FormInput";
 import {getCities} from "../../service/CRUDCity";
 import {FaEdit, FaPlus} from "react-icons/fa";
-import {getRoomImage, getRoomsByAccommodationId} from "../../service/CRUDRooms";
+import {disableOrEnableRoom, getRoomImage, getRoomsByAccommodationId} from "../../service/CRUDRooms";
 import {getAllNonMatchingAccommodationFacilities} from "../../service/CRUDAccommodationFacilities";
 import Alert from "../Alert";
 import {verifyFile} from "../../service/ImageService";
+import CheckboxInput from "./CheckboxInput";
 
 const EditHotel = () => {
     const [accommodation, setAccommodation] = useState(null);
@@ -58,33 +59,33 @@ const EditHotel = () => {
         setChangedAccommodation(`removed facility ${e.target.value}`);
     }
 
+    const disableOrEnable = async (id) => {
+        const response = await disableOrEnableRoom(id);
+        await setAlert([...alert, response]);
+        return await response.type === "success";
+    }
+
     const onSubmit = (e) => {
         e.preventDefault();
         const formData = new FormData(e.target);
         const capacity = formData.get("capacity");
-        if (capacity < rooms.length) {
-            setAlert([...alert, {
-                content: "Capacity can't be lower than the current number of rooms",
-                type: "warning"
-            }]);
-        } else {
-            accommodation.capacity = capacity;
-            accommodation.description = formData.get("description");
-            accommodation.name = formData.get("name");
-            accommodation.city = cities.find(city => city.id === parseInt(formData.get("city")));
 
-            updateAccommodation(id, accommodation).then(accommodationResponse => {
-                if (formData.get("file").type === "image/png" || formData.get("file").type === "image/jpeg") {
-                    const imageFormData = new FormData();
-                    imageFormData.append("file", formData.get("file"));
-                    addAccommodationImage(accommodation.id, imageFormData).then((response) => {
-                        setAlert([...alert, response, accommodationResponse])
-                    })
-                } else {
-                    setAlert([...alert, accommodationResponse])
-                }
-            })
-        }
+        accommodation.capacity = capacity;
+        accommodation.description = formData.get("description");
+        accommodation.name = formData.get("name");
+        accommodation.city = cities.find(city => city.id === parseInt(formData.get("city")));
+
+        updateAccommodation(id, accommodation).then(accommodationResponse => {
+            if (formData.get("file").type === "image/png" || formData.get("file").type === "image/jpeg") {
+                const imageFormData = new FormData();
+                imageFormData.append("file", formData.get("file"));
+                addAccommodationImage(accommodation.id, imageFormData).then((response) => {
+                    setAlert([...alert, response, accommodationResponse]);
+                })
+            } else {
+                setAlert([...alert, accommodationResponse]);
+            }
+        })
     }
 
     return (
@@ -141,8 +142,11 @@ const EditHotel = () => {
                                     <div className="ps-2">
                                         <h5 className="text-white mt-2">{room.type.name} Room {room.id}</h5>
                                     </div>
-                                    <button type="button" onClick={() => navigate(`room/${room.id}`)}
-                                            className="text-white fs-5 btn btn-sm mb-1"><FaEdit/></button>
+                                    <div className="d-xl-flex d-lg-flex d-block">
+                                        <button type="button" onClick={() => navigate(`room/${room.id}`)}
+                                                className="text-white fs-5 btn btn-sm mb-1"><FaEdit/></button>
+                                        <CheckboxInput onChange={disableOrEnable} id={room.id} value={room.disabled} className="m-xl-auto m-lg-auto m-0"/>
+                                    </div>
                                 </div>
                             ))
                         }

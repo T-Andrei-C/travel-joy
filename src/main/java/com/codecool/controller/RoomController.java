@@ -62,6 +62,11 @@ public class RoomController {
         return roomService.uploadRoomImage(id, file, fileIndex);
     }
 
+    @PatchMapping("room/{id}/disableOrEnable")
+    public Response disableOrEnableRoom(@PathVariable Long id){
+        return roomService.disableOrEnableRoom(id);
+    }
+
     @GetMapping(
             value = "room/{id}/image/{fileIndex}",
             produces = MediaType.IMAGE_JPEG_VALUE

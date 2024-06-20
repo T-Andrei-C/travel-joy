@@ -19,7 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -90,16 +89,38 @@ public class RoomService {
 
     public Response addRoom(RoomDTO roomDTO, Long accommodationId) {
         Accommodation accommodation = accommodationRepository.findById(accommodationId).orElseThrow(() -> new EntityNotFoundException("Accommodation not found"));
-        if (accommodation.getRooms().size() != accommodation.getCapacity()) {
+        List<Room> rooms = accommodation.getRooms().stream().filter(r -> !r.getDisabled()).toList();
+
+        if (rooms.size() != accommodation.getCapacity()) {
             Room room = Room.builder()
                     .type(roomDTO.type())
                     .price(roomDTO.price())
                     .room_facilities(roomDTO.room_facilities())
                     .accommodation(accommodation)
+                    .disabled(false)
                     .build();
             return Response.builder().content("Room added successfully").type("success").object(roomRepository.save(room)).build();
         } else {
             return Response.builder().content("Accommodation capacity is full").type("warning").build();
+        }
+    }
+
+    public Response disableOrEnableRoom(Long id){
+        Room room = roomRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("room not found"));
+        List<Room> rooms = room.getAccommodation().getRooms().stream().filter(r -> !r.getDisabled()).toList();
+
+        if (room.getDisabled()){
+            if (rooms.size() == room.getAccommodation().getCapacity()){
+                return Response.builder().content("Accommodation capacity is full").type("warning").build();
+            } else {
+                room.setDisabled(false);
+                roomRepository.save(room);
+                return Response.builder().content("Room enabled successfully").type("success").build();
+            }
+        } else {
+            room.setDisabled(true);
+            roomRepository.save(room);
+            return Response.builder().content("Room disabled successfully").type("success").build();
         }
     }
 

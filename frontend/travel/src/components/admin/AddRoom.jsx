@@ -69,7 +69,7 @@ const AddRoom = () => {
                         })
                         setTimeout(() => {
                             navigate(`/admin/hotels/${id}`);
-                        }, [2000])
+                        }, [5000])
                     } else {
                         setAlert([...alert, roomResponse])
                     }

@@ -1,0 +1,8 @@
+#checkBoxInput:checked{
+    background-color: #0f4e32;
+}
+
+#checkBoxInput{
+    border-color: transparent;
+    box-shadow: none
+}

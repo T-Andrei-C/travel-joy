@@ -1,14 +1,20 @@
 import {useEffect, useState} from "react";
-import {getAccommodationImage, getAllAccommodations} from "../../service/CRUDAccommodations";
+import {
+    disableOrEnableAccommodation,
+    getAccommodationImage,
+    getAllAccommodations
+} from "../../service/CRUDAccommodations";
 import {useNavigate} from "react-router-dom";
 import {FaEdit, FaPlus} from "react-icons/fa";
 import {FaLocationDot} from "react-icons/fa6";
-import {MdBed, MdBedroomParent} from "react-icons/md";
-import {GoDotFill} from "react-icons/go";
+import {MdBed} from "react-icons/md";
 import {BsDot} from "react-icons/bs";
+import Alert from "../Alert";
+import CheckboxInput from "./CheckboxInput";
 
 const ViewHotels = () => {
     const [accommodations, setAccommodations] = useState(null);
+    const [alert, setAlert] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -16,6 +22,12 @@ const ViewHotels = () => {
             setAccommodations(accommodations);
         })
     }, [])
+
+    const disableOrEnable = async (id) => {
+        const response = await disableOrEnableAccommodation(id);
+        await setAlert([...alert, response]);
+        return await response.type === "success";
+    }
 
     return (
         <div>
@@ -28,16 +40,22 @@ const ViewHotels = () => {
                     accommodations && accommodations.map(accommodation => (
                         <div className="card text-bg-dark bg-transparent border-0 mb-4">
                             <div className="bg-black rounded">
-                                <img src={getAccommodationImage(accommodation.id)} className="card-img img-fluid h-100 opacity-50"
+                                <img src={getAccommodationImage(accommodation.id)}
+                                     className="card-img img-fluid h-100 opacity-50"
                                      onError={(e) => e.target.src = "https://artsmidnorthcoast.com/wp-content/uploads/2014/05/no-image-available-icon-6.png"}
                                      alt="..."/>
                             </div>
                             <div className="card-img-overlay p-0 ms-3 me-3">
                                 <div className="d-flex justify-content-between">
                                     <h4 className="card-title mb-0">{accommodation.name}</h4>
-                                    <button onClick={() => navigate(`${accommodation.id}`)}
-                                            className="card-title bg-transparent border-0 mb-0"><FaEdit className="fs-4"/>
-                                    </button>
+                                    <div className="d-xl-flex d-lg-flex d-md-flex d-sm-flex d-block">
+                                        <button onClick={() => navigate(`${accommodation.id}`)}
+                                                className="card-title bg-transparent border-0 mb-0"><FaEdit
+                                            className="fs-4"/>
+                                        </button>
+                                        <CheckboxInput onChange={disableOrEnable} id={accommodation.id}
+                                                       value={accommodation.disabled} className="m-xl-auto m-lg-auto m-md-atuo m-sm-auto m-0"/>
+                                    </div>
                                 </div>
                                 <p className="card-text pt-0"><FaLocationDot className="mb-1"/> {accommodation.city.name}
                                     <BsDot/> {accommodation.capacity} <MdBed/></p>
@@ -47,38 +65,7 @@ const ViewHotels = () => {
                     ))
                 }
             </div>
-            {/*<table className="table-success table-bordered table-responsive table-striped table">*/}
-            {/*    <thead>*/}
-            {/*    <tr>*/}
-            {/*        <th>*/}
-            {/*            <button type="button" onClick={() => navigate("add")}*/}
-            {/*                    className="btn-success btn btn-sm m-1 h-25"><FaPlus/></button>*/}
-            {/*        </th>*/}
-            {/*        <th>Id</th>*/}
-            {/*        <th>Name</th>*/}
-            {/*        <th>Capacity</th>*/}
-            {/*        <th>City</th>*/}
-            {/*        <th>Description</th>*/}
-            {/*        /!*<th>Image_url</th>*!/*/}
-            {/*    </tr>*/}
-            {/*    </thead>*/}
-            {/*    <tbody>*/}
-            {/*    {accommodations?.map(accommodation => (*/}
-            {/*        <tr>*/}
-            {/*            <th>*/}
-            {/*                <button onClick={() => navigate(`${accommodation.id}`)} className="btn btn-success mb-2">Edit</button>*/}
-            {/*                <button className="btn btn-danger">Disable</button>*/}
-            {/*            </th>*/}
-            {/*            <th>{accommodation.id}</th>*/}
-            {/*            <th>{accommodation.name}</th>*/}
-            {/*            <th>{accommodation.capacity}</th>*/}
-            {/*            <th>{accommodation.city.name}</th>*/}
-            {/*            <th>{accommodation.description}</th>*/}
-            {/*            /!*<th>{accommodation.image_url.image_url}</th>*!/*/}
-            {/*        </tr>*/}
-            {/*    ))}*/}
-            {/*    </tbody>*/}
-            {/*</table>*/}
+            <Alert alertData={alert} alertCallBack={setAlert}/>
         </div>
     )
 }

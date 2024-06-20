@@ -11,11 +11,7 @@ export default function PaymentForm({reservationData, roomId, checkIn, checkOut,
     const elements = useElements();
 
     const [isProcessing, setIsProcessing] = useState(false);
-
-    const [showAlert, setShowAlert] = useState(false);
-    const [alertColor, setAlertColor] = useState("");
-    const [alertContent, setAlertContent] = useState("");
-
+    const [alert, setAlert] = useState([]);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -30,7 +26,7 @@ export default function PaymentForm({reservationData, roomId, checkIn, checkOut,
                 setIsProcessing(true);
                 getRoomBySearch(roomId, housingName, city, checkIn, checkOut).then(async room => {
                     if (room.message !== "room not found") {
-                        if (currentRoom.price === room.price && currentRoom.type.name === room.type.name){
+                        if (currentRoom.price === room.price && currentRoom.type.name === room.type.name) {
                             const {error, paymentIntent} = await stripe.confirmPayment({
                                 elements,
                                 confirmParams: {
@@ -44,23 +40,26 @@ export default function PaymentForm({reservationData, roomId, checkIn, checkOut,
                                 await addReservation(reservationData);
                                 navigate("/");
                             } else {
-                                setAlertContent("Payment failed, please try again later!");
-                                setAlertColor("danger");
-                                setShowAlert(true);
+                                setAlert([...alert, {
+                                    content: "Payment failed, please try again later!",
+                                    type: "danger"
+                                }]);
                             }
                         } else {
-                            setAlertContent("Room price or type has been changed, you will be send to the main page shortly!!");
-                            setAlertColor("danger");
-                            setShowAlert(true);
+                            setAlert([...alert, {
+                                content: "Room price or type has been changed, you will be send to the main page shortly!",
+                                type: "danger"
+                            }]);
 
                             setTimeout(() => {
                                 navigate("/");
                             }, 5000)
                         }
                     } else {
-                        setAlertContent("Room has been bought or has been updated! We will redirect you to the home page shortly!");
-                        setAlertColor("danger");
-                        setShowAlert(true);
+                        setAlert([...alert, {
+                            content: "Room has been bought or has been updated! We will redirect you to the home page shortly!",
+                            type: "danger"
+                        }]);
 
                         setTimeout(() => {
                             navigate("/");
@@ -82,9 +81,7 @@ export default function PaymentForm({reservationData, roomId, checkIn, checkOut,
               {isProcessing ? "Processing ... " : "Pay now"}
             </span>
             </button>
-            {
-                showAlert && <Alert color={alertColor} content={alertContent} callBack={setShowAlert}/>
-            }
+            <Alert alertData={alert} alertCallBack={setAlert}/>
         </form>
     );
 }

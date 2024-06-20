@@ -54,7 +54,7 @@ public class AccommodationService {
     }
 
     public Response addAccommodation(AccommodationDTO accommodationDTO) {
-        if (accommodationRepository.findAll().stream().noneMatch(c -> c.getName().equals(accommodationDTO.name()) && c.getCity().getId().equals(accommodationDTO.city().getId()))) {
+        if (accommodationRepository.findAll().stream().filter(a -> !a.getDisabled()).noneMatch(c -> c.getName().equals(accommodationDTO.name()) && c.getCity().getId().equals(accommodationDTO.city().getId()))) {
             if (accommodationDTO.capacity() >= 1) {
                 Accommodation accommodation = Accommodation.builder()
                         .name(accommodationDTO.name())
@@ -63,6 +63,7 @@ public class AccommodationService {
                         .city(accommodationDTO.city())
                         .accommodation_facilities(accommodationDTO.accommodation_facilities())
                         .rating(0d)
+                        .disabled(false)
                         .build();
                 return Response.builder().content("Accommodation added successfully").type("success").object(accommodationRepository.save(accommodation)).build();
             } else {
@@ -97,12 +98,14 @@ public class AccommodationService {
 
     public Response updateAccommodation(AccommodationDTO updatedAccommodation, Long id) {
         Accommodation currentAccommodation = accommodationRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Accommodation not found"));
-        List<Accommodation> accommodations = accommodationRepository.findByNameAndCityName(updatedAccommodation.name(), updatedAccommodation.city().getName());
+        List<Accommodation> accommodations = new ArrayList<>(accommodationRepository.findByNameAndCityName(updatedAccommodation.name(), updatedAccommodation.city().getName()).stream().filter(a -> !a.getDisabled()).toList());
+        List<Room> rooms = currentAccommodation.getRooms().stream().filter(r -> !r.getDisabled()).toList();
+
         accommodations.remove(currentAccommodation);
         if (!accommodations.isEmpty()) {
             return Response.builder().content("Accommodation with this name in this location already exists").type("warning").build();
         } else {
-            if (updatedAccommodation.capacity() < currentAccommodation.getRooms().size()) {
+            if (updatedAccommodation.capacity() < rooms.size()) {
                 return Response.builder().content("Accommodation capacity can't be lower than the number of rooms").type("danger").build();
             } else {
                 currentAccommodation.setAccommodation_facilities(updatedAccommodation.accommodation_facilities());
@@ -113,6 +116,25 @@ public class AccommodationService {
                 accommodationRepository.save(currentAccommodation);
                 return Response.builder().content("Accommodation updated successfully").type("success").build();
             }
+        }
+    }
+
+    public Response disableOrEnableAccommodation (Long id) {
+        Accommodation accommodation = accommodationRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Accommodation not found"));
+        List<Accommodation> accommodations = accommodationRepository.findByNameAndCityName(accommodation.getName(), accommodation.getCity().getName()).stream().filter(a -> !a.getDisabled()).toList();
+
+        if (accommodation.getDisabled()){
+            if (!accommodations.isEmpty()){
+                return Response.builder().content("Accommodation with this name in this city already exists").type("warning").build();
+            } else {
+                accommodation.setDisabled(false);
+                accommodationRepository.save(accommodation);
+                return Response.builder().content("Accommodation enabled successfully").type("success").build();
+            }
+        } else {
+            accommodation.setDisabled(true);
+            accommodationRepository.save(accommodation);
+            return Response.builder().content("Accommodation disabled successfully").type("success").build();
         }
     }
 

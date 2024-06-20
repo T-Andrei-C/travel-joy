@@ -29,7 +29,7 @@ const Pagination = ({travelBundles, link, numberOfPage}) => {
             }
         }
     }, [numberOfPage])
-    console.log(travelBundles)
+
     return (
         <div className="d-flex justify-content-evenly mt-5">
             <ul className="pagination">

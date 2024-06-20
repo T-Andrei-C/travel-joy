@@ -11,7 +11,7 @@ export const getAllAccommodationById = async (id) => {
 }
 
 export const getAccommodationsPerPage = async (itemsPerPage, numberOfPage) => {
-    const request = await  fetch(`${API_URL}accommodations/${itemsPerPage}/${numberOfPage}`);
+    const request = await fetch(`${API_URL}accommodations/${itemsPerPage}/${numberOfPage}`);
     return await request.json();
 }
 
@@ -43,6 +43,13 @@ export const addAccommodation = async (accommodation) => {
             "Content-Type": "application/json"
         },
         body: JSON.stringify(accommodation)
+    })
+    return await request.json();
+}
+
+export const disableOrEnableAccommodation = async (accommodationId) => {
+    const request = await fetch(`${API_URL}accommodations/accommodation/${accommodationId}/disableOrEnable`, {
+        method: "PATCH"
     })
     return await request.json();
 }

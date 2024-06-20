@@ -52,6 +52,13 @@ export const addRoom = async (room, accommodationId) => {
     return await request.json();
 }
 
+export const disableOrEnableRoom = async (roomId) => {
+    const request = await fetch(`${API_URL}rooms/room/${roomId}/disableOrEnable`, {
+        method: "PATCH",
+    })
+    return await request.json();
+}
+
 export const updateRoomType = async (id, updatedRoomType) => {
     const request = await fetch(`${API_URL}roomTypes/${id}`, {
         method: "PATCH",

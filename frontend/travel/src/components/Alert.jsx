@@ -1,6 +1,4 @@
 const Alert = ({alertData, alertCallBack}) => {
-    console.log(alertData)
-
     const removeAlert = (i) => {
         const alerts = [...alertData];
         alerts.splice(i, 1);

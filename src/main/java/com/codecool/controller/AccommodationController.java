@@ -54,6 +54,11 @@ public class AccommodationController {
         return accommodationService.addAccommodation(accommodationDTO);
     }
 
+    @PatchMapping("accommodation/{id}/disableOrEnable")
+    public Response disableOrEnableAccommodation(@PathVariable Long id){
+        return accommodationService.disableOrEnableAccommodation(id);
+    }
+
     @PatchMapping("accommodation/{id}")
     public Response updateAccommodation(@PathVariable Long id, @RequestBody AccommodationDTO updatedAccommodation){
         return accommodationService.updateAccommodation(updatedAccommodation, id);

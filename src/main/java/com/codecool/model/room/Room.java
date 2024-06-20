@@ -26,6 +26,8 @@ public class Room {
 
     private Long price;
 
+    private Boolean disabled;
+
     @JsonManagedReference
     @ManyToOne
     private Accommodation accommodation;

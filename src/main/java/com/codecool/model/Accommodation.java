@@ -26,6 +26,8 @@ public class Accommodation {
 
     private String image_value;
 
+    private Boolean disabled;
+
     @ManyToOne
     private City city;
 
