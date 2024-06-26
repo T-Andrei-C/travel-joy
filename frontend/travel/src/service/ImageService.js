@@ -1,6 +1,6 @@
-export const verifyFile = (e, alertDataCallback) => {
+const verifyFile = (e, alertDataCallback) => {
     const file = e.target.files[0];
-    if (file !== undefined){
+    if (file !== undefined) {
         if (file.type !== "image/png" && file.type !== "image/jpeg") {
             e.target.value = "";
             alertDataCallback(current => [...current, {
@@ -8,27 +8,55 @@ export const verifyFile = (e, alertDataCallback) => {
                 type: "warning"
             }])
         } else {
-            if (file.size > 10485760){
+            if (file.size > 10485760) {
                 e.target.value = "";
                 alertDataCallback(current => [...current, {
                     content: "file size is way too big",
                     type: "warning"
                 }])
+            } else {
+                return file;
             }
         }
     }
 }
 
-export const retrieveRoomImageFiles = (formData) => {
-    const images = [];
-    for (let i = 0; i < 6; i++) {
-        if (formData.get(`file-${i}`).type === "image/png" || formData.get(`file-${i}`).type === "image/jpeg") {
-            const image = {
+export const handleAccommodationImage = (e, alertDataCallback, setFile, setImageUrl, setOpenCrop) => {
+    const file = verifyFile(e, alertDataCallback);
+    if (file) {
+        setFile(file);
+        setImageUrl(URL.createObjectURL(file))
+        setOpenCrop(true);
+    }
+    e.target.value = "";
+}
+
+export const handleRoomImages = (e, i, alertDataCallback, images, setImages, setCurrentImage, setOpenCrop) => {
+    const file = verifyFile(e, alertDataCallback);
+    if (file) {
+        const image = images.filter(img => img.index === i);
+
+        if (image.length !== 0) {
+            const imagesCopy = [...images].filter(img => img.index !== i);
+            const newImage = {
                 index: i,
-                file: formData.get(`file-${i}`)
+                file: file,
+                imageUrl: URL.createObjectURL(file)
             }
-            images.push(image);
+            imagesCopy.push(newImage)
+            setImages(imagesCopy);
+            setCurrentImage(newImage);
+            setOpenCrop(true);
+        } else {
+            const newImage = {
+                index: i,
+                file: file,
+                imageUrl: URL.createObjectURL(file)
+            }
+            setImages([...images, newImage]);
+            setCurrentImage(newImage);
+            setOpenCrop(true);
         }
     }
-    return images;
+    e.target.value = "";
 }

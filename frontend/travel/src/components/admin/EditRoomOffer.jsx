@@ -8,6 +8,7 @@ import {
 import {useNavigate, useParams} from "react-router-dom";
 import {getAllDiscounts} from "../../service/CRUDDiscounts";
 import Alert from "../Alert";
+import FormInput from "../FormInput";
 
 const EditRoomOffer = () => {
 
@@ -84,11 +85,8 @@ const EditRoomOffer = () => {
     return (
         <form onSubmit={onSubmit}>
             <div className="col-12 d-flex justify-content-between">
-                <div className="form-floating mb-4 col-2 pe-2">
-                    <label className="pt-1 text-success fw-bold" style={{fontSize: "0.75em"}}
-                           htmlFor="floatingInputValue">ID</label>
-                    <input disabled type="text" name="id" className="form-control form-control-lg border-success"
-                           required={true} defaultValue={roomOffer?.id} style={{fontSize: "1.1em"}}/>
+                <div className="col-2 pe-2">
+                    <FormInput defaultValue={roomOffer?.id} type="text" name="id" content="ID" disabled={true}/>
                 </div>
                 <div className="ps-2 pe-2 col-5 pb-4">
                     <select className="bg-success text-white col-12 h-100 rounded p-2" name="type">

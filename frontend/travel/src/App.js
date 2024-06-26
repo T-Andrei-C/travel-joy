@@ -31,6 +31,7 @@ import ViewRoomOfferTypes from "./components/admin/ViewRoomOfferTypes";
 import ViewDiscounts from "./components/admin/ViewDiscounts";
 import ViewCities from "./components/admin/ViewCities";
 import ViewRoomTypes from "./components/admin/ViewRoomTypes";
+import ImageCropper from "./components/admin/ImageCropper";
 
 const router = createBrowserRouter(
     createRoutesFromElements(

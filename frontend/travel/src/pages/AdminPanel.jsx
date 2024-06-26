@@ -79,7 +79,7 @@ const AdminPanel = () => {
                     </ul>
                 </div>
             </div>
-            <div className="col-xl-11 col-10 p-3">
+            <div className="col-xl-11 col-10 p-3 position-relative">
                 <Outlet/>
             </div>
         </nav>

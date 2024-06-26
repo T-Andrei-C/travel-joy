@@ -1,11 +1,12 @@
 import FormInput from "../FormInput";
-import {FaEdit, FaPlus} from "react-icons/fa";
 import Alert from "../Alert";
 import {useEffect, useState} from "react";
-import {addRoom, addRoomImage, getAllRoomTypes, updateRoom} from "../../service/CRUDRooms";
+import {addRoom, addRoomImage, getAllRoomTypes} from "../../service/CRUDRooms";
 import {getAllRoomFacilities} from "../../service/CRUDRoomFacilities";
 import {useNavigate, useParams} from "react-router-dom";
-import {retrieveRoomImageFiles, verifyFile} from "../../service/ImageService";
+import RoomImageCropper from "./RoomImageCropper";
+import ViewAndAddRoomImages from "./ViewAndAddRoomImages";
+import ViewAndChooseFacilities from "./ViewAndChooseFacilities";
 
 const AddRoom = () => {
 
@@ -13,6 +14,10 @@ const AddRoom = () => {
     const [roomFacilities, setRoomFacilities] = useState(null);
     const [chosenFacilities, setChosenFacilities] = useState([]);
     const [alert, setAlert] = useState([]);
+    const [addFacility, setAddFacility] = useState(false);
+    const [images, setImages] = useState([]);
+    const [openCrop, setOpenCrop] = useState(false);
+    const [currentImage, setCurrentImage] = useState(null);
     const {id} = useParams();
     const navigate = useNavigate();
 
@@ -41,7 +46,6 @@ const AddRoom = () => {
                 price: roomPrice,
                 room_facilities: chosenFacilities
             }
-            const images = retrieveRoomImageFiles(formData);
 
             if (room.type.id === "Select a room type"){
                 setAlert([...alert, {
@@ -107,58 +111,32 @@ const AddRoom = () => {
                     <FormInput content="PRICE" type="number" name="price"/>
                 </div>
             </div>
-            <div className="row row-cols-xl-3 row-cols-lg-3 row-cols-md-2 row-cols-1 mb-4 mx-auto">
-                {
-                    Array.from(Array(6).keys()).map((i) => (
-                        <div className="my-2">
-                            <input className="btn btn-success col-12" type="file" name={`file-${i}`}
-                                   accept=".png, .jpeg"
-                                   onChange={(e) => verifyFile(e, setAlert)}/>
-                        </div>
-                    ))
-                }
-            </div>
+            <ViewAndAddRoomImages
+                setImages={setImages}
+                setAlert={setAlert}
+                setOpenCrop={setOpenCrop}
+                images={images}
+                setCurrentImage={setCurrentImage}
+                roomId={0}
+            />
             <div className="d-flex justify-content-center">
                 <div className="mt-xl-0 mt-lg-0 mt-md-0 mt-3 col-12 col-xl-8 col-lg-8 col-md-8">
-                    <div className="col-12 border-success border rounded p-3">
-                        <div
-                            className="d-flex justify-content-center row row-cols-xl-4 row-cols-md-2 row-cols-lg-4 row-cols-sm-2">
-                            <h3 className="text-center me-3">Facilities</h3>
-                            <div className="dropdown">
-                                <button className="btn btn-success dropdown-toggle" type="button"
-                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                    Choose facility
-                                </button>
-                                <ul className="dropdown-menu">
-                                    {
-                                        roomFacilities?.map(facility => (
-                                            <li>
-                                                <button type="button" onClick={addRoomFacility}
-                                                        className="dropdown-item"
-                                                        value={facility.id}>{facility.name}</button>
-                                            </li>
-                                        ))
-                                    }
-                                </ul>
-                            </div>
-                        </div>
-                        {
-                            chosenFacilities.map(f => (
-                                <div className="bg-success rounded p-1 d-flex justify-content-between mt-1">
-                                    <div className="ps-2">
-                                        <h6 className="text-white m-1">{f.name}</h6>
-                                    </div>
-                                    <button type="button" value={f.id} onClick={removeRoomFacility}
-                                            className="btn-close-white btn-close"></button>
-                                </div>
-                            ))
-                        }
-                    </div>
+                    <ViewAndChooseFacilities
+                        facilities={chosenFacilities}
+                        addFacility={addRoomFacility}
+                        removeFacility={removeRoomFacility}
+                        nonMatchingFacilities={roomFacilities}
+                        addingFacility={addFacility}
+                        setAddingFacility={setAddFacility}
+                    />
                 </div>
             </div>
             <div className="d-flex justify-content-center mt-3">
                 <button className="btn btn-success" type="submit">Add room</button>
             </div>
+            {
+                openCrop && <RoomImageCropper image={currentImage} setOpenCrop={setOpenCrop} setImages={setImages} images={images} setImage={setCurrentImage}/>
+            }
             <Alert alertData={alert} alertCallBack={setAlert}/>
         </form>
     )

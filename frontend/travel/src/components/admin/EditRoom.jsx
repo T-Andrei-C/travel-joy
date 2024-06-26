@@ -1,15 +1,15 @@
 import {useEffect, useState} from "react";
-import {addRoomImage, getAllRoomTypes, getRoomById, getRoomImage, updateRoom} from "../../service/CRUDRooms";
+import {addRoomImage, getAllRoomTypes, getRoomById, updateRoom} from "../../service/CRUDRooms";
 import {useNavigate, useParams} from "react-router-dom";
 import FormInput from "../FormInput";
-import {FaEdit, FaPlus} from "react-icons/fa";
+import {FaPlus} from "react-icons/fa";
 import {deleteRoomOffer, getRoomOffersByRoomId} from "../../service/CRUDTravelPackages";
 import {getAllNonMatchingRoomFacilities} from "../../service/CRUDRoomFacilities";
 import Alert from "../Alert";
-import {retrieveRoomImageFiles, verifyFile} from "../../service/ImageService";
-import RomaniaMap from "../img/RomaniaMap.svg";
-import {FaDeleteLeft} from "react-icons/fa6";
 import {MdDelete} from "react-icons/md";
+import ViewAndAddRoomImages from "./ViewAndAddRoomImages";
+import RoomImageCropper from "./RoomImageCropper";
+import ViewAndChooseFacilities from "./ViewAndChooseFacilities";
 
 const EditRoom = () => {
 
@@ -19,7 +19,10 @@ const EditRoom = () => {
     const [addFacility, setAddFacility] = useState(false);
     const [nonMatchingFacilities, setNonMatchingFacilities] = useState(null);
     const [alert, setAlert] = useState([]);
-    const [changedAccommodation, setChangedAccommodation] = useState(null);
+    const [images, setImages] = useState([]);
+    const [openCrop, setOpenCrop] = useState(false);
+    const [currentImage, setCurrentImage] = useState(null);
+    const [changedRoom, setChangedRoom] = useState(null);
     const {roomId} = useParams();
     const navigate = useNavigate();
 
@@ -44,7 +47,7 @@ const EditRoom = () => {
         room.room_facilities.push(facility);
         nonMatchingFacilities.splice(nonMatchingFacilities.indexOf(facility), 1);
 
-        setChangedAccommodation(`updated facilities with ${e.target.value}`);
+        setChangedRoom(`updated facilities with ${e.target.value}`);
     }
 
     const removeRoomFacility = (e) => {
@@ -53,7 +56,7 @@ const EditRoom = () => {
         room.room_facilities.splice(room.room_facilities.indexOf(facility), 1);
         nonMatchingFacilities.push(facility);
 
-        setChangedAccommodation(`removed facility ${e.target.value}`);
+        setChangedRoom(`removed facility ${e.target.value}`);
     }
 
     const removeRoomOffer = (offerId, i) => {
@@ -79,8 +82,6 @@ const EditRoom = () => {
             room.type = {id: formData.get("type")};
             room.price = roomPrice;
 
-            const images = retrieveRoomImageFiles(formData);
-
             updateRoom(roomId, room).then(response => {
                 images.map((image, index) => {
                     const imageFormData = new FormData();
@@ -95,11 +96,8 @@ const EditRoom = () => {
     return (
         <form onSubmit={onSubmit}>
             <div className="col-12 d-flex flex-wrap">
-                <div className="form-floating mb-4 col-2 pe-2">
-                    <label className="pt-1 text-success fw-bold" style={{fontSize: "0.75em"}}
-                           htmlFor="floatingInputValue">ID</label>
-                    <input disabled type="text" name="id" className="form-control form-control-lg border-success"
-                           required={true} defaultValue={room?.id} style={{fontSize: "1.1em"}}/>
+                <div className="col-2 pe-2">
+                    <FormInput defaultValue={room?.id} type="text" name="id" content="ID" disabled={true}/>
                 </div>
                 <div className="ps-2 pe-2 col-5 pb-4">
                     <select className="bg-success text-white col-12 h-100 rounded p-2" name="type">
@@ -115,21 +113,14 @@ const EditRoom = () => {
                     <FormInput defaultValue={room?.price} content="PRICE" type="number" name="price"/>
                 </div>
             </div>
-            <div className="row row-cols-xl-3 row-cols-lg-3 row-cols-md-2 row-cols-1 mb-4 mx-auto">
-                {
-                    Array.from(Array(6).keys()).map((i) => (
-                            <div className="border border-success">
-                                <img src={getRoomImage(roomId, i)} className="img-fluid col-12 mt-2"
-                                     alt={`room-${roomId}-image`}
-                                     onError={(e) => e.target.src = "https://artsmidnorthcoast.com/wp-content/uploads/2014/05/no-image-available-icon-6.png"}/>
-                                <input className="btn btn-success col-12 mt-2 mb-2" type="file" name={`file-${i}`}
-                                       accept=".png, .jpeg"
-                                       onChange={(e) => verifyFile(e, setAlert)}/>
-                            </div>
-                        )
-                    )
-                }
-            </div>
+            <ViewAndAddRoomImages
+                setImages={setImages}
+                setAlert={setAlert}
+                setOpenCrop={setOpenCrop}
+                images={images}
+                setCurrentImage={setCurrentImage}
+                roomId={roomId}
+            />
             <div className="col-12 row p-0 m-0 row-cols-xl-2 row-cols-lg-2 row-cols-md-2 row-cols-1">
                 <div className="mb-xl-0 mb-lg-0 mb-md-0 mb-2">
                     <div className="col-12 border-success border rounded p-3">
@@ -156,52 +147,22 @@ const EditRoom = () => {
                     </div>
                 </div>
                 <div className="mt-xl-0 mt-lg-0 mt-md-0 mt-3">
-                    <div className="col-12 border-success border rounded p-3">
-                        <div
-                            className="d-flex justify-content-center row row-cols-xl-4 row-cols-md-2 row-cols-lg-4 row-cols-sm-2">
-                            <h3 className="text-center me-3">Facilities</h3>
-                            {
-                                addFacility
-                                    ?
-                                    <div className="dropdown">
-                                        <button className="btn btn-success dropdown-toggle" type="button"
-                                                data-bs-toggle="dropdown" aria-expanded="false">
-                                            Choose facility
-                                        </button>
-                                        <ul className="dropdown-menu">
-                                            {
-                                                nonMatchingFacilities?.map(facility => (
-                                                    <li>
-                                                        <button type="button" onClick={addRoomFacility}
-                                                                className="dropdown-item"
-                                                                value={facility.id}>{facility.name}</button>
-                                                    </li>
-                                                ))
-                                            }
-                                        </ul>
-                                    </div>
-                                    : <button onClick={() => setAddFacility(true)} type="button"
-                                              className="btn-success btn btn-sm m-1" style={{width: "2.5em"}}><FaPlus/>
-                                    </button>
-                            }
-                        </div>
-                        {
-                            room?.room_facilities.map(f => (
-                                <div className="bg-success rounded p-1 d-flex justify-content-between mt-1">
-                                    <div className="ps-2">
-                                        <h6 className="text-white m-1">{f.name}</h6>
-                                    </div>
-                                    <button type="button" value={f.id} onClick={removeRoomFacility}
-                                            className="btn-close-white btn-close"></button>
-                                </div>
-                            ))
-                        }
-                    </div>
+                    <ViewAndChooseFacilities
+                        facilities={room?.room_facilities}
+                        addFacility={addRoomFacility}
+                        removeFacility={removeRoomFacility}
+                        nonMatchingFacilities={nonMatchingFacilities}
+                        addingFacility={addFacility}
+                        setAddingFacility={setAddFacility}
+                    />
                 </div>
             </div>
             <div className="d-flex justify-content-center mt-3">
                 <button className="btn btn-success" type="submit">Save</button>
             </div>
+            {
+                openCrop && <RoomImageCropper image={currentImage} setOpenCrop={setOpenCrop} setImages={setImages} images={images} setImage={setCurrentImage}/>
+            }
             <Alert alertData={alert} alertCallBack={setAlert}/>
         </form>
     )

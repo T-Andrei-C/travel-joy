@@ -1,7 +1,7 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {
-    addAccommodationImage, checkAccommodationCapacity,
+    addAccommodationImage,
     getAccommodationImage,
     getAllAccommodationById,
     updateAccommodation
@@ -9,11 +9,13 @@ import {
 import FormInput from "../FormInput";
 import {getCities} from "../../service/CRUDCity";
 import {FaEdit, FaPlus} from "react-icons/fa";
-import {disableOrEnableRoom, getRoomImage, getRoomsByAccommodationId} from "../../service/CRUDRooms";
+import {disableOrEnableRoom, getRoomsByAccommodationId} from "../../service/CRUDRooms";
 import {getAllNonMatchingAccommodationFacilities} from "../../service/CRUDAccommodationFacilities";
 import Alert from "../Alert";
-import {verifyFile} from "../../service/ImageService";
+import {handleAccommodationImage} from "../../service/ImageService";
 import CheckboxInput from "./CheckboxInput";
+import ImageCropper from "./ImageCropper";
+import ViewAndChooseFacilities from "./ViewAndChooseFacilities";
 
 const EditHotel = () => {
     const [accommodation, setAccommodation] = useState(null);
@@ -24,6 +26,9 @@ const EditHotel = () => {
     const [addFacility, setAddFacility] = useState(false);
     const [changedAccommodation, setChangedAccommodation] = useState(null);
     const [alert, setAlert] = useState([]);
+    const [file, setFile] = useState(null);
+    const [imageUrl, setImageUrl] = useState(null);
+    const [openCrop, setOpenCrop] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -68,20 +73,22 @@ const EditHotel = () => {
     const onSubmit = (e) => {
         e.preventDefault();
         const formData = new FormData(e.target);
-        const capacity = formData.get("capacity");
 
-        accommodation.capacity = capacity;
+        accommodation.capacity = formData.get("capacity");
         accommodation.description = formData.get("description");
         accommodation.name = formData.get("name");
         accommodation.city = cities.find(city => city.id === parseInt(formData.get("city")));
 
         updateAccommodation(id, accommodation).then(accommodationResponse => {
-            if (formData.get("file").type === "image/png" || formData.get("file").type === "image/jpeg") {
-                const imageFormData = new FormData();
-                imageFormData.append("file", formData.get("file"));
-                addAccommodationImage(accommodation.id, imageFormData).then((response) => {
-                    setAlert([...alert, response, accommodationResponse]);
-                })
+            if (file !== null) {
+                if (file.type === "image/png" || file.type === "image/jpeg") {
+                    const imageFormData = new FormData();
+                    imageFormData.append("file", file);
+
+                    addAccommodationImage(accommodation.id, imageFormData).then((response) => {
+                        setAlert([...alert, response, accommodationResponse]);
+                    })
+                }
             } else {
                 setAlert([...alert, accommodationResponse]);
             }
@@ -91,11 +98,8 @@ const EditHotel = () => {
     return (
         <form onSubmit={onSubmit}>
             <div className="col-12 d-flex justify-content-between">
-                <div className="form-floating mb-4 col-6 pe-2">
-                    <label className="pt-1 text-success fw-bold" style={{fontSize: "0.75em"}}
-                           htmlFor="floatingInputValue">ID</label>
-                    <input disabled type="text" name="id" className="form-control form-control-lg border-success"
-                           required={true} defaultValue={accommodation?.id} style={{fontSize: "1.1em"}}/>
+                <div className="col-6 pe-2">
+                    <FormInput defaultValue={accommodation?.id} type="text" name="id" content="ID" disabled={true}/>
                 </div>
                 <div className="col-6 ps-2">
                     <FormInput defaultValue={accommodation?.name} content="NAME" type="text" name="name"/>
@@ -117,11 +121,12 @@ const EditHotel = () => {
             </div>
             <div className="d-flex justify-content-center mb-4 mx-auto">
                 <div className="col-xl-4 col-lg-5 col-md-6 col-sm-8 col-12">
-                    <img src={getAccommodationImage(accommodation?.id)} className="img-fluid col-12 mb-2"
+                    <img src={imageUrl !== null ? `${imageUrl}` : getAccommodationImage(accommodation?.id)}
+                         className="img-fluid col-12 mb-2"
                          alt=""
                          onError={(e) => e.target.src = "https://artsmidnorthcoast.com/wp-content/uploads/2014/05/no-image-available-icon-6.png"}/>
-                    <input className="btn btn-success col-12" type="file" name="file" accept=".png, .jpeg"
-                           onChange={(e) => verifyFile(e, setAlert)}/>
+                    <input className="btn btn-success col-12" type="file" name="file" accept=".png, .jpg"
+                           onChange={(e) => handleAccommodationImage(e, setAlert, setFile, setImageUrl, setOpenCrop)}/>
                 </div>
             </div>
             <textarea name="description" placeholder="Description..."
@@ -145,7 +150,8 @@ const EditHotel = () => {
                                     <div className="d-xl-flex d-lg-flex d-block">
                                         <button type="button" onClick={() => navigate(`room/${room.id}`)}
                                                 className="text-white fs-5 btn btn-sm mb-1"><FaEdit/></button>
-                                        <CheckboxInput onChange={disableOrEnable} id={room.id} value={room.disabled} className="m-xl-auto m-lg-auto m-0"/>
+                                        <CheckboxInput onChange={disableOrEnable} id={room.id} value={room.disabled}
+                                                       className="m-xl-auto m-lg-auto m-0"/>
                                     </div>
                                 </div>
                             ))
@@ -153,52 +159,23 @@ const EditHotel = () => {
                     </div>
                 </div>
                 <div className="mt-xl-0 mt-lg-0 mt-md-0 mt-3">
-                    <div className="col-12 border-success border rounded p-3">
-                        <div
-                            className="d-flex justify-content-center row row-cols-xl-4 row-cols-md-2 row-cols-lg-4 row-cols-sm-2">
-                            <h3 className="text-center me-3">Facilities</h3>
-                            {
-                                addFacility
-                                    ?
-                                    <div className="dropdown">
-                                        <button className="btn btn-success dropdown-toggle" type="button"
-                                                data-bs-toggle="dropdown" aria-expanded="false">
-                                            Choose facility
-                                        </button>
-                                        <ul className="dropdown-menu">
-                                            {
-                                                nonMatchingFacilities?.map(facility => (
-                                                    <li>
-                                                        <button type="button" onClick={addAccommodationFacility}
-                                                                className="dropdown-item"
-                                                                value={facility.id}>{facility.name}</button>
-                                                    </li>
-                                                ))
-                                            }
-                                        </ul>
-                                    </div>
-                                    : <button onClick={() => setAddFacility(true)} type="button"
-                                              className="btn-success btn btn-sm m-1" style={{width: "2.5em"}}><FaPlus/>
-                                    </button>
-                            }
-                        </div>
-                        {
-                            accommodation?.accommodation_facilities.map(f => (
-                                <div className="bg-success rounded p-1 d-flex justify-content-between mt-1">
-                                    <div className="ps-2">
-                                        <h6 className="text-white m-1">{f.name}</h6>
-                                    </div>
-                                    <button type="button" value={f.id} onClick={removeAccommodationFacility}
-                                            className="btn-close-white btn-close"></button>
-                                </div>
-                            ))
-                        }
-                    </div>
+                    <ViewAndChooseFacilities
+                        facilities={accommodation?.accommodation_facilities}
+                        addFacility={addAccommodationFacility}
+                        removeFacility={removeAccommodationFacility}
+                        nonMatchingFacilities={nonMatchingFacilities}
+                        addingFacility={addFacility}
+                        setAddingFacility={setAddFacility}
+                    />
                 </div>
             </div>
             <div className="d-flex justify-content-center mt-3">
                 <button className="btn btn-success" type="submit">Save</button>
             </div>
+            {
+                openCrop && <ImageCropper setOpenCrop={setOpenCrop} photoUrl={imageUrl} setPhotoUrl={setImageUrl}
+                                          setFile={setFile}/>
+            }
             <Alert alertData={alert} alertCallBack={setAlert}/>
         </form>
     )

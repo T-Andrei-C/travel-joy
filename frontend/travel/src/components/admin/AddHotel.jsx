@@ -3,9 +3,11 @@ import Alert from "../Alert";
 import {useEffect, useState} from "react";
 import {getCities} from "../../service/CRUDCity";
 import {getAllAccommodationFacilities} from "../../service/CRUDAccommodationFacilities";
-import {addAccommodation, addAccommodationImage} from "../../service/CRUDAccommodations";
-import {verifyFile} from "../../service/ImageService";
+import {addAccommodation, addAccommodationImage, getAccommodationImage} from "../../service/CRUDAccommodations";
 import {useNavigate} from "react-router-dom";
+import ImageCropper from "./ImageCropper";
+import {handleAccommodationImage} from "../../service/ImageService";
+import ViewAndChooseFacilities from "./ViewAndChooseFacilities";
 
 const AddHotel = () => {
 
@@ -13,6 +15,10 @@ const AddHotel = () => {
     const [accommodationFacilities, setAccommodationFacilities] = useState(null);
     const [chosenFacilities, setChosenFacilities] = useState([]);
     const [alert, setAlert] = useState([]);
+    const [addFacility, setAddFacility] = useState(false);
+    const [file, setFile] = useState(null);
+    const [imageUrl, setImageUrl] = useState(null);
+    const [openCrop, setOpenCrop] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -47,7 +53,7 @@ const AddHotel = () => {
             accommodation_facilities: chosenFacilities
         }
 
-        if (accommodation.city.id === "Select a city"){
+        if (accommodation.city.id === "Select a city") {
             setAlert([...alert, {
                 content: "please select a city",
                 type: "warning"
@@ -55,11 +61,20 @@ const AddHotel = () => {
             return;
         }
 
-        if (formData.get("file").type === "image/png" || formData.get("file").type === "image/jpeg") {
+        if (file === null) {
+            setAlert([...alert, {
+                content: "photo missing for the accommodation",
+                type: "danger"
+            }]);
+            return;
+        }
+
+        if (file.type === "image/png" || file.type === "image/jpeg") {
             addAccommodation(accommodation).then(accommodationResponse => {
                 const imageFormData = new FormData();
-                imageFormData.append("file", formData.get("file"));
-                if (accommodationResponse.object !== null){
+                imageFormData.append("file", file);
+
+                if (accommodationResponse.object !== null) {
                     addAccommodationImage(accommodationResponse.object.id, imageFormData).then(response => {
                         setAlert([...alert, response, accommodationResponse]);
                     })
@@ -70,21 +85,16 @@ const AddHotel = () => {
                     setAlert([...alert, accommodationResponse]);
                 }
             })
-        } else {
-            setAlert([...alert, {
-                content: "photo missing for the accommodation",
-                type: "danger"
-            }]);
         }
     }
 
     return (
         <form onSubmit={onSubmit}>
             <div className="col-12 d-flex justify-content-between">
-                <div className="col-6 pe-2">
+                <div className="col-4 pe-2">
                     <FormInput content="NAME" type="text" name="name"/>
                 </div>
-                <div className="ps-2 col-6 pb-4">
+                <div className="ps-2 col-4 pb-4 pe-2">
                     <select className="bg-success text-white col-12 h-100 rounded p-2" name="city">
                         <option selected hidden>Select a city</option>
                         {
@@ -94,14 +104,18 @@ const AddHotel = () => {
                         }
                     </select>
                 </div>
-            </div>
-            <div className="col-12 d-flex justify-content-between">
-                <div className="col-6 pe-2">
+                <div className="ps-2 col-4">
                     <FormInput content="CAPACITY" type="number" name="capacity"/>
                 </div>
-                <div className="col-6 ps-2">
-                <input className="btn btn-success col-12" style={{padding: "0.85em"}} type="file" name="file" accept=".png, .jpeg"
-                       onChange={(e) => verifyFile(e, setAlert)}
+            </div>
+            <div className="d-flex justify-content-center mb-4 mx-auto">
+                <div className="col-xl-4 col-lg-5 col-md-6 col-sm-8 col-12">
+                    {
+                        imageUrl && <img src={imageUrl} className="img-fluid col-12 mb-2" alt=""/>
+                    }
+                    <input className="btn btn-success col-12"
+                           style={{padding: "0.85em"}} type="file" accept=".png, .jpg"
+                           onChange={(e) => handleAccommodationImage(e, setAlert, setFile, setImageUrl, setOpenCrop)}
                     />
                 </div>
             </div>
@@ -111,45 +125,24 @@ const AddHotel = () => {
                       style={{fontSize: "1.1em", resize: "none", height: "10em"}}/>
             <div className="d-flex justify-content-center">
                 <div className="mt-xl-0 mt-lg-0 mt-md-0 mt-3 col-12 col-xl-8 col-lg-8 col-md-8">
-                    <div className="col-12 border-success border rounded p-3">
-                        <div
-                            className="d-flex justify-content-center row row-cols-xl-4 row-cols-md-2 row-cols-lg-4 row-cols-sm-2">
-                            <h3 className="text-center me-3">Facilities</h3>
-                            <div className="dropdown">
-                                <button className="btn btn-success dropdown-toggle" type="button"
-                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                    Choose facility
-                                </button>
-                                <ul className="dropdown-menu">
-                                    {
-                                        accommodationFacilities?.map(facility => (
-                                            <li>
-                                                <button type="button" onClick={addAccommodationFacility}
-                                                        className="dropdown-item"
-                                                        value={facility.id}>{facility.name}</button>
-                                            </li>
-                                        ))
-                                    }
-                                </ul>
-                            </div>
-                        </div>
-                        {
-                            chosenFacilities.map(f => (
-                                <div className="bg-success rounded p-1 d-flex justify-content-between mt-1">
-                                    <div className="ps-2">
-                                        <h6 className="text-white m-1">{f.name}</h6>
-                                    </div>
-                                    <button type="button" value={f.id} onClick={removeAccommodationFacility}
-                                            className="btn-close-white btn-close"></button>
-                                </div>
-                            ))
-                        }
-                    </div>
+                    <ViewAndChooseFacilities
+                        facilities={chosenFacilities}
+                        addFacility={addAccommodationFacility}
+                        removeFacility={removeAccommodationFacility}
+                        nonMatchingFacilities={accommodationFacilities}
+                        addingFacility={addFacility}
+                        setAddingFacility={setAddFacility}
+                    />
                 </div>
             </div>
             <div className="d-flex justify-content-center mt-3">
                 <button className="btn btn-success" type="submit">Add accommodation</button>
             </div>
+            {
+                openCrop &&
+                <ImageCropper setOpenCrop={setOpenCrop} photoUrl={imageUrl} setFile={setFile}
+                              setPhotoUrl={setImageUrl}/>
+            }
             <Alert alertData={alert} alertCallBack={setAlert}/>
         </form>
     )
