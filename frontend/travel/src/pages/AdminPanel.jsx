@@ -1,7 +1,7 @@
 import {NavLink, Outlet} from "react-router-dom";
 import {FaHotel} from "react-icons/fa";
 import {BiSolidBed, BiSolidDiscount} from "react-icons/bi";
-import {MdLocalOffer} from "react-icons/md";
+import {MdLocalOffer, MdOutlineViewCarousel} from "react-icons/md";
 import {FaTreeCity} from "react-icons/fa6";
 import {BsFillHouseCheckFill} from "react-icons/bs";
 import {useEffect, useState} from "react";
@@ -74,6 +74,12 @@ const AdminPanel = () => {
                             <NavLink to="discounts" className="nav-item nav-link text-center">
                                 <p className="m-0 fs-4"><BiSolidDiscount/></p>
                                 <p className="m-0 d-md-block d-none">Discounts</p>
+                            </NavLink>
+                        </button>
+                        <button className="btn btn-success rounded-0">
+                            <NavLink to="carousel" className="nav-item nav-link text-center">
+                                <p className="m-0 fs-2"><MdOutlineViewCarousel /></p>
+                                <p className="m-0 d-md-block d-none">Carousel</p>
                             </NavLink>
                         </button>
                     </ul>

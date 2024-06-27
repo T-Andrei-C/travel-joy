@@ -4,7 +4,7 @@ const CropperModal = ({closeCrop, imageUrl, cropImage, crop, zoom, rotation, set
     return (
         <>
             <span className="w-100 h-100 position-absolute bg-black top-0 start-0 z-2 opacity-50"></span>
-            <dialog className="z-3 position-absolute bg-transparent border-0 col-xl-8 col-lg-8 col-md-8 col-sm-8 col-11"
+            <dialog className="z-3 position-absolute bg-transparent border-0 col-xl-8 col-lg-10 col-md-12 col-sm-12 col-12"
                     style={{top: "5em"}} open>
                 <div className="bg-white border-success border rounded border-1 p-2">
                     <div className="d-flex justify-content-end mb-2">
@@ -25,7 +25,7 @@ const CropperModal = ({closeCrop, imageUrl, cropImage, crop, zoom, rotation, set
                         />
                     </div>
                     <div className="d-flex justify-content-between mt-1">
-                        <h5 className="col-xl-3 col-lg-3 col-md-4 col-sm-5 col-6 pt-1">Zoom {(zoom * 100).toFixed()}%</h5>
+                        <h5 className="col-xl-3 col-lg-3 col-md-3 col-sm-4 col-6 pt-1">Zoom {(zoom * 100).toFixed()}%</h5>
                         <input
                             type="range"
                             value={zoom}
@@ -35,11 +35,11 @@ const CropperModal = ({closeCrop, imageUrl, cropImage, crop, zoom, rotation, set
                             onChange={(e) => {
                                 setZoom(e.target.value)
                             }}
-                            className="col-xl-9 col-lg-9 col-md-8 col-sm-7 col-6 bg-danger"
+                            className="col-xl-9 col-lg-9 col-md-9 col-sm-8 col-6 bg-danger"
                         />
                     </div>
                     <div className="d-flex justify-content-between">
-                        <h5 className="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-7 pt-1">Rotation {rotation}&deg;</h5>
+                        <h5 className="col-xl-3 col-lg-3 col-md-3 col-sm-4 col-7 pt-1">Rotation {rotation}&deg;</h5>
                         <input
                             type="range"
                             value={rotation}
@@ -48,7 +48,7 @@ const CropperModal = ({closeCrop, imageUrl, cropImage, crop, zoom, rotation, set
                             onChange={(e) => {
                                 setRotation(e.target.value)
                             }}
-                            className="col-xl-9 col-lg-9 col-md-8 col-sm-6 col-5"
+                            className="col-xl-9 col-lg-9 col-md-9 col-sm-8 col-5"
                         />
                     </div>
                     <div className="d-flex justify-content-center">

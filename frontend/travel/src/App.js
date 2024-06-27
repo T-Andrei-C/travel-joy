@@ -32,6 +32,7 @@ import ViewDiscounts from "./components/admin/ViewDiscounts";
 import ViewCities from "./components/admin/ViewCities";
 import ViewRoomTypes from "./components/admin/ViewRoomTypes";
 import ImageCropper from "./components/admin/ImageCropper";
+import ViewCarouselImages from "./components/admin/ViewCarouselImages";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -76,6 +77,7 @@ const router = createBrowserRouter(
                 <Route path="/admin/roomOfferTypes" element={<ViewRoomOfferTypes/>}/>
                 <Route path="/admin/discounts" element={<ViewDiscounts/>}/>
                 <Route path="/admin/cities" element={<ViewCities/>}/>
+                <Route path="/admin/carousel" element={<ViewCarouselImages/>}/>
             </Route>
         </>
     )

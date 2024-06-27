@@ -7,7 +7,6 @@ import com.codecool.model.Accommodation;
 import com.codecool.model.Response;
 import com.codecool.model.room.Room;
 import com.codecool.repositories.AccommodationRepository;
-import com.codecool.repositories.ImageRepository;
 import com.codecool.repositories.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,7 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class AccommodationService {
-    private final ImageRepository imageRepository;
+
     @Value("${bucket.name}")
     private String bucketName;
 
