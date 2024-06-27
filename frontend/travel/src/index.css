@@ -1,7 +1,7 @@
-@import "./styles/home.css";
 @import "styles/pagination.css";
 @import "./styles/navBarDropDown.css";
 @import "./styles/checkBoxInput.css";
+@import "./styles/carousel.css";
 
 ::-webkit-scrollbar{
     width: 15px;

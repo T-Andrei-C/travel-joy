@@ -45,9 +45,13 @@ public class CarouselImageService {
 
     public Response deleteCarouselImage(Long id){
         CarouselImage carouselImage = carouselImageRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("carousel image not found"));
-        s3Service.deleteObject(bucketName, "images/carousel/" + carouselImage.getImage_value());
-        carouselImageRepository.delete(carouselImage);
-        return Response.builder().content("Carousel image deleted successfully").type("success").build();
+        if (carouselImageRepository.findAll().size() == 1){
+            return Response.builder().content("There has to be at least one carousel image remaining").type("warning").build();
+        } else {
+            s3Service.deleteObject(bucketName, "images/carousel/" + carouselImage.getImage_value());
+            carouselImageRepository.delete(carouselImage);
+            return Response.builder().content("Carousel image deleted successfully").type("success").build();
+        }
     }
 
     public Response uploadImageForCarousel(Long id, MultipartFile file) {

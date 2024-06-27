@@ -1,0 +1,10 @@
+.carousel_card {
+    opacity: 0;
+    pointer-events: none;
+    transition: 1s ease-out;
+}
+
+.carousel_active {
+    opacity: 1;
+    pointer-events: visible;
+}

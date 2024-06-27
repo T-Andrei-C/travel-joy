@@ -1,8 +1,9 @@
 import {createBrowserRouter, Route, createRoutesFromElements, RouterProvider} from "react-router-dom";
 import RootLayout from "./layout/RootLayout";
 import './App.css';
-import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js"
+import "bootstrap/js/src/util"
+import "bootstrap/dist/css/bootstrap.min.css";
 import Home from "./pages/Home";
 import Accommodations from "./pages/Accommodations"
 import Package from "./pages/Package";
