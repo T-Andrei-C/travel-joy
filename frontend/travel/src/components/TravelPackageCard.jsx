@@ -9,12 +9,24 @@ import {useEffect, useState} from "react";
 import {numberOfAccommodationRatings} from "../service/CRUDRating";
 import {calculateDiscountPrice, totalDays} from "../service/PaymentService";
 import {getAccommodationImage} from "../service/CRUDAccommodations";
+import {verifyRoomOfferAvailability} from "../service/CRUDTravelPackages";
+import Alert from "./Alert";
 
-const TravelPackageCard = ({travelPackage}) => {
+const TravelPackageCard = ({travelPackage, setAlert}) => {
     const [ratingsSize, setRatingsSize] = useState(0);
     const navigate = useNavigate();
     const originalPrice = totalDays(travelPackage.date_from, travelPackage.date_to) * travelPackage.room?.price;
     const discountPrice = calculateDiscountPrice(travelPackage.date_from, travelPackage.date_to, travelPackage.discount.value, travelPackage.room?.price);
+
+    const verifyRoomOffer = () => {
+        verifyRoomOfferAvailability(travelPackage.id).then(response => {
+            if (response.object) {
+                setAlert(current => [...current, response]);
+            } else {
+                navigate(`/checkout/${travelPackage.room.accommodation.city.name}/${travelPackage.room.accommodation.name}/${travelPackage.room.id}/${travelPackage.date_from}/${travelPackage.date_to}/${discountPrice}`);
+            }
+        })
+    }
 
     useEffect(() => {
         numberOfAccommodationRatings(travelPackage.room?.accommodation.id).then(ratingsSize => {
@@ -34,7 +46,8 @@ const TravelPackageCard = ({travelPackage}) => {
                     <div className="col-12 d-flex justify-content-between p-0">
                         <h3 className="card-title col-5 text-success">{travelPackage.room?.accommodation.name}</h3>
                         <div className="col-7 d-flex justify-content-end">
-                            <HotelRating value={travelPackage.room?.accommodation.rating} numberOfRatings={ratingsSize}/>
+                            <HotelRating value={travelPackage.room?.accommodation.rating}
+                                         numberOfRatings={ratingsSize}/>
                         </div>
                     </div>
                     <div className="ps-1 col-12 d-flex justify-content-between" style={{marginBottom: "-0.5em"}}>
@@ -44,17 +57,19 @@ const TravelPackageCard = ({travelPackage}) => {
                                 style={{paddingTop: "0.1em"}}>{travelPackage.room?.accommodation.city.name}</h6>
                         </div>
                         <div>
-                            <p className="card-title m-0 text-black-50 text-decoration-line-through fw-light d-flex justify-content-end" style={{fontSize: "0.8em"}}>{originalPrice} RON</p>
+                            <p className="card-title m-0 text-black-50 text-decoration-line-through fw-light d-flex justify-content-end"
+                               style={{fontSize: "0.8em"}}>{originalPrice} RON</p>
                             <h5 className="card-title text-black fw-light d-flex justify-content-end">{discountPrice} RON</h5>
                         </div>
                     </div>
                     <hr className="border-success"/>
                     <div className="row d-flex justify-content-center align-items-center">
-                    <div className="col-xl-8 col-md-7 col-12 px-auto">
+                        <div className="col-xl-8 col-md-7 col-12 px-auto">
                             <div className="ps-1 col-12 d-flex" style={{marginTop: "-0.5em"}}>
                                 <p><BiSolidCalendar/></p>
                                 <div className="p-0 col-12 d-flex">
-                                    <p className="ps-1 pt-1" style={{fontSize: "13px"}}>{travelPackage.date_from}</p>
+                                    <p className="ps-1 pt-1"
+                                       style={{fontSize: "13px"}}>{travelPackage.date_from}</p>
                                     <p className="ps-1" style={{fontSize: "13px", paddingTop: "0.2em"}}>{
                                         <HiArrowNarrowRight/>}</p>
                                     <p className="ps-1 pt-1" style={{fontSize: "13px"}}>{travelPackage.date_to}</p>
@@ -68,11 +83,12 @@ const TravelPackageCard = ({travelPackage}) => {
                             </div>
                             <div className="ps-1 col-12 d-flex" style={{marginTop: "-0.5em"}}>
                                 <p><FaBed/></p>
-                                <p className="ps-1 pt-1" style={{fontSize: "13px"}}> {travelPackage.room.type.name}</p>
+                                <p className="ps-1 pt-1"
+                                   style={{fontSize: "13px"}}> {travelPackage.room.type.name}</p>
                             </div>
                         </div>
                         <div className="my-auto col-xl-4 col-md-5 col-12 mt-lg-5 mt-md-5 mt-0">
-                            <a onClick={() => navigate(`/checkout/${travelPackage.room.accommodation.city.name}/${travelPackage.room.accommodation.name}/${travelPackage.room.id}/${travelPackage.date_from}/${travelPackage.date_to}/${discountPrice}`)}
+                            <a onClick={verifyRoomOffer}
                                className="btn btn-success float-md-end mb-3 col-12">
                                 Buy Now
                             </a>

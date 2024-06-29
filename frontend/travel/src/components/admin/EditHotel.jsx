@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import {
     addAccommodationImage,
     getAccommodationImage,
-    getAllAccommodationById,
+    getAccommodationById,
     updateAccommodation
 } from "../../service/CRUDAccommodations";
 import FormInput from "../FormInput";
@@ -32,7 +32,7 @@ const EditHotel = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        getAllAccommodationById(id).then(accommodation => {
+        getAccommodationById(id).then(accommodation => {
             setAccommodation(accommodation);
         })
         getCities().then(cities => {
@@ -68,6 +68,17 @@ const EditHotel = () => {
         const response = await disableOrEnableRoom(id);
         await setAlert([...alert, response]);
         return await response.type === "success";
+    }
+
+    const toAddRoom = () => {
+        if (accommodation.disabled) {
+            setAlert([...alert, {
+                content: "Can not add a room if accommodation is disabled",
+                type: "warning"
+            }])
+        } else {
+            navigate("room/add");
+        }
     }
 
     const onSubmit = (e) => {
@@ -138,7 +149,7 @@ const EditHotel = () => {
                     <div className="col-12 border-success border rounded p-3">
                         <div className="d-flex justify-content-center">
                             <h3 className="text-center me-3">Rooms</h3>
-                            <button type="button" onClick={() => navigate("room/add")}
+                            <button type="button" onClick={toAddRoom}
                                     className="btn-success btn btn-sm m-1 h-25"><FaPlus/></button>
                         </div>
                         {

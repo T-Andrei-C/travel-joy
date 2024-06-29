@@ -6,12 +6,11 @@ import {useNavigate} from "react-router-dom";
 import {getRoomBySearch} from "../../service/CRUDRooms";
 import Alert from "../../components/Alert";
 
-export default function PaymentForm({reservationData, roomId, checkIn, checkOut, housingName, city, currentRoom}) {
+export default function PaymentForm({reservationData, roomId, checkIn, checkOut, housingName, city, currentRoom, setAlert}) {
     const stripe = useStripe();
     const elements = useElements();
 
     const [isProcessing, setIsProcessing] = useState(false);
-    const [alert, setAlert] = useState([]);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -40,13 +39,13 @@ export default function PaymentForm({reservationData, roomId, checkIn, checkOut,
                                 await addReservation(reservationData);
                                 navigate("/");
                             } else {
-                                setAlert([...alert, {
+                                setAlert(current => [...current, {
                                     content: "Payment failed, please try again later!",
                                     type: "danger"
                                 }]);
                             }
                         } else {
-                            setAlert([...alert, {
+                            setAlert(current => [...current, {
                                 content: "Room price or type has been changed, you will be send to the main page shortly!",
                                 type: "danger"
                             }]);
@@ -56,14 +55,14 @@ export default function PaymentForm({reservationData, roomId, checkIn, checkOut,
                             }, 5000)
                         }
                     } else {
-                        setAlert([...alert, {
+                        setAlert(current => [...current, {
                             content: "Room has been bought or has been updated! We will redirect you to the home page shortly!",
                             type: "danger"
                         }]);
 
-                        setTimeout(() => {
-                            navigate("/");
-                        }, 5000)
+                        // setTimeout(() => {
+                        //     navigate("/");
+                        // }, 5000)
                     }
                 })
             }
@@ -81,7 +80,6 @@ export default function PaymentForm({reservationData, roomId, checkIn, checkOut,
               {isProcessing ? "Processing ... " : "Pay now"}
             </span>
             </button>
-            <Alert alertData={alert} alertCallBack={setAlert}/>
         </form>
     );
 }

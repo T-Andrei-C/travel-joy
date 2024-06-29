@@ -6,7 +6,9 @@ import com.codecool.configurations.aws.S3Service;
 import com.codecool.model.Accommodation;
 import com.codecool.model.Response;
 import com.codecool.model.room.Room;
+import com.codecool.model.room.RoomOffer;
 import com.codecool.repositories.AccommodationRepository;
+import com.codecool.repositories.RoomOfferRepository;
 import com.codecool.repositories.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,6 +28,7 @@ import java.util.List;
 @Service
 public class AccommodationService {
 
+    private final RoomOfferRepository roomOfferRepository;
     @Value("${bucket.name}")
     private String bucketName;
 
@@ -44,12 +47,12 @@ public class AccommodationService {
 
     public Page<Accommodation> getAccommodationPerPage(int currentPage, int itemsPerPage) {
         PageRequest pageRequest = PageRequest.of(currentPage, itemsPerPage);
-        return accommodationRepository.findAll(pageRequest);
+        return accommodationRepository.findAllByDisabledFalse(pageRequest);
     }
 
     public Page<Accommodation> getAllAccommodationsByCity(int currentPage, int itemsPerPage, String cityName) {
         PageRequest pageRequest = PageRequest.of(currentPage, itemsPerPage);
-        return accommodationRepository.findAllByCityName(cityName, pageRequest);
+        return accommodationRepository.findAllByCityNameAndDisabledFalse(cityName, pageRequest);
     }
 
     public Response addAccommodation(AccommodationDTO accommodationDTO) {
@@ -77,15 +80,17 @@ public class AccommodationService {
                                                    LocalDate checkIn, LocalDate checkOut, Integer numberOfPersons) {
 
         List<Accommodation> filteredAccommodations = new ArrayList<>();
-        List<Accommodation> filteredAccommodationsByCity = accommodationRepository.findAllByCityName(cityName);
+        List<Accommodation> filteredAccommodationsByCity = accommodationRepository.findAllByCityNameAndDisabledFalse(cityName);
 
         //todo change for into streams
         for (Accommodation accommodation : filteredAccommodationsByCity) {
             for (Room room : accommodation.getRooms()) {
-                if (room.getType().getCapacity() >= numberOfPersons) {
-                    if (reservationFilter.checkReservation(room, checkIn, checkOut) && reservationFilter.checkRoomOffer(room, checkIn, checkOut)) {
-                        filteredAccommodations.add(accommodation);
-                        break;
+                if (!room.getDisabled()){
+                    if (room.getType().getCapacity() >= numberOfPersons) {
+                        if (reservationFilter.checkReservation(room, checkIn, checkOut) && reservationFilter.checkRoomOffer(room, checkIn, checkOut)) {
+                            filteredAccommodations.add(accommodation);
+                            break;
+                        }
                     }
                 }
             }
@@ -93,6 +98,25 @@ public class AccommodationService {
 
         PageRequest pageRequest = PageRequest.of(currentPage, itemsPerPage);
         return accommodationRepository.findAllByAccommodations(filteredAccommodations, pageRequest);
+    }
+
+    public Response verifyAccommodationAvailability(Long id, LocalDate checkIn, LocalDate checkOut){
+        Accommodation currentAccommodation = accommodationRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Accommodation not found"));
+
+        if (currentAccommodation.getDisabled()){
+            return Response.builder().content("Accommodation is not available anymore").type("warning").object(true).build();
+        }
+
+        if (currentAccommodation.getRooms().stream()
+                .filter(room -> !room.getDisabled())
+                .filter(room -> reservationFilter.checkReservation(room, checkIn, checkOut))
+                .filter(room -> reservationFilter.checkRoomOffer(room, checkIn, checkOut))
+                .toList().isEmpty())
+        {
+            return Response.builder().content("Accommodation doesn't have any available rooms on the check in and check out dates provided").type("warning").object(true).build();
+        };
+
+        return Response.builder().object(false).build();
     }
 
     public Response updateAccommodation(AccommodationDTO updatedAccommodation, Long id) {
@@ -133,6 +157,16 @@ public class AccommodationService {
         } else {
             accommodation.setDisabled(true);
             accommodationRepository.save(accommodation);
+
+            List<Room> rooms = accommodation.getRooms();
+            List<RoomOffer> roomOffers = rooms.stream()
+                    .flatMap(room -> room.getRoom_offers().stream().filter(RoomOffer::getAvailable))
+                    .toList();
+
+            rooms.forEach(room -> room.setDisabled(true));
+            roomRepository.saveAll(rooms);
+            roomOfferRepository.deleteAll(roomOffers);
+
             return Response.builder().content("Accommodation disabled successfully").type("success").build();
         }
     }

@@ -7,6 +7,8 @@ import {useNavigate, useParams} from "react-router-dom";
 import RoomImageCropper from "./RoomImageCropper";
 import ViewAndAddRoomImages from "./ViewAndAddRoomImages";
 import ViewAndChooseFacilities from "./ViewAndChooseFacilities";
+import {getAccommodationById} from "../../service/CRUDAccommodations";
+import accommodations from "../../pages/Accommodations";
 
 const AddRoom = () => {
 
@@ -22,6 +24,11 @@ const AddRoom = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        getAccommodationById(id).then(accommodation => {
+            if (accommodation.disabled){
+                navigate(`/admin/hotels/${id}`);
+            }
+        })
         getAllRoomTypes().then(roomTypes => {
             setRoomTypes(roomTypes);
         })

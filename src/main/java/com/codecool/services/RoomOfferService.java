@@ -27,6 +27,7 @@ public class RoomOfferService {
     public Page<RoomOffer> getAllRoomOffers(int currentPage, int itemsPerPage) {
         List<RoomOffer> roomOffers = roomOfferRepository.findAll().stream()
                 .filter(RoomOffer::getAvailable)
+                .filter(offer -> !offer.getRoom().getDisabled())
                 .toList();
 
         PageRequest pageRequest = PageRequest.of(currentPage, itemsPerPage);
@@ -36,6 +37,7 @@ public class RoomOfferService {
     public Page<RoomOffer> getAllRoomOffersByCityName(String cityName, int currentPage, int itemsPerPage) {
         List<RoomOffer> roomOffers = roomOfferRepository.findAllByRoomAccommodationCityName(cityName).stream()
                 .filter(RoomOffer::getAvailable)
+                .filter(offer -> !offer.getRoom().getDisabled())
                 .toList();
 
         PageRequest pageRequest = PageRequest.of(currentPage, itemsPerPage);
@@ -47,6 +49,7 @@ public class RoomOfferService {
                 .filter(RoomOffer::getAvailable)
                 .filter(roomOffer -> reservationFilter.checkRoomOffer(roomOffer, checkIn, checkOut))
                 .filter(roomOffer -> roomOffer.getRoom().getType().getCapacity() >= numberOfPersons)
+                .filter(offer -> !offer.getRoom().getDisabled())
                 .toList();
 
         PageRequest pageRequest = PageRequest.of(currentPage, itemsPerPage);
@@ -63,6 +66,16 @@ public class RoomOfferService {
 
     public boolean checkIfRoomOfferAvailable(Long id) {
         return roomOfferRepository.findById(id).get().getAvailable();
+    }
+
+    public Response verifyRoomOfferAvailability(Long id) {
+        RoomOffer roomOffer = roomOfferRepository.findById(id).orElse(null);
+
+        if (roomOffer == null || !roomOffer.getAvailable()){
+            return Response.builder().content("Room offer is not available anymore").type("warning").object(true).build();
+        } else {
+            return Response.builder().object(false).build();
+        }
     }
 
     public Response deleteRoomOffer(Long id){
@@ -97,6 +110,11 @@ public class RoomOfferService {
 
     public Response addRoomOffer (RoomOfferDTO roomOfferDTO, Long roomId){
         Room room = roomRepository.findById(roomId).orElseThrow(() -> new EntityNotFoundException("room not found"));
+
+        if (room.getDisabled()){
+            return Response.builder().content("Can not add room offer if room is disabled").type("warning").build();
+        }
+
         if (checkRoomOfferDates(room, roomOfferDTO)){
             RoomOffer roomOffer = RoomOffer.builder()
                     .room(room)

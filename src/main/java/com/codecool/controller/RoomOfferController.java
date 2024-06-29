@@ -55,6 +55,11 @@ public class RoomOfferController {
         return roomOfferService.checkIfRoomOfferAvailable(id);
     }
 
+    @GetMapping("/offer/{id}/verify")
+    public Response verifyRoomOfferAvailability(@PathVariable Long id){
+        return roomOfferService.verifyRoomOfferAvailability(id);
+    }
+
 //    @PatchMapping("/offer/{id}")
 //    public Response updateRoomOffer (@PathVariable Long id, @RequestBody RoomOfferDTO updatedRoomOffer){
 //        Response response = roomOfferService.updateRoomOffer(updatedRoomOffer, id);

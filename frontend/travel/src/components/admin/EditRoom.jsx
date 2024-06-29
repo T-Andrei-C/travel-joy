@@ -68,6 +68,17 @@ const EditRoom = () => {
         setRoomOffers(offers);
     }
 
+    const toAddRoomOffer = () => {
+        if (room.disabled){
+            setAlert([...alert, {
+                content: "Can not add room offer if room is disabled",
+                type: "warning"
+            }])
+        } else {
+            navigate(`offer/add`);
+        }
+    }
+
     const onSubmit = (e) => {
         e.preventDefault();
         const formData = new FormData(e.target);
@@ -126,7 +137,7 @@ const EditRoom = () => {
                     <div className="col-12 border-success border rounded p-3">
                         <div className="d-flex justify-content-center">
                             <h3 className="text-center me-3">Room Offers</h3>
-                            <button type="button" onClick={() => navigate(`offer/add`)}
+                            <button type="button" onClick={toAddRoomOffer}
                                     className="btn-success btn btn-sm m-1 h-25"><FaPlus/></button>
                         </div>
                         {

@@ -10,6 +10,7 @@ import com.codecool.model.room.Room;
 import com.codecool.model.room.RoomOffer;
 import com.codecool.repositories.AccommodationRepository;
 import com.codecool.repositories.ImageRepository;
+import com.codecool.repositories.RoomOfferRepository;
 import com.codecool.repositories.RoomRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,7 @@ import java.util.stream.Collectors;
 public class RoomService {
 
     private final ImageRepository imageRepository;
+    private final RoomOfferRepository roomOfferRepository;
     @Value("${bucket.name}")
     private String bucketName;
 
@@ -41,6 +43,7 @@ public class RoomService {
                 .filter(room -> room.getType().getCapacity() >= capacity)
                 .filter(room -> reservationFilter.checkReservation(room, checkIn, checkOut))
                 .filter(room -> reservationFilter.checkRoomOffer(room, checkIn, checkOut))
+                .filter(room -> !room.getDisabled())
                 .collect(Collectors.toList());
     }
 
@@ -53,7 +56,7 @@ public class RoomService {
         if (room.getAccommodation().getName().equals(accommodationName) &&
                 room.getAccommodation().getCity().getName().equals(cityName) &&
                 reservationFilter.checkReservation(room, checkIn, checkOut) &&
-                checkRoomOfferAvailability
+                checkRoomOfferAvailability && !room.getDisabled()
         ) {
             return room;
         } else {
@@ -78,6 +81,19 @@ public class RoomService {
         return roomRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("room not found"));
     }
 
+    public Response verifyRoomAvailability(Long id, LocalDate checkIn, LocalDate checkOut){
+        Room room = roomRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("room not found"));
+
+        if (room.getDisabled()){
+            return Response.builder().content("Room is not available anymore").type("warning").object(true).build();
+        }
+
+        if (!reservationFilter.checkReservation(room, checkIn, checkOut) && !reservationFilter.checkRoomOffer(room, checkIn, checkOut)){
+            return Response.builder().content("Room is not available anymore on the check in and check out dates provided").type("warning").object(true).build();
+        }
+        return Response.builder().object(false).build();
+    }
+
     public Response updateRoom(RoomDTO updatedRoom, Long roomId) {
         Room currentRoom = roomRepository.findById(roomId).orElseThrow(() -> new EntityNotFoundException("room not found"));
         currentRoom.setRoom_facilities(updatedRoom.room_facilities());
@@ -90,6 +106,10 @@ public class RoomService {
     public Response addRoom(RoomDTO roomDTO, Long accommodationId) {
         Accommodation accommodation = accommodationRepository.findById(accommodationId).orElseThrow(() -> new EntityNotFoundException("Accommodation not found"));
         List<Room> rooms = accommodation.getRooms().stream().filter(r -> !r.getDisabled()).toList();
+
+        if (accommodation.getDisabled()){
+            return Response.builder().content("Can not add a room if accommodation is disabled").type("warning").build();
+        }
 
         if (rooms.size() != accommodation.getCapacity()) {
             Room room = Room.builder()
@@ -108,7 +128,9 @@ public class RoomService {
     public Response disableOrEnableRoom(Long id){
         Room room = roomRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("room not found"));
         List<Room> rooms = room.getAccommodation().getRooms().stream().filter(r -> !r.getDisabled()).toList();
-
+        if (room.getAccommodation().getDisabled()){
+            return Response.builder().content("Room can not be enabled because the accommodation is disabled").type("warning").build();
+        }
         if (room.getDisabled()){
             if (rooms.size() == room.getAccommodation().getCapacity()){
                 return Response.builder().content("Accommodation capacity is full").type("warning").build();
@@ -120,6 +142,10 @@ public class RoomService {
         } else {
             room.setDisabled(true);
             roomRepository.save(room);
+
+            List<RoomOffer> roomOffers = room.getRoom_offers().stream().filter(RoomOffer::getAvailable).toList();
+            roomOfferRepository.deleteAll(roomOffers);
+
             return Response.builder().content("Room disabled successfully").type("success").build();
         }
     }

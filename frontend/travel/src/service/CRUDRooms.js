@@ -25,6 +25,11 @@ export const getRoomById = async (id) => {
     return await request.json();
 }
 
+export const verifyRoomAvailability = async (roomId, checkIn, checkOut) => {
+    const request = await fetch(`${API_URL}rooms/room/${roomId}/${checkIn}/${checkOut}/verify`);
+    return await request.json();
+}
+
 export const updateRoom = async (roomId, updatedRoom) => {
     const request = await fetch(`${API_URL}rooms/room/${roomId}`, {
         method: "PATCH",

@@ -12,8 +12,9 @@ import java.util.List;
 @Repository
 public interface AccommodationRepository extends JpaRepository<Accommodation, Long> {
 
-    List<Accommodation> findAllByCityName (String cityName);
-    Page<Accommodation> findAllByCityName(String cityName, Pageable pageable);
+    Page<Accommodation> findAllByDisabledFalse(Pageable pageable);
+    List<Accommodation> findAllByCityNameAndDisabledFalse (String cityName);
+    Page<Accommodation> findAllByCityNameAndDisabledFalse(String cityName, Pageable pageable);
     @Query("SELECT a FROM Accommodation a WHERE a IN :accommodations")
     Page<Accommodation> findAllByAccommodations(List<Accommodation> accommodations, Pageable pageable);
     List<Accommodation> findByNameAndCityName(String name, String cityName);

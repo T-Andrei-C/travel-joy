@@ -4,9 +4,11 @@ import {useParams} from "react-router-dom";
 import TravelSearch from "../components/TravelSearch";
 import Pagination from "../components/Pagination";
 import {getAllRoomOffers, getRoomOffersByCityName, getRoomOffersByTravelSearch} from "../service/CRUDTravelPackages";
+import Alert from "../components/Alert";
 
 const Package = () => {
     const [travelPackages, setTravelPackages] = useState([]);
+    const [alert, setAlert] = useState([]);
     const {destination, checkIn, checkOut, numberOfPersons, itemsPerPage, numberOfPage} = useParams();
 
     useEffect(() => {
@@ -41,7 +43,7 @@ const Package = () => {
                 <div className="row h-100 justify-content-center align-items-center mx-1">
                     {
                         travelPackages.content?.map(p => (
-                            <TravelPackageCard key={p.id} travelPackage={p}/>
+                            <TravelPackageCard key={p.id} travelPackage={p} setAlert={setAlert}/>
                         ))
                     }
                 </div>
@@ -59,6 +61,9 @@ const Package = () => {
                         <Pagination key="3" travelBundles={travelPackages} link={`packages/${travelPackages.size}`}
                                     numberOfPage={travelPackages.number}/>
             }
+            <div className="ms-3 z-3">
+                <Alert alertData={alert} alertCallBack={setAlert}/>
+            </div>
         </div>
 
     );

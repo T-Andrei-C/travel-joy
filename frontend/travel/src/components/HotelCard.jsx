@@ -6,17 +6,28 @@ import Rating from "react-rating-stars-component";
 import HotelRating from "./HotelRating";
 import {numberOfAccommodationRatings} from "../service/CRUDRating";
 import {useEffect, useState} from "react";
-import {getAccommodationImage} from "../service/CRUDAccommodations";
+import {
+    getAccommodationById,
+    getAccommodationImage,
+    verifyAccommodationAvailability
+} from "../service/CRUDAccommodations";
+import Alert from "./Alert";
 
-const HotelCard = ({accommodation, city, checkIn, checkOut, numberOfPersons}) => {
+const HotelCard = ({accommodation, city, checkIn, checkOut, numberOfPersons, setAlert}) => {
 
     const navigate = useNavigate();
     const [ratingsSize, setRatingsSize] = useState(0);
 
     const checkSearchData = () => {
-        if (city && checkIn && checkOut && numberOfPersons) {
-            navigate(`/accommodations/details/${accommodation.name}/${city}/${checkIn}/${checkOut}/${numberOfPersons}`);
-        }
+        verifyAccommodationAvailability(accommodation.id, checkIn, checkOut).then(response => {
+            if (response.object) {
+                setAlert(current => [...current, response]);
+            } else {
+                if (city && checkIn && checkOut && numberOfPersons) {
+                    navigate(`/accommodations/details/${accommodation.name}/${city}/${checkIn}/${checkOut}/${numberOfPersons}`);
+                }
+            }
+        })
     }
 
     useEffect(() => {

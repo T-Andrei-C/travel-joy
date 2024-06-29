@@ -4,9 +4,9 @@ import {BsFillHouseCheckFill, BsSlash} from "react-icons/bs";
 import {useEffect} from "react";
 import {ITEMS_PER_PAGE} from "../service/API";
 import {totalDays} from "../service/PaymentService";
-import {getRoomImage} from "../service/CRUDRooms";
+import {getRoomImage, verifyRoomAvailability} from "../service/CRUDRooms";
 
-const ViewDetailsCard = ({room, checkIn, checkOut, navigate, destination, accommodationName}) => {
+const ViewDetailsCard = ({room, checkIn, checkOut, navigate, destination, accommodationName, setAlert}) => {
 
     useEffect(() => {
         const checkInDate = new Date(checkIn);
@@ -17,7 +17,15 @@ const ViewDetailsCard = ({room, checkIn, checkOut, navigate, destination, accomm
         }
     }, []);
 
-    console.log(room)
+    const verifyRoom = () => {
+        verifyRoomAvailability(room.id, checkIn, checkOut).then(response => {
+            if (response.object){
+                setAlert(current => [...current, response]);
+            } else {
+                navigate(`/checkout/${destination}/${accommodationName}/${room.id}/${checkIn}/${checkOut}/${totalDays(checkIn, checkOut) * room.price}`);
+            }
+        })
+    }
 
     return (
         <>
@@ -74,7 +82,7 @@ const ViewDetailsCard = ({room, checkIn, checkOut, navigate, destination, accomm
                         <p className="col-8 fw-bold text-end fs-5">{totalDays(checkIn, checkOut) * room.price} RON</p>
                     </div>
                 </div>
-                <a onClick={() => navigate(`/checkout/${destination}/${accommodationName}/${room.id}/${checkIn}/${checkOut}/${totalDays(checkIn, checkOut) * room.price}`)}
+                <a onClick={verifyRoom}
                    className="btn btn-success col-12 mt-auto p-2 ">
                     Buy Now
                 </a>

@@ -10,11 +10,13 @@ import {
 import TravelSearch from "../components/TravelSearch";
 import HotelCard from "../components/HotelCard";
 import Pagination from "../components/Pagination";
+import Alert from "../components/Alert";
 
 const Accommodations = () => {
     const [accommodations, setAccommodations] = useState([]);
     const [accommodationsByCity, setAccommodationsByCity] = useState([]);
     const [accommodationsSearch, setAccommodationsSearch] = useState([]);
+    const [alert, setAlert] = useState([]);
     const {destination, itemsPerPage, numberOfPage, checkIn, checkOut, numberOfPersons} = useParams();
 
     useEffect(() => {
@@ -52,15 +54,15 @@ const Accommodations = () => {
                         destination !== undefined && checkIn !== undefined ?
                             accommodationsSearch.content?.map((a) => (
                                 <HotelCard key={a.id} accommodation={a} city={destination} checkIn={checkIn}
-                                           checkOut={checkOut} numberOfPersons={numberOfPersons}/>
+                                           checkOut={checkOut} numberOfPersons={numberOfPersons} setAlert={setAlert}/>
                             )) : destination !== undefined ?
                                 accommodationsByCity.content?.map((a) => (
                                     <HotelCard key={a.id} accommodation={a} city={destination} checkIn={checkIn}
-                                               checkOut={checkOut} numberOfPersons={numberOfPersons}/>
+                                               checkOut={checkOut} numberOfPersons={numberOfPersons} setAlert={setAlert}/>
                                 )) :
                                 accommodations.content?.map((a) => (
                                     <HotelCard key={a.id} accommodation={a} city={destination} checkIn={checkIn}
-                                               checkOut={checkOut} numberOfPersons={numberOfPersons}/>
+                                               checkOut={checkOut} numberOfPersons={numberOfPersons} setAlert={setAlert}/>
                                 ))
                     }
                 </div>
@@ -78,6 +80,9 @@ const Accommodations = () => {
                         <Pagination key="3" travelBundles={accommodations} link={`accommodations/${accommodations.size}`}
                                     numberOfPage={accommodations.number}/>
             }
+            <div className="ms-3 z-3">
+                <Alert alertData={alert} alertCallBack={setAlert}/>
+            </div>
         </>
     );
 

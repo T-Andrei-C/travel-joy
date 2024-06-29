@@ -44,6 +44,11 @@ public class RoomController {
         return roomService.getRoomById(id);
     }
 
+    @GetMapping("room/{id}/{checkIn}/{checkOut}/verify")
+    public Response verifyRoomAvailability(@PathVariable Long id, @PathVariable LocalDate checkIn, @PathVariable LocalDate checkOut){
+        return roomService.verifyRoomAvailability(id, checkIn, checkOut);
+    }
+
     @PatchMapping("room/{id}")
     public Response updateRoom(@PathVariable Long id, @RequestBody RoomDTO updatedRoom) {
         return roomService.updateRoom(updatedRoom, id);

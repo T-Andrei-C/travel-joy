@@ -31,7 +31,7 @@ const CropperModal = ({closeCrop, imageUrl, cropImage, crop, zoom, rotation, set
                             value={zoom}
                             min={1}
                             max={3}
-                            step={0.1}
+                            step={0.01}
                             onChange={(e) => {
                                 setZoom(e.target.value)
                             }}

@@ -6,6 +6,7 @@ import {
     getAllRoomOfferTypes,
 } from "../../service/CRUDTravelPackages";
 import {useNavigate, useParams} from "react-router-dom";
+import {getRoomById} from "../../service/CRUDRooms";
 
 const AddRoomOffer = () => {
 
@@ -16,6 +17,11 @@ const AddRoomOffer = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        getRoomById(roomId).then(room => {
+            if (room.disabled){
+                navigate(`/admin/hotels/${id}/room/${roomId}`);
+            }
+        })
         getAllDiscounts().then(discounts => {
             setDiscounts(discounts);
         })

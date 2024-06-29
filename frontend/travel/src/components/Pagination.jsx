@@ -31,7 +31,7 @@ const Pagination = ({travelBundles, link, numberOfPage}) => {
     }, [numberOfPage])
 
     return (
-        <div className="d-flex justify-content-evenly mt-5">
+        <div className="d-flex justify-content-evenly mt-5 z-0">
             <ul className="pagination">
                 <li className={numberOfPage === 0 ? "page-item btn-outline-success disabled" : "page-item btn-outline-success"}>
                     <a className="page-link"

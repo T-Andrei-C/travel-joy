@@ -10,11 +10,13 @@ import {getAuthUser} from "../../service/CRUDUsers";
 import {useNavigate, useParams} from "react-router-dom";
 import {useAuthHeader, useIsAuthenticated} from "react-auth-kit";
 import {getRoomBySearch, getRoomDiscountByCheckInAndCheckOut} from "../../service/CRUDRooms";
+import Alert from "../../components/Alert";
 
 const Checkout = () => {
 
     const [stripePromise, setStripePromise] = useState(null);
     const [clientSecret, setClientSecret] = useState("");
+    const [alert, setAlert] = useState([]);
     const [currentRoom, setCurrentRoom] = useState(null);
     const [availableDiscount, setAvailableDiscount] = useState(0);
     const {city, housingName, room, checkIn, checkOut, price} = useParams();
@@ -105,9 +107,13 @@ const Checkout = () => {
                 {clientSecret && stripePromise && (
                     <Elements stripe={stripePromise} options={{clientSecret}}>
                         <PaymentForm reservationData={personalInfo} roomId={room}
-                                     checkIn={checkIn} checkOut={checkOut} housingName={housingName} city={city} currentRoom={currentRoom}/>
+                                     checkIn={checkIn} checkOut={checkOut} housingName={housingName} city={city}
+                                     currentRoom={currentRoom} setAlert={setAlert}/>
                     </Elements>
                 )}
+            </div>
+            <div className="ms-3 z-3">
+                <Alert alertData={alert} alertCallBack={setAlert}/>
             </div>
         </div>
     );

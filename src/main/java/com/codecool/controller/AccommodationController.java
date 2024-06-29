@@ -64,6 +64,11 @@ public class AccommodationController {
         return accommodationService.updateAccommodation(updatedAccommodation, id);
     }
 
+    @GetMapping("accommodation/{id}/{checkIn}/{checkOut}/verify")
+    public Response verifyAccommodationAvailability (@PathVariable Long id, @PathVariable LocalDate checkIn, @PathVariable LocalDate checkOut){
+        return accommodationService.verifyAccommodationAvailability(id, checkIn, checkOut);
+    }
+
     @PostMapping(
             value = "accommodation/{id}/uploadImage",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE

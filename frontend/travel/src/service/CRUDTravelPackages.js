@@ -25,6 +25,11 @@ export const getRoomOfferById = async (offerId) => {
     return await request.json();
 }
 
+export const verifyRoomOfferAvailability = async (offerId) => {
+    const request = await fetch(`${API_URL}roomOffers/offer/${offerId}/verify`);
+    return await request.json();
+}
+
 export const checkIfRoomOfferAvailable = async (offerId) => {
     const request = await fetch(`${API_URL}roomOffers/offer/available/${offerId}`);
     return await request.json();

@@ -5,7 +5,7 @@ export const getAllAccommodations = async () => {
     return await request.json();
 }
 
-export const getAllAccommodationById = async (id) => {
+export const getAccommodationById = async (id) => {
     const request = await fetch(`${API_URL}accommodations/${id}`);
     return await request.json();
 }
@@ -22,6 +22,11 @@ export const getAccommodationsByCityName = async (destination, itemsPerPage, num
 
 export const getAccommodationsSearch = async (destination, itemsPerPage, numberOfPage, checkIn, checkOut, numberOfPersons) => {
     const request = await fetch(`${API_URL}accommodations/${destination}/${checkIn}/${checkOut}/${numberOfPersons}/${itemsPerPage}/${numberOfPage}`);
+    return await request.json();
+}
+
+export const verifyAccommodationAvailability = async (id, checkIn, checkOut) => {
+    const request = await fetch(`${API_URL}accommodations/accommodation/${id}/${checkIn}/${checkOut}/verify`);
     return await request.json();
 }
 

@@ -3,17 +3,17 @@ import {FaLocationDot} from "react-icons/fa6";
 import {useEffect, useState} from "react";
 import {getAllAvailableRooms} from "../service/CRUDRooms";
 import ViewDetailsCard from "../components/ViewDetailsCard";
+import Alert from "../components/Alert";
 
 const ViewDetails = () => {
     const navigate = useNavigate();
     const [rooms, setRooms] = useState([]);
+    const [alert, setAlert] = useState([]);
     const {destination, accommodationName, checkIn, checkOut, numberOfPersons} = useParams();
 
     useEffect(() => {
         getAllAvailableRooms(accommodationName, destination, numberOfPersons, checkIn, checkOut).then(room => setRooms(room));
     }, []);
-
-    console.log(rooms)
 
     return (
         <div className="d-flex justify-content-center align-items-center row p-0 m-0">
@@ -25,8 +25,11 @@ const ViewDetails = () => {
                 </div>
                 {rooms.map((room, i) => (
                     <ViewDetailsCard key={i} room={room} checkIn={checkIn} checkOut={checkOut} navigate={navigate}
-                                     destination={destination} accommodationName={accommodationName}/>
+                                     destination={destination} accommodationName={accommodationName} setAlert={setAlert}/>
                 ))}
+            </div>
+            <div className="z-3">
+                <Alert alertData={alert} alertCallBack={setAlert}/>
             </div>
         </div>
     );
