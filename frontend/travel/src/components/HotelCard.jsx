@@ -59,12 +59,13 @@ const HotelCard = ({accommodation, city, checkIn, checkOut, numberOfPersons, set
                         <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 d-flex justify-content-end">
                             <HotelRating value={accommodation.rating} numberOfRatings={ratingsSize}/>
                         </div>
-
-                        <hr className="border-success"/>
-                        <div className="row">
+                        <div className="d-flex justify-content-center">
+                            <hr className="border-success col-12"/>
+                        </div>
+                        <div className="row m-auto p-0">
                             <div className="col-xl-8 col-12">
-                                <div className="ps-1 col-12 d-flex">
-                                    <p className="ps-1 pt-1 fw-bold">
+                                <div className="col-12 d-flex">
+                                    <p className="fw-bold">
                                         <BsFillHouseCheckFill/>
                                         {accommodation.accommodation_facilities?.map(f => (
                                             f.name === accommodation.accommodation_facilities[accommodation.accommodation_facilities.length - 1].name ?
@@ -75,12 +76,12 @@ const HotelCard = ({accommodation, city, checkIn, checkOut, numberOfPersons, set
                                         }
                                     </p>
                                 </div>
-                                <div className="ps-1 col-12 d-flex" style={{marginTop: "-0.5em"}}>
-                                    <p className="ps-1 pt-1  "
+                                <div className="col-12 d-flex" style={{marginTop: "-0.5em"}}>
+                                    <p className="pt-1"
                                        style={{fontSize: "15px"}}>{accommodation.description}</p>
                                 </div>
                             </div>
-                            <div className="my-auto col-xl-4 col-12 ">
+                            <div className="col-xl-4 col-12">
                                 <a onClick={checkSearchData} className="btn btn-success float-md-end mb-3 col-12"
                                    data-bs-toggle={city && checkIn && checkOut && numberOfPersons ? "" : "modal"}
                                    data-bs-target="#viewDetailsModal">
