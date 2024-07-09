@@ -79,22 +79,15 @@ public class AccommodationService {
     public Page<Accommodation> accommodationSearch(int currentPage, int itemsPerPage, String cityName,
                                                    LocalDate checkIn, LocalDate checkOut, Integer numberOfPersons) {
 
-        List<Accommodation> filteredAccommodations = new ArrayList<>();
-        List<Accommodation> filteredAccommodationsByCity = accommodationRepository.findAllByCityNameAndDisabledFalse(cityName);
 
-        //todo change for into streams
-        for (Accommodation accommodation : filteredAccommodationsByCity) {
-            for (Room room : accommodation.getRooms()) {
-                if (!room.getDisabled()){
-                    if (room.getType().getCapacity() >= numberOfPersons) {
-                        if (reservationFilter.checkReservation(room, checkIn, checkOut) && reservationFilter.checkRoomOffer(room, checkIn, checkOut)) {
-                            filteredAccommodations.add(accommodation);
-                            break;
-                        }
-                    }
-                }
-            }
-        }
+        List<Accommodation> filteredAccommodationsByCity = accommodationRepository.findAllByCityNameAndDisabledFalse(cityName);
+        List<Accommodation> filteredAccommodations = filteredAccommodationsByCity.stream()
+                .filter(acc -> acc.getRooms().stream()
+                        .anyMatch(room -> !room.getDisabled() &&
+                                room.getType().getCapacity() >= numberOfPersons &&
+                                reservationFilter.checkReservation(room, checkIn, checkOut) &&
+                                reservationFilter.checkRoomOffer(room, checkIn, checkOut)))
+                .toList();
 
         PageRequest pageRequest = PageRequest.of(currentPage, itemsPerPage);
         return accommodationRepository.findAllByAccommodations(filteredAccommodations, pageRequest);

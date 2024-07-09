@@ -27,6 +27,12 @@ const TravelSearch = ({goingTo, checkIn, checkOut, numberOfPersons, type}) => {
 
     }, []);
 
+    useEffect(() => {
+        if (checkIn !== undefined && checkOut !== undefined){
+            setButtonDisabled(false);
+        }
+    })
+
     const getCheckIn = () => {
         if (values[0] !== undefined){
             const month = values[0].month.number < 10 ? `0${values[0].month.number}` : values[0].month.number;

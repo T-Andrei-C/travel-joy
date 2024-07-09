@@ -43,6 +43,7 @@ public class ReservationMapper {
                 .check_out(reservationDTO.check_out())
                 .room(room)
                 .user(user)
+                .sendEmailForRating(false)
                 .build();
     }
 }

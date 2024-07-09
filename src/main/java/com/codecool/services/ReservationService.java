@@ -39,7 +39,7 @@ public class ReservationService {
                 .findFirst()
                 .orElse(null);
 
-        if (roomOffer != null){
+        if (roomOffer != null) {
             roomOffer.setAvailable(false);
             roomOfferRepository.save(roomOffer);
         }
@@ -51,9 +51,40 @@ public class ReservationService {
         return reservationFilter.checkReservation(room, checkIn, checkOut);
     }
 
-    public List<Reservation> getReservationsByUserId(Principal connectedUser){
+    public List<Reservation> getReservationsByUserId(Principal connectedUser) {
         User user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
         return reservationRepository.getReservationsByUser(user);
+    }
+
+    public List<Reservation> getReservationBySearch(Principal connectedUser, String searchInput, String searchBy) {
+        User user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
+
+        if (searchInput.equals(" ")){
+            return reservationRepository.getReservationsByUser(user);
+        }
+
+        if (searchBy.equals("city")) {
+            return reservationRepository.getReservationsByUser(user)
+                    .stream()
+                    .filter(reservation -> reservation
+                            .getRoom()
+                            .getAccommodation()
+                            .getCity()
+                            .getName()
+                            .toLowerCase()
+                            .contains(searchInput.toLowerCase()))
+                    .toList();
+        } else {
+            return reservationRepository.getReservationsByUser(user)
+                    .stream()
+                    .filter(reservation -> reservation
+                            .getRoom()
+                            .getAccommodation()
+                            .getName()
+                            .toLowerCase()
+                            .contains(searchInput.toLowerCase()))
+                    .toList();
+        }
     }
 }
 

@@ -30,6 +30,7 @@ public class Reservation {
     private String county;
     private String city;
     private Integer amount;
+    private Boolean sendEmailForRating;
 
     @ManyToOne
     @JsonIgnore

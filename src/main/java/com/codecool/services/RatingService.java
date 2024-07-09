@@ -25,17 +25,15 @@ public class RatingService {
 
     public void addRating(Long reservationId, Double ratingValue) {
         Reservation reservation = reservationRepository.findById(reservationId).orElse(null);
-        if (ratingRepository.findRatingByReservation_Id(reservationId).orElse(null) == null) {
-            Rating rating = Rating.builder()
-                    .reservation(reservation)
-                    .ratingValue(ratingValue)
-                    .build();
-            ratingRepository.save(rating);
-        } else {
-            Rating existingRating = ratingRepository.findRatingByReservation_Id(reservationId).orElse(null);
-            existingRating.setRatingValue(ratingValue);
-            ratingRepository.save(existingRating);
-        }
+
+        Rating rating = Rating.builder()
+                .reservation(reservation)
+                .ratingValue(ratingValue)
+                .build();
+        ratingRepository.save(rating);
+
+        reservation.setSendEmailForRating(true);
+        reservationRepository.save(reservation);
 
         List<Rating> allAccommodationRating = ratingRepository.findAllByReservation_Room_Accommodation(reservation.getRoom().getAccommodation());
         Double averageRating = allAccommodationRating.stream().mapToDouble(Rating::getRatingValue).average().getAsDouble();
@@ -56,23 +54,24 @@ public class RatingService {
     public boolean isRated(Long reservationId, Principal connectedUser) {
         Reservation reservation = reservationRepository.findById(reservationId).orElseThrow(() -> new EntityNotFoundException("reservation not found"));
         User user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
-        if (reservation.getCheck_out().isBefore(LocalDate.now())){
+
+        if (!reservation.getCheck_out().isBefore(LocalDate.now())) {
             return true;
         }
 
-        if (!reservation.getUser().getId().equals(user.getId())){
+        if (!reservation.getUser().getId().equals(user.getId())) {
             return true;
         }
 
         return ratingRepository.findRatingByReservation_Id(reservationId).isPresent();
     }
 
-    public boolean canRate(Long reservationId){
+    public boolean canRate(Long reservationId) {
         Reservation reservation = reservationRepository.findById(reservationId).orElseThrow(() -> new EntityNotFoundException("reservation not found"));
         return reservation.getCheck_out().isBefore(LocalDate.now());
     }
 
-    public boolean isRatingPresent (Long reservationId) {
+    public boolean isRatingPresent(Long reservationId) {
         return ratingRepository.findRatingByReservation_Id(reservationId).isPresent();
     }
 

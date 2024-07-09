@@ -56,6 +56,7 @@ const router = createBrowserRouter(
                 <Route path="/myaccount" element={<MyAccount/>}/>
                 <Route path="/myorders" element={<MyOrders/>}/>
                 <Route path="/myorders/rating/:reservationId" element={<MyOrders/>}/>
+                <Route path="/myorders/search/:searchInput/:searchBy" element={<MyOrders/>}/>
                 <Route path="/forgotpassword/:uuid" element={<ForgotPassword/>}/>
                 <Route path="/error" element={<Error/>}/>
                 <Route path="/checkout/:city/:housingName/:room/:checkIn/:checkOut/:price" element={<Checkout/>}/>

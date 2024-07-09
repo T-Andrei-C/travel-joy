@@ -36,4 +36,9 @@ public class ReservationController {
     public List<Reservation> getReservationsByUserId(Principal connectedUser){
         return reservationService.getReservationsByUserId(connectedUser);
     }
+
+    @GetMapping("/myOrders/search")
+    public List<Reservation> getReservationsBySearch(Principal connectedUser, @RequestParam String searchInput, @RequestParam String searchBy){
+        return reservationService.getReservationBySearch(connectedUser, searchInput, searchBy);
+    }
 }

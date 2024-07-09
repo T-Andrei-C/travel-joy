@@ -41,5 +41,15 @@ export const getReservationsByUserId = async (token) => {
         }
     });
     return await request.json();
+}
 
+export const getReservationsBySearch = async (token, searchInput, searchBy) => {
+    const request = await fetch(`${API_URL}reservations/myOrders/search?searchInput=${searchInput}&searchBy=${searchBy}`,{
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": token
+        }
+    });
+    return await request.json();
 }
