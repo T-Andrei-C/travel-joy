@@ -1,7 +1,13 @@
 import {API_URL} from "./API";
 
-export const getAllAccommodations = async () => {
-    const request = await fetch(`${API_URL}accommodations`);
+export const getAllAccommodations = async (token) => {
+    const request = await fetch(`${API_URL}accommodations`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            'Authorization': `${token}`
+        }
+    });
     return await request.json();
 }
 

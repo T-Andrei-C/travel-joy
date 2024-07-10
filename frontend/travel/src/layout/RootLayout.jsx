@@ -17,7 +17,6 @@ const RootLayout = () => {
     const logOut = () => {
         document.cookie = "_auth_state= ";
         document.cookie = "_auth_storage= ";
-        document.cookie = "_auth_storage= ";
         document.cookie = "_auth= ";
         // document.cookie = "";
         navigate("/");
@@ -60,6 +59,9 @@ const RootLayout = () => {
                             </li>
                             <li className="nav-item">
                                 <NavLink to="/aboutus" className="nav-link">About us</NavLink>
+                            </li>
+                            <li className="nav-item">
+                                <NavLink to="/admin" className="nav-link">Admin</NavLink>
                             </li>
                             {isAuthenticated() ?
                                 <div className="d-inline-flex" data-bs-theme="light">

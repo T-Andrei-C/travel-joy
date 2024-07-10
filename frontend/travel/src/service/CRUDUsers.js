@@ -1,7 +1,7 @@
 import {API_URL} from "./API";
 
 export const getAuthUser = async (token) => {
-    const request = await fetch(`${API_URL}users`, {
+    const request = await fetch(`${API_URL}users/getUser`, {
         method: "GET",
         headers: {
             'Content-Type': 'application/json',
@@ -12,7 +12,7 @@ export const getAuthUser = async (token) => {
 }
 
 export const changePassword = async (token, changePassword) => {
-    const request = await fetch(`${API_URL}users`, {
+    const request = await fetch(`${API_URL}users/changePassword`, {
         method: "PATCH",
         headers: {
             'Content-Type': 'application/json',

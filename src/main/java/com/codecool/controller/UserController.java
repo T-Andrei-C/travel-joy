@@ -19,7 +19,7 @@ public class UserController {
 
     private final UserService userService;
 
-    @PatchMapping
+    @PatchMapping("changePassword")
     public ResponseEntity<String> changePassword(@RequestBody ChangePassword request, Principal connectedUser) {
         userService.changePassword(request, connectedUser);
         return ResponseEntity.ok("{}");
@@ -31,7 +31,7 @@ public class UserController {
         return ResponseEntity.ok("{}");
     }
 
-    @GetMapping
+    @GetMapping("getUser")
     @CrossOrigin(origins = "*")
     public User getAuthUser(Principal connectedUser) {
         return userService.getAuthUser(connectedUser);

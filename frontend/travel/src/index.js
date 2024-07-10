@@ -6,12 +6,13 @@ import reportWebVitals from './reportWebVitals';
 import {AuthProvider} from "react-auth-kit";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
     // <React.StrictMode>
         <AuthProvider
             authType={"cookie"}
             authName={"_auth"}
-            cookieDomain={window.location.hostname}
+            cookieDomain={"localhost"}
             cookieSecure={false}>
             <App/>
         </AuthProvider>

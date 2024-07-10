@@ -11,14 +11,18 @@ import {MdBed} from "react-icons/md";
 import {BsDot} from "react-icons/bs";
 import Alert from "../Alert";
 import CheckboxInput from "./CheckboxInput";
+import {useAuthHeader} from "react-auth-kit";
 
 const ViewHotels = () => {
     const [accommodations, setAccommodations] = useState(null);
     const [alert, setAlert] = useState([]);
     const navigate = useNavigate();
+    const token = useAuthHeader();
+
+    console.log(token())
 
     useEffect(() => {
-        getAllAccommodations().then(accommodations => {
+        getAllAccommodations(token()).then(accommodations => {
             setAccommodations(accommodations);
         })
     }, [])

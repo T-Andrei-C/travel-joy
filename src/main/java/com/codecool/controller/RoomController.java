@@ -19,12 +19,12 @@ import java.util.List;
 public class RoomController {
     private final RoomService roomService;
 
-    @GetMapping("/{accommodationName}/{cityName}/{checkIn}/{checkOut}/{capacity}")
+    @GetMapping("available/{accommodationName}/{cityName}/{checkIn}/{checkOut}/{capacity}")
     public List<Room> getAllAvailableRooms(@PathVariable String accommodationName, @PathVariable String cityName, @PathVariable LocalDate checkIn, @PathVariable LocalDate checkOut, @PathVariable Integer capacity) {
         return roomService.getAllAvailableRooms(accommodationName, cityName, capacity, checkIn, checkOut);
     }
 
-    @GetMapping("/room/{roomId}/{accommodationName}/{cityName}/{checkIn}/{checkOut}")
+    @GetMapping("room/{roomId}/{accommodationName}/{cityName}/{checkIn}/{checkOut}")
     public Room getRoomBySearch(@PathVariable Long roomId, @PathVariable String accommodationName, @PathVariable String cityName, @PathVariable LocalDate checkIn, @PathVariable LocalDate checkOut) {
         return roomService.getRoomBySearch(roomId, accommodationName, cityName, checkIn, checkOut);
     }

@@ -13,8 +13,8 @@ const AdminPanel = () => {
     // const link = window.location.pathname;
 
     useEffect(() => {
-        setUrl(window.location.pathname);
-    }, [url])
+        // setUrl(window.location.pathname);
+    }, [])
 
     return (
         <nav className="col-12 d-flex justify-content-between">

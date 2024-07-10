@@ -14,7 +14,7 @@ import java.security.Principal;
 public class RatingController {
     private final RatingService ratingService;
 
-    @PostMapping("/{ratingValue}/{reservationId}")
+    @PostMapping("/add/{ratingValue}/{reservationId}")
     public void addRating(@PathVariable Long reservationId , @PathVariable Double ratingValue){
         ratingService.addRating(reservationId,ratingValue);
     }

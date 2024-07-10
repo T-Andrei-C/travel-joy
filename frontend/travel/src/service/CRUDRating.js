@@ -2,7 +2,7 @@ import {API_URL} from "./API";
 
 
 export const addRating = async (reservationId, ratingValue, token) => {
-    const request = await  fetch(`${API_URL}rating/${ratingValue}/${reservationId}`, {
+    const request = await  fetch(`${API_URL}rating/add/${ratingValue}/${reservationId}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
