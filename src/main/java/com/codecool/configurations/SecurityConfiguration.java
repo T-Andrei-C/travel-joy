@@ -55,15 +55,15 @@ public class SecurityConfiguration {
                                 "/travel/api/cities",
                                 "/travel/api/rooms/accommodation/{accommodationId}/addRoom",
                                 "/travel/api/rooms/room/{id}/uploadImage/{fileIndex}",
-                                "/travel/api/rooms/room/{id}/disableOrEnable",
                                 "/travel/api/roomOffers/room/{roomId}/addOffer"
                         ).hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PATCH,
                                 "/travel/api/accommodation/{id}/disableOrEnable",
                                 "/travel/api/accommodation/{id}",
-                                "/travel/api/carousel/images{id}",
+                                "/travel/api/carousel/images/{id}",
                                 "/travel/api/cities/{id}",
-                                "/travel/api/rooms/room/{id}"
+                                "/travel/api/rooms/room/{id}",
+                                "/travel/api/rooms/room/{id}/disableOrEnable"
                         ).hasRole("ADMIN")
                         .requestMatchers(
                                 "/travel/api/payment/**",

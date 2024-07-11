@@ -8,7 +8,7 @@ const RatingReservation = ({navigate, reservation, token, setDisabled}) => {
 
     useEffect(() => {
         if (reservationId !== undefined) {
-            isRated(token(), reservationId).then(e => {
+            isRated(reservationId).then(e => {
                 if (e) {
                     navigate("/myOrders");
                 }

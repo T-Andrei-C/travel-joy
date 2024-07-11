@@ -1,4 +1,5 @@
 import {API_URL} from "./API";
+import {getToken} from "./AuthenticateService";
 
 export const getAllCarouselImages = async () => {
     const request = await fetch(`${API_URL}carousel/images`);
@@ -10,6 +11,7 @@ export const addCarouselImage = async (city) => {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
+            'Authorization': getToken()
         },
         body: JSON.stringify(city)
     });
@@ -19,6 +21,10 @@ export const addCarouselImage = async (city) => {
 export const deleteCarouselImage = async (carouselImageId) => {
     const request = await fetch(`${API_URL}carousel/images/${carouselImageId}`, {
         method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+            'Authorization': getToken()
+        },
     });
     return await request.json();
 }
@@ -28,6 +34,7 @@ export const updateCarouselImage = async (carouselImageId, city) => {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",
+            'Authorization': getToken()
         },
         body: JSON.stringify(city)
     });
@@ -37,6 +44,9 @@ export const updateCarouselImage = async (carouselImageId, city) => {
 export const addImageForCarousel = async (carouselImageId, imageFile) => {
     const request = await fetch(`${API_URL}carousel/images/${carouselImageId}/addImage`, {
         method: "POST",
+        headers: {
+            'Authorization': getToken()
+        },
         body: imageFile
     });
     return await request.json();

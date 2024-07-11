@@ -7,33 +7,25 @@ import {FaPowerOff} from "react-icons/fa";
 import ActionPopup from "../components/ActionPopup";
 import {ITEMS_PER_PAGE} from "../service/API";
 import {useEffect, useState} from "react";
+import {getAuthUser} from "../service/CRUDUsers";
 
 const RootLayout = () => {
     const isAuthenticated = useIsAuthenticated();
     const navigate = useNavigate();
-
-    // const [url, setUrl] = useState(window.location.pathname);
+    const [user, setUser] = useState(null);
 
     const logOut = () => {
         document.cookie = "_auth_state= ";
         document.cookie = "_auth_storage= ";
         document.cookie = "_auth= ";
-        // document.cookie = "";
         navigate("/");
         window.location.reload();
     }
 
-    // const changeOverflow =  () => {
-    //     setUrl(window.location.pathname);
-    // };
-    //
     useEffect(() => {
-        // if (url.includes("admin")){
-        //     document.body.style.overflow='hidden';
-        // } else {
-        //     document.body.style.overflow='none';
-        // }
-
+        getAuthUser().then(user => {
+            setUser(user);
+        }).catch(err => console.log(err))
     }, [])
 
     return (
@@ -60,27 +52,31 @@ const RootLayout = () => {
                             <li className="nav-item">
                                 <NavLink to="/aboutus" className="nav-link">About us</NavLink>
                             </li>
-                            <li className="nav-item">
-                                <NavLink to="/admin" className="nav-link">Admin</NavLink>
-                            </li>
+                            {
+                                user?.role.name === "ROLE_ADMIN" && <li className="nav-item">
+                                    <NavLink to="/admin" className="nav-link">Admin</NavLink>
+                                </li>
+                            }
                             {isAuthenticated() ?
-                                <div className="d-inline-flex" data-bs-theme="light">
-                                    <li className="nav-item dropdown">
-                                        <a className="nav-link" role="button" data-bs-toggle="dropdown"><MdAccountCircle
-                                            style={{fontSize: "1.8em"}}/></a>
-                                        <ul className="dropdown-menu dropdown-menu-end mt-2"
-                                            aria-labelledby="dropdownMenuButtonLight">
-                                            <li><NavLink to="/myAccount" className="dropdown-item">My Account</NavLink>
-                                            </li>
-                                            <li><NavLink to="/myOrders" className="dropdown-item">Orders</NavLink></li>
-                                        </ul>
-                                    </li>
-                                    <li className="nav-item ms-lg-0 ms-md-0 ms-sm-2 ms-2">
-                                        <button data-bs-toggle="modal"
-                                                data-bs-target="#logout"
-                                                className="nav-link"><FaPowerOff
-                                            style={{fontSize: "1.6em"}}/></button>
-                                    </li>
+                                <div data-bs-theme="light">
+                                    <div>
+                                        <li className="nav-item dropdown row row-cols-2 m-0">
+                                            <a className="nav-link col-md-6 col-lg-6 col-xl-6 col-sm-1 col-1 me-lg-0 me-md-0 me-sm-2 me-2" data-bs-toggle="modal"
+                                               data-bs-target="#logout" >
+                                                <FaPowerOff style={{fontSize: "1.6em"}}/>
+                                            </a>
+                                            <a className="nav-link col-6" role="button"
+                                               data-bs-toggle="dropdown" aria-expanded="false">
+                                                <MdAccountCircle style={{fontSize: "1.8em"}}/>
+                                            </a>
+                                            <ul className="dropdown-menu dropdown-menu-end mt-2 col-12">
+                                                <li><NavLink to="/myAccount" className="dropdown-item">My
+                                                    Account</NavLink></li>
+                                                <li><NavLink to="/myOrders" className="dropdown-item">Orders</NavLink>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </div>
                                 </div>
                                 :
                                 <>

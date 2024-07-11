@@ -18,7 +18,7 @@ import Checkout from "./pages/checkout/Checkout";
 import Error from "./pages/Error";
 import MyOrders from "./pages/MyOrders";
 import RatingReservation from "./components/RatingReservation";
-import AdminPanel from "./pages/AdminPanel";
+import AdminPanel from "./layout/AdminPanel";
 import ViewHotels from "./components/admin/ViewHotels";
 import EditHotel from "./components/admin/EditHotel";
 import EditRoom from "./components/admin/EditRoom";

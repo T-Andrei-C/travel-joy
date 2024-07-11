@@ -1,11 +1,12 @@
 import {API_URL} from "./API";
+import {getToken} from "./AuthenticateService";
 
-export const getAllAccommodations = async (token) => {
+export const getAllAccommodations = async () => {
     const request = await fetch(`${API_URL}accommodations`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-            'Authorization': `${token}`
+            'Authorization': getToken()
         }
     });
     return await request.json();
@@ -40,7 +41,8 @@ export const updateAccommodation = async (accommodationId, updatedAccommodation)
     const request = await fetch(`${API_URL}accommodations/accommodation/${accommodationId}`, {
         method: "PATCH",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            'Authorization': getToken()
         },
         body: JSON.stringify(updatedAccommodation)
     })
@@ -51,7 +53,8 @@ export const addAccommodation = async (accommodation) => {
     const request = await fetch(`${API_URL}accommodations`, {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            'Authorization': getToken()
         },
         body: JSON.stringify(accommodation)
     })
@@ -60,7 +63,11 @@ export const addAccommodation = async (accommodation) => {
 
 export const disableOrEnableAccommodation = async (accommodationId) => {
     const request = await fetch(`${API_URL}accommodations/accommodation/${accommodationId}/disableOrEnable`, {
-        method: "PATCH"
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+            'Authorization': getToken()
+        }
     })
     return await request.json();
 }
@@ -68,6 +75,9 @@ export const disableOrEnableAccommodation = async (accommodationId) => {
 export const addAccommodationImage = async (accommodationId, imageFile) => {
     const request = await fetch(`${API_URL}accommodations/accommodation/${accommodationId}/uploadImage`, {
         method: "POST",
+        headers: {
+            'Authorization': getToken()
+        },
         body: imageFile
     })
     return await request.json();

@@ -1,4 +1,5 @@
 import {API_URL} from "./API";
+import {getToken} from "./AuthenticateService";
 
 
 export const addRating = async (reservationId, ratingValue, token) => {
@@ -7,42 +8,54 @@ export const addRating = async (reservationId, ratingValue, token) => {
         headers: {
             "Content-Type": "application/json",
             "Accept": "application/json",
-            "Authorization": token
+            'Authorization': getToken()
         }
     });
 }
 
-export const getRatingByUserId = async (token,reservationId) => {
+export const getRatingByUserId = async (reservationId) => {
     const request = await fetch (`${API_URL}rating/${reservationId}`,
         {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": token
+                'Authorization': getToken()
             }
         });
     return await request.json();
 }
 
-export const isRated = async (token, reservationId) => {
+export const isRated = async (reservationId) => {
     const request =  await fetch (`${API_URL}rating/isRated/${reservationId}`,
         {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": token
+                'Authorization': getToken()
             }
         });
     return await request.json();
 }
 
 export const isRatingPresent = async (reservationId) => {
-    const request =  await fetch (`${API_URL}rating/isRatingPresent/${reservationId}`);
+    const request =  await fetch (`${API_URL}rating/isRatingPresent/${reservationId}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            'Authorization': getToken()
+        }
+    });
     return await request.json();
 }
 
 export const canRate = async (reservationId) => {
-    const request =  await fetch (`${API_URL}rating/canRate/${reservationId}`);
+    const request =  await fetch (`${API_URL}rating/canRate/${reservationId}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            'Authorization': getToken()
+        }
+    });
     return await request.json();
 }
 

@@ -73,7 +73,7 @@ const Checkout = () => {
             setAvailableDiscount(discount);
         })
 
-        getAuthUser(token()).then((user) => {
+        getAuthUser().then((user) => {
             setAuthUser(user);
         })
     }, []);

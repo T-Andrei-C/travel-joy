@@ -1,10 +1,9 @@
 import {PaymentElement} from "@stripe/react-stripe-js";
 import {useState} from "react";
 import {useStripe, useElements} from "@stripe/react-stripe-js";
-import {addReservation, checkRoomReservation} from "../../service/CRUDReservation";
+import {addReservation} from "../../service/CRUDReservation";
 import {useNavigate} from "react-router-dom";
 import {getRoomBySearch} from "../../service/CRUDRooms";
-import Alert from "../../components/Alert";
 
 export default function PaymentForm({reservationData, roomId, checkIn, checkOut, housingName, city, currentRoom, setAlert}) {
     const stripe = useStripe();

@@ -20,7 +20,7 @@ const MyOrders = () => {
                 setMyOrders(orders);
             })
         } else {
-            getReservationsByUserId(token()).then((orders) => {
+            getReservationsByUserId().then((orders) => {
                 setMyOrders(orders);
             })
         }

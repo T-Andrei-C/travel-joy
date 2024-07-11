@@ -1,4 +1,5 @@
 import {API_URL} from "./API";
+import {useAuthHeader} from "react-auth-kit";
 
 export const onSubmit = async (urlPath, setError, values, navigate, signIn) => {
     setError("");
@@ -35,4 +36,9 @@ export const onSubmit = async (urlPath, setError, values, navigate, signIn) => {
     } catch (err) {
         console.log(err);
     }
+}
+
+export const getToken = () => {
+    const cookies = document.cookie.split(" ").find(cookie => cookie.split("=")[0] === "_auth");
+    return cookies !== undefined ? `Bearer ${cookies.split("=")[1]}` : " "
 }

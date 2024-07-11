@@ -1,7 +1,7 @@
 import {HiArrowNarrowRight} from "react-icons/hi";
 import Rating from "react-rating-stars-component";
 import {useEffect, useState} from "react";
-import {addRating, canRate, getRatingByUserId, isRated, isRatingPresent} from "../service/CRUDRating";
+import {canRate, getRatingByUserId, isRatingPresent} from "../service/CRUDRating";
 import {FaLocationDot} from "react-icons/fa6";
 import {FaBed, FaPowerOff} from "react-icons/fa";
 import {BiSolidCalendar} from "react-icons/bi";
@@ -28,7 +28,7 @@ const MyOrderCard = ({
     const {reservationId} = useParams();
 
     useEffect(() => {
-        getRatingByUserId(token(), id).then(r => {
+        getRatingByUserId(id).then(r => {
             setRating(r);
         })
         isRatingPresent(id).then(r => {

@@ -1,4 +1,5 @@
 import {API_URL} from "./API";
+import {getToken} from "./AuthenticateService";
 
 export const getAllRoomOffers = async (itemsPerPage, numberOfPage) => {
     const request = await fetch(`${API_URL}roomOffers/${itemsPerPage}/${numberOfPage}`);
@@ -16,12 +17,24 @@ export const getRoomOffersByTravelSearch = async (destination, itemsPerPage, num
 }
 
 export const getRoomOffersByRoomId = async (roomId) => {
-    const request = await fetch(`${API_URL}roomOffers/room/${roomId}`);
+    const request = await fetch(`${API_URL}roomOffers/room/${roomId}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            'Authorization': getToken()
+        },
+    });
     return await request.json();
 }
 
 export const getRoomOfferById = async (offerId) => {
-    const request = await fetch(`${API_URL}roomOffers/offer/${offerId}`);
+    const request = await fetch(`${API_URL}roomOffers/offer/${offerId}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            'Authorization': getToken()
+        },
+    });
     return await request.json();
 }
 
@@ -31,7 +44,13 @@ export const verifyRoomOfferAvailability = async (offerId) => {
 }
 
 export const checkIfRoomOfferAvailable = async (offerId) => {
-    const request = await fetch(`${API_URL}roomOffers/offer/available/${offerId}`);
+    const request = await fetch(`${API_URL}roomOffers/offer/available/${offerId}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            'Authorization': getToken()
+        },
+    });
     return await request.json();
 }
 
@@ -39,7 +58,8 @@ export const updateRoomOffer = async (offerId, updatedRoomOffer) => {
     const request = await fetch(`${API_URL}roomOffers/offer/${offerId}`, {
         method: "PATCH",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            'Authorization': getToken()
         },
         body: JSON.stringify(updatedRoomOffer)
     })
@@ -47,7 +67,13 @@ export const updateRoomOffer = async (offerId, updatedRoomOffer) => {
 }
 
 export const getAllRoomOfferTypes = async () => {
-    const request = await fetch(`${API_URL}roomOfferTypes`);
+    const request = await fetch(`${API_URL}roomOfferTypes`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            'Authorization': getToken()
+        },
+    });
     return await request.json();
 }
 
@@ -55,7 +81,8 @@ export const addRoomOffer = async (roomOffer, roomId) => {
     const request = await fetch(`${API_URL}roomOffers/room/${roomId}/addOffer`, {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            'Authorization': getToken()
         },
         body: JSON.stringify(roomOffer)
     })
@@ -64,7 +91,11 @@ export const addRoomOffer = async (roomOffer, roomId) => {
 
 export const deleteRoomOffer = async (offerId) => {
     const request = await fetch(`${API_URL}roomOffers/offer/${offerId}`, {
-        method: "DELETE"
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+            'Authorization': getToken()
+        }
     })
     return await request.json();
 }
@@ -73,7 +104,8 @@ export const updateRoomOfferType = async (id, updatedRoomOfferType) => {
     const request = await fetch(`${API_URL}roomOfferTypes/${id}`, {
         method: "PATCH",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            'Authorization': getToken()
         },
         body: JSON.stringify(updatedRoomOfferType)
     })
@@ -82,7 +114,11 @@ export const updateRoomOfferType = async (id, updatedRoomOfferType) => {
 
 export const deleteRoomOfferType = async (id) => {
     const request = await fetch(`${API_URL}roomOfferTypes/${id}`, {
-        method: "DELETE"
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+            'Authorization': getToken()
+        }
     })
     return await request.json();
 }
@@ -91,7 +127,8 @@ export const addRoomOfferType = async (roomOfferType) => {
     const request = await fetch(`${API_URL}roomOfferTypes`, {
         method: 'POST',
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            'Authorization': getToken()
         },
         body: JSON.stringify(roomOfferType)
     })

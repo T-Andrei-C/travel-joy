@@ -20,7 +20,7 @@ const MyAccount = () => {
         if (!isAuth()) {
             navigate("/login");
         }
-        getAuthUser(token()).then((user) => {
+        getAuthUser().then((user) => {
             setAuthUser(user);
         })
     }, [successUpdateUserName]);
@@ -39,7 +39,7 @@ const MyAccount = () => {
     const onSubmitNewPassword = async (changePasswordData) => {
         try {
             setError(false);
-            const response = await changePassword(token(), changePasswordData);
+            const response = await changePassword(changePasswordData);
             if (response.message === "Password are not the same" || response.message === "Wrong password!") {
                 setError(true);
             } else {
@@ -48,7 +48,7 @@ const MyAccount = () => {
                 window.location.reload();
             }
         } catch (err) {
-            console.log(err);
+            setError(true)
         }
     }
 
