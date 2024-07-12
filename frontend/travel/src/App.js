@@ -34,6 +34,7 @@ import ViewCities from "./components/admin/ViewCities";
 import ViewRoomTypes from "./components/admin/ViewRoomTypes";
 import ImageCropper from "./components/admin/ImageCropper";
 import ViewCarouselImages from "./components/admin/ViewCarouselImages";
+import AdminInfo from "./components/admin/AdminInfo";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -66,6 +67,7 @@ const router = createBrowserRouter(
                 <Route path="/:random" element={<Error/>}/>
             </Route>
             <Route path="/admin" element={<AdminPanel/>}>
+                <Route index element={<AdminInfo/>}/>
                 <Route path="/admin/hotels" element={<ViewHotels/>}/>
                 <Route path="/admin/hotels/:id" element={<EditHotel/>}/>
                 <Route path="/admin/hotels/add" element={<AddHotel/>}/>

@@ -25,7 +25,7 @@ const Alert = ({alertData, alertCallBack}) => {
     }, [alertData, alertCallBack]);
 
     return (
-        <div className="position-fixed bottom-0 col-xl-4 col-lg-6 col-md-8 col-9">
+        <div className="position-fixed bottom-0 col-xl-4 col-lg-6 col-md-8 col-8">
             {
                 alertData?.map((alert, i) => (
                     <div className={`alert alert-${alert.type} alert-dismissible fade show`} key={i}>
