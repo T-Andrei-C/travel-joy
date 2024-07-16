@@ -47,4 +47,7 @@ And the create-react-app react-scripts package will start the app on your browse
 ## Demo 
 https://github.com/user-attachments/assets/8fec95d7-f77a-4e2f-bf9b-5321c01cf948
 
+##Admin Panel Demo
+https://github.com/user-attachments/assets/45b05f23-9aa2-4ed8-8b09-f16e3cf439a3
+
 
