@@ -39,11 +39,6 @@ npm start
 
 And the create-react-app react-scripts package will start the app on your browser.
 
-## Future Plans
-- The payment process through Stripe for packages or accommodation is currently operational, although the design of the payment page itself is still in progress
-- We intend to work on developing an admin panel for future use on the website. This panel would facilitate the management of updates for available accommodations, creation of new packages, addition of new locations, and potential deletion of some of them
-- In addition, we also plan to incorporate a rating system for our services. This feature will allow customers to provide feedback and rate their experience with our offerings, enhancing transparency and helping future customers make informed decisions
-
 ## Demo 
 https://github.com/user-attachments/assets/8fec95d7-f77a-4e2f-bf9b-5321c01cf948
 
