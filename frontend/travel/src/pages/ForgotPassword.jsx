@@ -11,25 +11,30 @@ const ForgotPassword = () => {
     const navigate = useNavigate();
     const { uuid } = useParams();
 
+
+
     useEffect(() => {
         getMailExpiration(uuid).then(mail => {
             if (mail.status >= 400){
                 navigate("/error");
             }
             setMailExpiration(mail);
+        }).catch(e => {
+            navigate("/error")
         })
 
     },[])
 
-    console.log(mailExpiration);
+    // console.log(mailExpiration)
+    // console.log(uuid)
 
     const onSubmit = async (forgotPasswordData) => {
         setError("");
         try {
             const response = await forgotPassword(forgotPasswordData);
-            console.log(response.message);
-            if (response.message === "Password are not the same") {
-                setError(response.message);
+
+            if (response.type === "danger") {
+                setError(response.content);
             } else {
                 navigate("/login");
             }
@@ -61,7 +66,7 @@ const ForgotPassword = () => {
                     <FormInput content="Confirm new password" type="password" name="confirmNewPassword"/>
 
                     <p className="text-danger" hidden={error === ""}>
-                        Password don't match or the email is invalid !
+                        {error}
                     </p>
 
                     <button className="btn btn-success btn-lg btn-block" type="submit">Save</button>

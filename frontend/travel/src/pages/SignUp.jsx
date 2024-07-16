@@ -46,7 +46,7 @@ const SignUp = () => {
                     <FormInput content="Email" type="email" name="email"/>
                     <FormInput content="Password" type="password" name="password"/>
 
-                    <p className="text-danger" hidden={error === ""}>Email is already in use !</p>
+                    <p className="text-danger" hidden={error === ""}>{error}</p>
 
                     <button className="btn btn-success btn-lg btn-block" type="submit">SignUp</button>
 

@@ -1,6 +1,7 @@
 package com.codecool.controller;
 
 import com.codecool.model.MailExpiration;
+import com.codecool.model.Response;
 import com.codecool.model.user.ChangePassword;
 import com.codecool.model.user.ForgotPassword;
 import com.codecool.model.user.UpdateUserName;
@@ -20,15 +21,13 @@ public class UserController {
     private final UserService userService;
 
     @PatchMapping("changePassword")
-    public ResponseEntity<String> changePassword(@RequestBody ChangePassword request, Principal connectedUser) {
-        userService.changePassword(request, connectedUser);
-        return ResponseEntity.ok("{}");
+    public Response changePassword(@RequestBody ChangePassword request, Principal connectedUser) {
+        return userService.changePassword(request, connectedUser);
     }
 
     @PatchMapping("/forgotpassword")
-    public ResponseEntity<String> forgotPassword(@RequestBody ForgotPassword forgotPassword){
-        userService.forgotPassword(forgotPassword);
-        return ResponseEntity.ok("{}");
+    public Response forgotPassword(@RequestBody ForgotPassword forgotPassword){
+        return userService.forgotPassword(forgotPassword);
     }
 
     @GetMapping("getUser")

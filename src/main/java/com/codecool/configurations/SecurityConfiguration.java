@@ -81,7 +81,8 @@ public class SecurityConfiguration {
                                 "/travel/api/users/updateUserName"
                         ).authenticated()
                         .requestMatchers(
-                                "/travel/api/auth/**",
+                                "/travel/api/auth/login",
+                                "/travel/api/auth/signup",
                                 "/travel/api/accommodations/{id}",
                                 "/travel/api/accommodations/accommodation/{id}/image",
                                 "/travel/api/accommodations/{itemsPerPage}/{numberOfPage}",
@@ -93,7 +94,7 @@ public class SecurityConfiguration {
                                 "/travel/api/cities",
                                 "/travel/api/contactus",
                                 "/travel/api/email",
-                                "/travel/api/forgotpassword/**",
+                                "/travel/api/forgotpassword/{uuid}",
                                 "/travel/api/rating/accommodation/{id}",
                                 "/travel/api/rooms/available/{accommodationName}/{cityName}/{checkIn}/{checkOut}/{capacity}",
                                 "/travel/api/rooms/room/{id}/{checkIn}/{checkOut}/verify",

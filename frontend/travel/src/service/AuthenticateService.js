@@ -13,13 +13,16 @@ export const onSubmit = async (urlPath, setError, values, navigate, signIn) => {
             body: JSON.stringify(values)
         });
         const response = await request.json();
-        if (response.message === "Access Denied") {
-            setError(response.message)
+
+        // if (response.message === "Access Denied") {
+        //     setError(response.message)
+        console.log(response)
+        if (response.type === "danger"){
+            setError(response.response);
         } else {
             const date = new Date(Date.now());
             date.setHours(date.getHours() + 100);
 
-            console.log(date)
             document.cookie = `_auth_state={%22email%22:%22${values.email}%22}; expires=${date}; path='/'"`;
             document.cookie = `_auth_storage=${date.toISOString()}; expires=${date}; path='/'"`;
             document.cookie = `_auth=${response.token}; expires=${date}; path='/'"`;

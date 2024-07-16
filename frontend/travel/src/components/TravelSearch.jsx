@@ -8,9 +8,12 @@ import {
     PiArrowElbowLeftUpBold,
     PiArrowElbowRightDownBold,
 } from "react-icons/pi";
+import {getCities} from "../service/CRUDCity";
 
 const TravelSearch = ({goingTo, checkIn, checkOut, numberOfPersons, type}) => {
+
     const [buttonDisabled, setButtonDisabled] = useState(true)
+    const [cities, setCity] = useState([]);
     const navigate = useNavigate();
     const {itemsPerPage, numberOfPage} = useParams();
 
@@ -25,16 +28,20 @@ const TravelSearch = ({goingTo, checkIn, checkOut, numberOfPersons, type}) => {
             window.location.reload();
         }
 
+        getCities()
+            .then((cities) => {
+                setCity(cities);
+            })
     }, []);
 
     useEffect(() => {
-        if (checkIn !== undefined && checkOut !== undefined){
+        if (checkIn !== undefined && checkOut !== undefined) {
             setButtonDisabled(false);
         }
     })
 
     const getCheckIn = () => {
-        if (values[0] !== undefined){
+        if (values[0] !== undefined) {
             const month = values[0].month.number < 10 ? `0${values[0].month.number}` : values[0].month.number;
             const day = values[0].day < 10 ? `0${values[0].day}` : values[0].day;
             return `${values[0].year}-${month}-${day}`;
@@ -44,7 +51,7 @@ const TravelSearch = ({goingTo, checkIn, checkOut, numberOfPersons, type}) => {
     }
 
     const getCheckOut = () => {
-        if (values[1] !== undefined){
+        if (values[1] !== undefined) {
             const month = values[1].month.number < 10 ? `0${values[1].month.number}` : values[1].month.number;
             const day = values[1].day < 10 ? `0${values[1].day}` : values[1].day;
             setButtonDisabled(false);
@@ -71,8 +78,15 @@ const TravelSearch = ({goingTo, checkIn, checkOut, numberOfPersons, type}) => {
             <div className="form-floating col-md-4 col-12 m-0 p-0 ">
                 <label className="pt-1 text-success fw-bold" style={{fontSize: "0.75em"}} htmlFor="floatingInputValue">GOING
                     TO</label>
-                <input type="text" name="goingTo" className="w-100 pt-4 ps-2 rounded-start-3"
+                <input type="text" name="goingTo" className="w-100 pt-4 ps-2 rounded-start-3" list="cities"
                        style={{height: "58px", border: "1px solid #198754"}} required={true} defaultValue={goingTo}/>
+                <datalist id="cities">
+                    {
+                        cities && cities?.map(city => (
+                            <option value={city.name} key={city.id}/>
+                        ))
+                    }
+                </datalist>
             </div>
             <div className="form-floating col-md-4 col-12 m-0 p-0">
                 <div className="fw-medium w-100 pt-1 d-flex justify-content-between pe-1"
@@ -87,7 +101,8 @@ const TravelSearch = ({goingTo, checkIn, checkOut, numberOfPersons, type}) => {
                         className="green"
                         render={(value, openCalendar) => {
                             return (
-                                <button type="button" className="border-0 bg-transparent fw-bold" style={{width: "8em"}} onClick={openCalendar}>
+                                <button type="button" className="border-0 bg-transparent fw-bold" style={{width: "8em"}}
+                                        onClick={openCalendar}>
                                     <div>
                                         {getCheckIn()}
                                         {<PiArrowElbowRightDownBold className="text-success"/>}

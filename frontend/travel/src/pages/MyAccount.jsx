@@ -11,7 +11,7 @@ const MyAccount = () => {
     const token = useAuthHeader();
     const [authUser, setAuthUser] = useState({});
     const [visibility, setVisibility] = useState("hidden");
-    const [error, setError] = useState(false);
+    const [error, setError] = useState("");
     const [successUpdateUserName, setSuccessUpdateUserName] = useState(false);
     const navigate = useNavigate();
     const isAuth = useIsAuthenticated();
@@ -40,8 +40,8 @@ const MyAccount = () => {
         try {
             setError(false);
             const response = await changePassword(changePasswordData);
-            if (response.message === "Password are not the same" || response.message === "Wrong password!") {
-                setError(true);
+            if (response.type === "danger") {
+                setError(response.content);
             } else {
                 document.cookie = "_auth_state=logout";
                 navigate("/login");
@@ -118,7 +118,7 @@ const MyAccount = () => {
                         <FormInput type="password" name="currentPassword" content="Current Password"/>
                         <FormInput type="password" name="newPassword" content="New Password"/>
                         <FormInput type="password" name="confirmNewPassword" content="Confirm Password"/>
-                        <p className="text-danger" hidden={!error}>Current or New Password are invalid!</p>
+                        <p className="text-danger" hidden={error === ""}>{error}</p>
                         <button className="btn btn-success btn-lg btn-block" type="submit">Change</button>
                     </form>
                 </div>

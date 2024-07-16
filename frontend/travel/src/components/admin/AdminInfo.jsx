@@ -83,7 +83,7 @@ const AdminInfo = () => {
             <div className="text-center mb-3">
                 <h4>Alerts</h4>
             </div>
-            <div className="bg-secondary-subtle col-12 p-2 rounded rounded-top-0">
+            <div className="bg-secondary-subtle col-12 p-2 rounded">
                 <div className="d-flex justify-content-center">
                     <button onClick={() => setAlert([...alert, alerts[Math.floor(Math.random() * alerts.length)]])}
                             type="button" className="btn-success btn btn-sm m-1 h-25">Show Alert

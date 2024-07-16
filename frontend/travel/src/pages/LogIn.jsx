@@ -52,14 +52,14 @@ function LogIn() {
                     <FormInput content="Password" type="password" name="password" />
 
                     <p className="text-danger" hidden={error === ""}>
-                        Email or password are invalid !
+                        {error}
                         <a data-bs-toggle="modal"
                            onClick={sendEmailForgotPassword}
                            data-bs-target="#logIn" href="#" className="text-danger">Forgot password?</a>
                     </p>
                     <InfoPopup id="logIn" header="Password Reset Email Sent" content="We've sent an email to the address associated with your account. Please check your inbox and follow the instructions in the email to reset your password."/>
 
-                    <button className="btn btn-success btn-lg btn-block " type="submit">LogIn</button>
+                    <button className="btn btn-success btn-lg btn-block" type="submit">LogIn</button>
 
                     <hr/>
 

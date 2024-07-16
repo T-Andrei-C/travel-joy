@@ -3,7 +3,6 @@ package com.codecool.configurations;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -11,10 +10,10 @@ import org.springframework.stereotype.Service;
 import java.security.Key;
 import java.util.*;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Service
 public class JwtService {
+
     private static String SECRET_KEY="pYIvPjGHi6kiLcGKOpDswpJLH+B5wHR1Hm3gjUFNSzI=";
 
     public String extractUsername(String token) {
@@ -22,7 +21,7 @@ public class JwtService {
     }
 
     public JwtService() {
-        SECRET_KEY = Base64.getEncoder().encodeToString("pYIvPjGHi6kiLcGKOpDswpJLH+B5wHR1Hm3gjUFNSzI=".getBytes());
+        SECRET_KEY = Base64.getEncoder().encodeToString(SECRET_KEY.getBytes());
     }
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
